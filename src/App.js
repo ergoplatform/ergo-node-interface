@@ -5,13 +5,13 @@ import Main from './components/pages/Main'
 
 function App() {
   return (
-    <Layout>
-      <Router>
+    <Router>
+      <Layout>
         <Switch>
           <Route exact path="/" component={Main} />
         </Switch>
-      </Router>
-    </Layout>
+      </Layout>
+    </Router>
   )
 }
 

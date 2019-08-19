@@ -1,11 +1,14 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Header from '../elements/Header'
+import Sidebar from '../elements/Sidebar'
+import './index.scss'
 
 const Layout = props => (
-  <Fragment>
+  <div className="n-grid">
     <Header></Header>
-    <div>{props.children}</div>
-  </Fragment>
+    <Sidebar></Sidebar>
+    <div className="content">{props.children}</div>
+  </div>
 )
 
 export default Layout
