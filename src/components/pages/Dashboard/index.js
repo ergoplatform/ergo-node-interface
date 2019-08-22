@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
+import SynchCard from '../../elements/SynchCard'
 
 const drawerWidth = 240
 
@@ -78,39 +76,23 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
     padding: '0'
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column'
-  },
-  fixedHeight: {
-    height: 240
   }
 }))
 
 export default function Dashboard() {
   const classes = useStyles()
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   return (
     <Fragment>
       <div className={classes.appBarSpacer} />
-      <Typography
-        component="h2"
-        variant="h6"
-        color="black"
-        noWrap
-        className={classes.title}
-      >
+      <Typography component="h2" variant="h6" noWrap className={classes.title}>
         Dashboard
       </Typography>
       <Container maxWidth="lg" className={classes.container}>
         <Grid container>
           {/* Recent Deposits */}
           <Grid item xs={12} md={4} lg={3}>
-            <Paper className={fixedHeightPaper}>Карточка синхронизации</Paper>
+            <SynchCard></SynchCard>
           </Grid>
         </Grid>
       </Container>

@@ -1,0 +1,16 @@
+.card {
+  height: 240px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.275);
+
+  &--green {
+    background: #66bb6a;
+    color: #fff;
+  }
+
+  &--orange {
+    background: #ffb74d;
+    color: #fff;
+  }
+}

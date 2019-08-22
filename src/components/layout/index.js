@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import MenuList from '../elements/MenuList'
+import MenuList from '../elements/common/MenuList'
 
 const drawerWidth = 240
 
@@ -92,8 +92,6 @@ const Layout = withRouter(props => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
-
-  console.log(props.location)
 
   return (
     <div className={classes.root}>
