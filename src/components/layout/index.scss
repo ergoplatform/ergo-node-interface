@@ -1,0 +1,15 @@
+.main-container {
+  position: absolute;
+  margin-top: 56px;
+  top: 0;
+  left: 256px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
+}
+
+.sidebar {
+  position: absolute;
+  height: calc(100% - 56px);
+  width: 256px;
+}
