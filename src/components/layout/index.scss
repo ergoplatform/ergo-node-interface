@@ -1,6 +1,6 @@
 .main-container {
   position: absolute;
-  margin-top: 56px;
+  margin-top: 72px;
   top: 0;
   left: 256px;
   right: 0px;
@@ -12,4 +12,21 @@
   position: absolute;
   height: calc(100% - 56px);
   width: 256px;
+}
+
+.navbar {
+  background: #000;
+  color: #fff;
+}
+
+.navbar-brand {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #fff !important;
+}
+
+.logotype {
+  height: 46px;
+  margin-right: 145px;
 }

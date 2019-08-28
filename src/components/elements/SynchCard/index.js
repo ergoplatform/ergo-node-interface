@@ -1,23 +1,31 @@
 import React, { Component } from 'react'
 import Card from '../common/Card'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSync, faCheck } from '@fortawesome/free-solid-svg-icons'
 import './index.scss'
 
 export default class SynchCard extends Component {
   renderActiveSynchronization = () => (
-    <Card className="synch-card bg-warning">
-      <div className="synch-card__container">Active synchronization</div>
-    </Card>
+    <>
+      <p className="card__title">Current node state</p>
+      <p className="card__label">
+        <FontAwesomeIcon icon={faSync} spin></FontAwesomeIcon> Active
+        synchronization
+      </p>
+    </>
   )
 
   renderCompleteSynchronization = () => (
-    <Card className="synch-card bg-success text-white">
-      <div className="synch-card__container">The node is synchronized</div>
-    </Card>
+    <>
+      <p className="card__title">Current node state</p>
+      <p className="card__label text-success">
+        <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Node is synced
+      </p>
+    </>
   )
 
   renderSynchronizationState = state =>
     ({
-      start: this.renderStartSynchronization,
       active: this.renderActiveSynchronization,
       complete: this.renderCompleteSynchronization
     }[state])
@@ -48,9 +56,9 @@ export default class SynchCard extends Component {
   render() {
     const currentSynchState = this.getSynchronizationState(this.props.nodeInfo)
     return (
-      <div className="col-4">
+      <Card className={this.props.className}>
         {this.renderSynchronizationState(currentSynchState)()}
-      </div>
+      </Card>
     )
   }
 }
