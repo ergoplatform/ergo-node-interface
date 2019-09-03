@@ -17,11 +17,11 @@ const routerList = {
     icon: <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>,
     title: 'Dashboard',
   },
-  // wallet: {
-  //   href: '/wallet',
-  //   icon: <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>,
-  //   title: 'Wallet',
-  // },
+  wallet: {
+    href: '/wallet',
+    icon: <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>,
+    title: 'Wallet',
+  },
   swaggerInterface: {
     href: constants.swaggerInterface,
     icon: <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>,
