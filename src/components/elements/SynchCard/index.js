@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Card from '../common/Card'
+import InfoCard from '../common/InfoCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync, faCheck } from '@fortawesome/free-solid-svg-icons'
 import './index.scss'
@@ -7,8 +7,8 @@ import './index.scss'
 export default class SynchCard extends Component {
   renderActiveSynchronization = () => (
     <>
-      <p className="card__title">Current node state</p>
-      <p className="card__label">
+      <p className="info-card__title">Current node state</p>
+      <p className="info-card__label text-warning">
         <FontAwesomeIcon icon={faSync} spin></FontAwesomeIcon> Active
         synchronization
       </p>
@@ -17,8 +17,8 @@ export default class SynchCard extends Component {
 
   renderCompleteSynchronization = () => (
     <>
-      <p className="card__title">Current node state</p>
-      <p className="card__label text-success">
+      <p className="info-card__title">Current node state</p>
+      <p className="info-card__label text-success">
         <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Node is synced
       </p>
     </>
@@ -27,7 +27,7 @@ export default class SynchCard extends Component {
   renderSynchronizationState = state =>
     ({
       active: this.renderActiveSynchronization,
-      complete: this.renderCompleteSynchronization
+      complete: this.renderCompleteSynchronization,
     }[state])
 
   getSynchronizationState = ({ fullHeight, headersHeight }) => {
@@ -49,16 +49,12 @@ export default class SynchCard extends Component {
     return false
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.timerId)
-  }
-
   render() {
     const currentSynchState = this.getSynchronizationState(this.props.nodeInfo)
     return (
-      <Card className={this.props.className}>
+      <InfoCard className={this.props.className}>
         {this.renderSynchronizationState(currentSynchState)()}
-      </Card>
+      </InfoCard>
     )
   }
 }

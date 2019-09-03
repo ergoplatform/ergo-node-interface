@@ -1,4 +1,5 @@
 import axios from 'axios'
+import constants from '../constants'
 
 function NetworkError({ status, message, data, statusText }) {
   this.name = 'NetworkError'
@@ -10,14 +11,14 @@ function NetworkError({ status, message, data, statusText }) {
 NetworkError.prototype = Object.create(Error.prototype)
 
 export const nodeApi = axios.create({
-  baseURL: 'http://0.0.0.0:9053/',
+  baseURL: constants.nodeInterface,
   timeout: 1000 * 5,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 nodeApi.interceptors.response.use(
   response => Promise.resolve(response),
-  error => Promise.reject(new NetworkError(error.response || {}))
+  error => Promise.reject(new NetworkError(error.response || {})),
 )

@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import SynchCard from '../../elements/SynchCard'
-import Card from '../../elements/common/Card'
+import InfoCard from '../../elements/common/InfoCard'
 import { format } from 'date-fns'
 import { nodeApi } from '../../../api/api'
 export default class Dashboard extends Component {
@@ -8,7 +8,7 @@ export default class Dashboard extends Component {
     super(props)
 
     this.state = {
-      nodeInfo: null
+      nodeInfo: null,
     }
   }
 
@@ -29,15 +29,13 @@ export default class Dashboard extends Component {
     this.setState({ timerId })
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.timerId)
+  }
+
   render() {
     if (this.state.nodeInfo === null) {
-      return (
-        <Fragment>
-          <p className="pl-3 pt-0 h5 mb-3">Dashboard</p>
-          <hr />
-          <p className="pl-3 pt-0">Loading...</p>
-        </Fragment>
-      )
+      return <></>
     }
 
     const {
@@ -45,20 +43,19 @@ export default class Dashboard extends Component {
       headersHeight,
       bestHeaderId,
       launchTime,
-      appVersion
+      appVersion,
+      isMining,
     } = this.state.nodeInfo
 
     return (
       <Fragment>
-        <p className="pl-3 pt-0 h5 mb-3">Dashboard</p>
-        <hr />
         <div className="container-fluid">
           <div className="row mb-3">
             <div className="col-3 p-0 border-right">
-              <Card className="rounded-0 shadow-none border-bottom">
-                <p className="card__title">Node version</p>
-                <p className="card__label">{appVersion}</p>
-              </Card>
+              <InfoCard className="card rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Node version</p>
+                <p className="info-card__label">{appVersion}</p>
+              </InfoCard>
             </div>
             <div className="col-3 p-0 border-right">
               <SynchCard
@@ -67,32 +64,40 @@ export default class Dashboard extends Component {
               ></SynchCard>
             </div>
             <div className="col-3 p-0 border-right">
-              <Card className="rounded-0 shadow-none border-bottom">
-                <p className="card__title">Current height</p>
-                <p className="card__label">{headersHeight}</p>
-              </Card>
+              <InfoCard className="rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Current height</p>
+                <p className="info-card__label">{headersHeight}</p>
+              </InfoCard>
             </div>
             <div className="col-3 p-0">
-              <Card className="rounded-0 shadow-none border-bottom">
-                <p className="card__title">Best block id</p>
-                <p className="card__label">{bestHeaderId}</p>
-              </Card>
+              <InfoCard className="rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Best block id</p>
+                <p className="info-card__label">{bestHeaderId}</p>
+              </InfoCard>
             </div>
           </div>
           <div className="row">
             <div className="col-3 p-0 border-right">
-              <Card className="rounded-0 shadow-none border-bottom">
-                <p className="card__title">Node started at</p>
-                <p className="card__label">
+              <InfoCard className="rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Node started at</p>
+                <p className="info-card__label">
                   {format(new Date(launchTime), 'MM-dd-yyyy HH:mm:ss')}
                 </p>
-              </Card>
+              </InfoCard>
             </div>
             <div className="col-3 p-0 border-right">
-              <Card className="rounded-0 shadow-none border-bottom">
-                <p className="card__title">Peers connected</p>
-                <p className="card__label">{peersCount}</p>
-              </Card>
+              <InfoCard className="rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Mining enabled</p>
+                <p className="info-card__label">
+                  {isMining ? 'true' : 'false'}
+                </p>
+              </InfoCard>
+            </div>
+            <div className="col-3 p-0 border-right">
+              <InfoCard className="rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Peers connected</p>
+                <p className="info-card__label">{peersCount}</p>
+              </InfoCard>
             </div>
           </div>
         </div>
