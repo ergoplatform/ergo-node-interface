@@ -38,7 +38,7 @@ export default class ApiKeyForm extends Component {
     }
 
     return (
-      <button onClick={this.handleShow} className="btn btn-outline-primary">
+      <button onClick={this.handleShow} className="btn btn-outline-light">
         Update API key
       </button>
     )
@@ -68,16 +68,17 @@ export default class ApiKeyForm extends Component {
               <Form>
                 <Modal.Header closeButton>
                   <Modal.Title id="example-custom-modal-styling-title">
-                    Set API key
+                    Authorization
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                  <p className="text-">Set API key to access Node requests</p>
                   <div className="input-group">
                     <Field
                       type="text"
                       name="apiKey"
                       className="form-control"
-                      placeholder="Enter API key here"
+                      placeholder="Enter API key"
                     />
                   </div>
                 </Modal.Body>

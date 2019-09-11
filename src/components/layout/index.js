@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Navbar } from 'react-bootstrap'
 import MenuList from '../common/MenuList'
 import ApiKeyForm from '../elements/ApiKeyForm'
@@ -12,9 +12,9 @@ class Layout extends Component {
       <div>
         <Navbar className="navbar-background" expand="lg">
           <Navbar.Brand className="navbar-brand">
-            <a href="/">
+            <Link to="/">
               <img src={logo} alt="logotype" className="logotype" />
-            </a>
+            </Link>
           </Navbar.Brand>
           <div className="ml-4">
             <ApiKeyForm />
