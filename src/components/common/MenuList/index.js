@@ -9,9 +9,9 @@ import {
 import clsx from 'clsx'
 import { faWpexplorer } from '@fortawesome/free-brands-svg-icons'
 import { withRouter, Link } from 'react-router-dom'
-import constants from '../../../../constants'
+import constants from '../../../utils/constants'
 
-const routerList = {
+const localRouteList = {
   dashboard: {
     href: '/',
     icon: <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>,
@@ -22,57 +22,63 @@ const routerList = {
     icon: <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>,
     title: 'Wallet',
   },
+}
+
+const externalRouteList = {
   swaggerInterface: {
     href: constants.swaggerInterface,
     icon: <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>,
     title: 'Swagger',
-    isOutsideLink: true,
   },
   explorer: {
     href: constants.explorer,
     icon: <FontAwesomeIcon icon={faWpexplorer}></FontAwesomeIcon>,
     title: 'Explorer',
-    isOutsideLink: true,
   },
   website: {
     href: constants.website,
     icon: <FontAwesomeIcon icon={faGlobe}></FontAwesomeIcon>,
     title: 'Website',
-    isOutsideLink: true,
   },
 }
 
 const MenuList = ({ location: { pathname } }) => {
   return (
-    <div className="pt-4">
-      <p className="h5 pl-3">Menu</p>
+    <div>
+      <p className="h5 pl-3 pt-4">Menu</p>
       <hr className="mb-0" />
       <div className="list-group list-group-flush">
-        {Object.values(routerList).map(
-          ({ href, icon, title, isOutsideLink }, index) =>
-            isOutsideLink ? (
-              <a
-                key={title}
-                className="list-group-item list-group-item-action"
-                href={href}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {icon} {title}
-              </a>
-            ) : (
-              <Link
-                key={title}
-                className={clsx('list-group-item list-group-item-action', {
-                  'list-group-item-dark': href === pathname,
-                  active: href === pathname,
-                  'border-top-0': index === 0,
-                })}
-                to={href}
-              >
-                {icon} {title}
-              </Link>
-            ),
+        {Object.values(localRouteList).map(({ href, icon, title }, index) => (
+          <Link
+            key={title}
+            className={clsx('list-group-item list-group-item-action', {
+              'list-group-item-dark': href === pathname,
+              active: href === pathname,
+              'border-top-0': index === 0,
+            })}
+            to={href}
+          >
+            {icon} {title}
+          </Link>
+        ))}
+      </div>
+      <p className="h5 pl-3 pt-4">External links</p>
+      <hr className="mb-0" />
+      <div className="list-group list-group-flush">
+        {Object.values(externalRouteList).map(
+          ({ href, icon, title }, index) => (
+            <a
+              key={title}
+              className={clsx('list-group-item list-group-item-action', {
+                'border-top-0': index === 0,
+              })}
+              href={href}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {icon} {title}
+            </a>
+          ),
         )}
       </div>
     </div>

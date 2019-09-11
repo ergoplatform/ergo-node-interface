@@ -10,7 +10,7 @@
 
 .sidebar {
   position: absolute;
-  height: calc(100% - 56px);
+  height: calc(100% - 72px);
   width: 256px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: none !important;
@@ -19,16 +19,10 @@
 .navbar {
   background: #000;
   color: #fff;
-}
-
-.navbar-brand {
-  display: flex !important;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  color: #fff !important;
 }
 
 .logotype {
   height: 46px;
-  margin-right: 145px;
 }

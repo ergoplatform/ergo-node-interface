@@ -1,8 +1,11 @@
 import React, { Fragment, Component } from 'react'
-import SynchCard from '../../elements/SynchCard'
-import InfoCard from '../../elements/common/InfoCard'
+import { faSync } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { format } from 'date-fns'
-import { nodeApi } from '../../../api/api'
+import InfoCard from '../../common/InfoCard'
+import SynchCard from '../../elements/SynchCard'
+import nodeApi from '../../../api/api'
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -25,7 +28,7 @@ export default class Dashboard extends Component {
   }
 
   setTimer = () => {
-    const timerId = setInterval(this.setCurrentState, 5000)
+    const timerId = setInterval(this.setCurrentState, 3000)
     this.setState({ timerId })
   }
 
@@ -35,14 +38,28 @@ export default class Dashboard extends Component {
 
   render() {
     if (this.state.nodeInfo === null) {
-      return <></>
+      return <Fragment></Fragment>
+    }
+
+    if (this.state.nodeInfo && this.state.nodeInfo.fullHeight === null) {
+      return (
+        <Fragment>
+          <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
+            <FontAwesomeIcon
+              className="h1"
+              icon={faSync}
+              spin
+            ></FontAwesomeIcon>
+          </div>
+        </Fragment>
+      )
     }
 
     const {
       peersCount,
-      headersHeight,
       bestHeaderId,
       launchTime,
+      fullHeight,
       appVersion,
       isMining,
     } = this.state.nodeInfo
@@ -66,7 +83,7 @@ export default class Dashboard extends Component {
             <div className="col-3 p-0 border-right">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Current height</p>
-                <p className="info-card__label">{headersHeight}</p>
+                <p className="info-card__label">{fullHeight}</p>
               </InfoCard>
             </div>
             <div className="col-3 p-0">

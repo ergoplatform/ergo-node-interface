@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import InfoCard from '../common/InfoCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync, faCheck } from '@fortawesome/free-solid-svg-icons'
+import InfoCard from '../../common/InfoCard'
 import './index.scss'
 
 export default class SynchCard extends Component {
@@ -38,7 +38,7 @@ export default class SynchCard extends Component {
     return 'active'
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (
       this.getSynchronizationState(nextProps) !==
       this.getSynchronizationState(this.props.nodeInfo)

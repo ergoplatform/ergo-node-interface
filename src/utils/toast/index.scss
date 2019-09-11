@@ -1,0 +1,40 @@
+.n-toast {
+  border-radius: 3px !important;
+  color: #eee;
+  font-size: 16px;
+  background-color: #262626 !important;
+  vertical-align: bottom;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+
+  &::before {
+    display: block;
+    content: '';
+    width: 15px;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    left: 0px;
+    margin-right: 5px;
+    border-radius: 3px 0 0 3px;
+    background-color: transparent;
+  }
+
+  &__body {
+    padding-left: 8px;
+  }
+
+  &__progress {
+    left: 15px !important;
+
+    &--success {
+      background-color: #4caf50 !important;
+    }
+  }
+
+  &--success {
+    &::before {
+      background-color: #4caf50 !important;
+    }
+  }
+}
