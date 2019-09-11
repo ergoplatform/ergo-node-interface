@@ -1,6 +1,6 @@
 .main-container {
   position: absolute;
-  margin-top: 72px;
+  margin-top: 74px;
   top: 0;
   left: 256px;
   right: 0px;
@@ -10,7 +10,7 @@
 
 .sidebar {
   position: absolute;
-  height: calc(100% - 72px);
+  height: calc(100% - 74px);
   width: 256px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: none !important;
@@ -21,8 +21,4 @@
   color: #fff;
   display: flex;
   align-items: center;
-}
-
-.logotype {
-  height: 46px;
 }
