@@ -16,19 +16,19 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.setCurrentState()
+    this.setNodeCurrentState()
     this.setTimer()
   }
 
   getNodeCurrentState = () => nodeApi.get('/info')
 
-  setCurrentState = async () => {
+  setNodeCurrentState = async () => {
     const { data: nodeInfo } = await this.getNodeCurrentState()
     this.setState({ nodeInfo })
   }
 
   setTimer = () => {
-    const timerId = setInterval(this.setCurrentState, 3000)
+    const timerId = setInterval(this.setNodeCurrentState, 3000)
     this.setState({ timerId })
   }
 
@@ -38,10 +38,6 @@ export default class Dashboard extends Component {
 
   render() {
     if (this.state.nodeInfo === null) {
-      return <Fragment></Fragment>
-    }
-
-    if (this.state.nodeInfo && this.state.nodeInfo.fullHeight === null) {
       return (
         <Fragment>
           <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
@@ -82,24 +78,26 @@ export default class Dashboard extends Component {
             </div>
             <div className="col-3 p-0 border-right">
               <InfoCard className="rounded-0 shadow-none border-bottom">
-                <p className="info-card__title">Current height</p>
-                <p className="info-card__label">{fullHeight}</p>
-              </InfoCard>
-            </div>
-            <div className="col-3 p-0">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
-                <p className="info-card__title">Best block id</p>
-                <p className="info-card__label">{bestHeaderId}</p>
-              </InfoCard>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-3 p-0 border-right">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Node started at</p>
                 <p className="info-card__label">
                   {format(new Date(launchTime), 'MM-dd-yyyy HH:mm:ss')}
                 </p>
+              </InfoCard>
+            </div>
+            {fullHeight === null ? null : (
+              <div className="col-3 p-0 border-right">
+                <InfoCard className="rounded-0 shadow-none border-bottom">
+                  <p className="info-card__title">Current height</p>
+                  <p className="info-card__label">{fullHeight}</p>
+                </InfoCard>
+              </div>
+            )}
+          </div>
+          <div className="row">
+            <div className="col-3 p-0 border-right">
+              <InfoCard className="rounded-0 shadow-none border-bottom">
+                <p className="info-card__title">Best block id</p>
+                <p className="info-card__label">{bestHeaderId}</p>
               </InfoCard>
             </div>
             <div className="col-3 p-0 border-right">

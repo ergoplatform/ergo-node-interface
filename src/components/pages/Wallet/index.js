@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import PaymentSendForm from '../../elements/PaymentSendForm'
 import { ApiKeyContext } from '../../../context/context'
+import WalletInitializeForm from '../../elements/WalletInitializeForm'
 
 class Wallet extends Component {
   static contextType = ApiKeyContext
@@ -17,7 +17,7 @@ class Wallet extends Component {
     return (
       <div className="container-fluid mt-4">
         <div className="row">
-          <PaymentSendForm />
+          <WalletInitializeForm />
         </div>
       </div>
     )

@@ -30,11 +30,21 @@
     &--success {
       background-color: #4caf50 !important;
     }
+
+    &--error {
+      background-color: #b90909 !important;
+    }
   }
 
   &--success {
     &::before {
       background-color: #4caf50 !important;
+    }
+  }
+
+  &--error {
+    &::before {
+      background-color: #b90909 !important;
     }
   }
 }
