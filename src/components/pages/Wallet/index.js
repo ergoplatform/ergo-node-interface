@@ -12,14 +12,14 @@ class Wallet extends Component {
   render() {
     if (this.context.value === '') {
       return (
-        <div className="container-fluid mt-4">
+        <div className="container-fluid pt-4">
           <p>For continue need to set API key.</p>
         </div>
       )
     }
 
     return (
-      <div className="container-fluid mt-4">
+      <div className="container-fluid pt-4">
         <div className="row">
           <WalletInitializeForm />
           <RestoreWalletForm />
