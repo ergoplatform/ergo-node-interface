@@ -1,12 +1,13 @@
 const appConfig = () => {
-  if (window.appConfig) {
+  if (process.env.NODE_ENV === 'production') {
     return {
-      ...window.appConfig,
+      nodeApiLink: '/',
     }
   }
 
   return {
-    nodeApiLink: 'http://0.0.0.0:9053/',
+    /* default testnet api */
+    nodeApiLink: 'http://0.0.0.0:9052/',
   }
 }
 

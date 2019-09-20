@@ -5,7 +5,7 @@ import Dashboard from '../components/pages/Dashboard'
 import Wallet from '../components/pages/Wallet'
 
 const Router = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/panel">
     <Layout>
       <Switch>
         <Route exact path="/" component={Dashboard} />

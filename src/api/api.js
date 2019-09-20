@@ -12,7 +12,7 @@ NetworkError.prototype = Object.create(Error.prototype)
 
 const nodeApi = axios.create({
   baseURL: environment.nodeApiLink,
-  timeout: 1000 * 5,
+  timeout: 1000 * 10,
   crossDomain: true,
   headers: {
     'Content-Type': 'application/json',

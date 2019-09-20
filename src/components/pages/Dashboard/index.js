@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
   }
 
   setTimer = () => {
-    const timerId = setInterval(this.setNodeCurrentState, 3000)
+    const timerId = setInterval(this.setNodeCurrentState, 2000)
     this.setState({ timerId })
   }
 
@@ -63,20 +63,20 @@ export default class Dashboard extends Component {
     return (
       <Fragment>
         <div className="container-fluid">
-          <div className="row mb-3">
-            <div className="col-3 p-0 border-right">
+          <div className="row">
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="card rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Node version</p>
                 <p className="info-card__label">{appVersion}</p>
               </InfoCard>
             </div>
-            <div className="col-3 p-0 border-right">
+            <div className="col-3 p-0 border-right mb-3">
               <SynchCard
                 nodeInfo={this.state.nodeInfo}
                 className="border-bottom"
               ></SynchCard>
             </div>
-            <div className="col-3 p-0 border-right">
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Node started at</p>
                 <p className="info-card__label">
@@ -85,22 +85,22 @@ export default class Dashboard extends Component {
               </InfoCard>
             </div>
             {fullHeight === null ? null : (
-              <div className="col-3 p-0 border-right">
+              <div className="col-3 p-0 border-right mb-3">
                 <InfoCard className="rounded-0 shadow-none border-bottom">
                   <p className="info-card__title">Current height</p>
                   <p className="info-card__label">{fullHeight}</p>
                 </InfoCard>
               </div>
             )}
-          </div>
-          <div className="row">
-            <div className="col-3 p-0 border-right">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
-                <p className="info-card__title">Best block id</p>
-                <p className="info-card__label">{bestHeaderId}</p>
-              </InfoCard>
-            </div>
-            <div className="col-3 p-0 border-right">
+            {bestHeaderId === null ? null : (
+              <div className="col-3 p-0 border-right mb-3">
+                <InfoCard className="rounded-0 shadow-none border-bottom">
+                  <p className="info-card__title">Best block id</p>
+                  <p className="info-card__label">{bestHeaderId}</p>
+                </InfoCard>
+              </div>
+            )}
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Mining enabled</p>
                 <p className="info-card__label">
@@ -108,7 +108,7 @@ export default class Dashboard extends Component {
                 </p>
               </InfoCard>
             </div>
-            <div className="col-3 p-0 border-right">
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Peers connected</p>
                 <p className="info-card__label">{peersCount}</p>

@@ -1,39 +1,36 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../api/api'
-import { ApiKeyContext } from '../../../context/context'
-import CopyToClipboard from '../../common/CopyToClipboard'
-import customToast from '../../../utils/toast'
+import nodeApi from '../../../../api/api'
+import { ApiKeyContext } from '../../../../context/context'
+import customToast from '../../../../utils/toast'
 
 const initialFormValues = {
-  pass: '',
+  walletPassword: '',
   mnemonicPass: '',
+  mnemonic: '',
 }
 
-class WalletInitializeForm extends Component {
+class WalletInitializeForm extends PureComponent {
   static contextType = ApiKeyContext
 
-  walletInit = async values => {
-    const { data } = await nodeApi.post('/wallet/init', values, {
-      headers: {
-        api_key: this.context.value,
+  walletRestore = async ({ walletPassword, mnemonicPass, mnemonic }) => {
+    return nodeApi.post(
+      '/wallet/restore',
+      { pass: walletPassword, mnemonicPass, mnemonic },
+      {
+        headers: {
+          api_key: this.context.value,
+        },
       },
-    })
-
-    return data
+    )
   }
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
     setStatus({ status: 'submitting' })
-    this.walletInit(values)
-      .then(result => {
+    this.walletRestore(values)
+      .then(() => {
         resetForm(initialFormValues)
-        setStatus({
-          state: 'success',
-          msg: `Your wallet success initialized. Please, save your mnemonic - ${(
-            <CopyToClipboard>{result.mnemonic}</CopyToClipboard>
-          )}`,
-        })
+        customToast('success', 'Your wallet success re-stored')
       })
       .catch(err => {
         const errMessage = err.data ? err.data.detail : err.message
@@ -45,8 +42,8 @@ class WalletInitializeForm extends Component {
   render() {
     return (
       <div className="col-4">
-        <div className="card bg-white p-4">
-          <h2 className="h5 mb-3">Initialize Wallet</h2>
+        <div className="card bg-white p-4 mb-4">
+          <h2 className="h5 mb-3">Restore Wallet</h2>
           <Formik
             initialValues={initialFormValues}
             onSubmit={this.handleSubmit}
@@ -62,23 +59,35 @@ class WalletInitializeForm extends Component {
                   <div className="alert alert-success">{status.msg}</div>
                 )}
                 <div className="form-group">
-                  <label htmlFor="wallet-password-input">Wallet password</label>
+                  <label htmlFor="restore-mnemonic-input">Mnemonic</label>
+                  <Field
+                    name="mnemonic"
+                    type="text"
+                    id="restore-mnemonic-input"
+                    className="form-control"
+                    placeholder="Enter mnemonic"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="restore-wallet-password-input">
+                    Wallet password
+                  </label>
                   <Field
                     name="walletPassword"
                     type="password"
-                    id="wallet-password-input"
+                    id="restore-wallet-password-input"
                     className="form-control"
                     placeholder="Enter wallet password"
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="mnemonic-password-input">
+                  <label htmlFor="restore-mnemonic-password-input">
                     Mnemonic password
                   </label>
                   <Field
                     name="mnemonicPass"
                     type="password"
-                    id="mnemonic-password-input"
+                    id="restore-mnemonic-password-input"
                     className="form-control"
                     placeholder="Enter mnemonic password"
                   />

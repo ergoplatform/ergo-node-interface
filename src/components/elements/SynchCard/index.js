@@ -31,7 +31,11 @@ export default class SynchCard extends Component {
     }[state])
 
   getSynchronizationState = ({ fullHeight, headersHeight }) => {
-    if (fullHeight === headersHeight) {
+    if (
+      fullHeight !== null &&
+      headersHeight !== null &&
+      fullHeight === headersHeight
+    ) {
       return 'complete'
     }
 

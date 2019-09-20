@@ -1,8 +1,10 @@
 import React from 'react'
 import copy from 'clipboard-copy'
 import { Overlay, Tooltip } from 'react-bootstrap'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-class CopyToClipboard extends React.Component {
+class CopyToClipboard extends React.PureComponent {
   constructor(props) {
     super(props)
 
@@ -17,9 +19,11 @@ class CopyToClipboard extends React.Component {
           href="#copyClipboard"
           ref={this.myRef}
           onClick={this.onCopy}
-          className="text-success font-weight-bold"
+          className="font-weight-bold text-decoration-none"
         >
           {this.props.children}
+          &nbsp;
+          <FontAwesomeIcon icon={faCopy} />
         </a>
         <Overlay
           target={this.myRef.current}
