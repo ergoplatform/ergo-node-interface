@@ -1,5 +1,5 @@
 import axios from 'axios'
-import constants from '../constants'
+import environment from '../utils/environment'
 
 function NetworkError({ status, message, data, statusText }) {
   this.name = 'NetworkError'
@@ -10,9 +10,10 @@ function NetworkError({ status, message, data, statusText }) {
 
 NetworkError.prototype = Object.create(Error.prototype)
 
-export const nodeApi = axios.create({
-  baseURL: constants.nodeInterface,
-  timeout: 1000 * 5,
+const nodeApi = axios.create({
+  baseURL: environment.nodeApiLink,
+  timeout: 1000 * 10,
+  crossDomain: true,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -20,5 +21,7 @@ export const nodeApi = axios.create({
 
 nodeApi.interceptors.response.use(
   response => Promise.resolve(response),
-  error => Promise.reject(new NetworkError(error.response || {})),
+  error => Promise.reject(new NetworkError(error.response || error)),
 )
+
+export default nodeApi

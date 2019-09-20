@@ -1,8 +1,11 @@
 import React, { Fragment, Component } from 'react'
-import SynchCard from '../../elements/SynchCard'
-import InfoCard from '../../elements/common/InfoCard'
+import { faSync } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { format } from 'date-fns'
-import { nodeApi } from '../../../api/api'
+import InfoCard from '../../common/InfoCard'
+import SynchCard from '../../elements/SynchCard'
+import nodeApi from '../../../api/api'
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -13,19 +16,19 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.setCurrentState()
+    this.setNodeCurrentState()
     this.setTimer()
   }
 
   getNodeCurrentState = () => nodeApi.get('/info')
 
-  setCurrentState = async () => {
+  setNodeCurrentState = async () => {
     const { data: nodeInfo } = await this.getNodeCurrentState()
     this.setState({ nodeInfo })
   }
 
   setTimer = () => {
-    const timerId = setInterval(this.setCurrentState, 5000)
+    const timerId = setInterval(this.setNodeCurrentState, 2000)
     this.setState({ timerId })
   }
 
@@ -35,14 +38,24 @@ export default class Dashboard extends Component {
 
   render() {
     if (this.state.nodeInfo === null) {
-      return <></>
+      return (
+        <Fragment>
+          <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
+            <FontAwesomeIcon
+              className="h1"
+              icon={faSync}
+              spin
+            ></FontAwesomeIcon>
+          </div>
+        </Fragment>
+      )
     }
 
     const {
       peersCount,
-      headersHeight,
       bestHeaderId,
       launchTime,
+      fullHeight,
       appVersion,
       isMining,
     } = this.state.nodeInfo
@@ -50,34 +63,20 @@ export default class Dashboard extends Component {
     return (
       <Fragment>
         <div className="container-fluid">
-          <div className="row mb-3">
-            <div className="col-3 p-0 border-right">
+          <div className="row">
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="card rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Node version</p>
                 <p className="info-card__label">{appVersion}</p>
               </InfoCard>
             </div>
-            <div className="col-3 p-0 border-right">
+            <div className="col-3 p-0 border-right mb-3">
               <SynchCard
                 nodeInfo={this.state.nodeInfo}
                 className="border-bottom"
               ></SynchCard>
             </div>
-            <div className="col-3 p-0 border-right">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
-                <p className="info-card__title">Current height</p>
-                <p className="info-card__label">{headersHeight}</p>
-              </InfoCard>
-            </div>
-            <div className="col-3 p-0">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
-                <p className="info-card__title">Best block id</p>
-                <p className="info-card__label">{bestHeaderId}</p>
-              </InfoCard>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-3 p-0 border-right">
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Node started at</p>
                 <p className="info-card__label">
@@ -85,7 +84,23 @@ export default class Dashboard extends Component {
                 </p>
               </InfoCard>
             </div>
-            <div className="col-3 p-0 border-right">
+            {fullHeight === null ? null : (
+              <div className="col-3 p-0 border-right mb-3">
+                <InfoCard className="rounded-0 shadow-none border-bottom">
+                  <p className="info-card__title">Current height</p>
+                  <p className="info-card__label">{fullHeight}</p>
+                </InfoCard>
+              </div>
+            )}
+            {bestHeaderId === null ? null : (
+              <div className="col-3 p-0 border-right mb-3">
+                <InfoCard className="rounded-0 shadow-none border-bottom">
+                  <p className="info-card__title">Best block id</p>
+                  <p className="info-card__label">{bestHeaderId}</p>
+                </InfoCard>
+              </div>
+            )}
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Mining enabled</p>
                 <p className="info-card__label">
@@ -93,7 +108,7 @@ export default class Dashboard extends Component {
                 </p>
               </InfoCard>
             </div>
-            <div className="col-3 p-0 border-right">
+            <div className="col-3 p-0 border-right mb-3">
               <InfoCard className="rounded-0 shadow-none border-bottom">
                 <p className="info-card__title">Peers connected</p>
                 <p className="info-card__label">{peersCount}</p>
