@@ -33,25 +33,19 @@ class GetWalletAddressesForm extends PureComponent {
       },
     })
 
-    const walletMinerAddress = await nodeApi.get('/mining/rewardAddress', {
-      headers: {
-        api_key: this.context.value,
-      },
-    })
-
     await nodeApi.get('/wallet/lock', {
       headers: {
         api_key: this.context.value,
       },
     })
 
-    return [walletAddresses, walletMinerAddress]
+    return walletAddresses
   }
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
     setStatus({ status: 'submitting' })
     this.getWalletAddresses(values)
-      .then(([{ data: walletAddresses }, { data: { rewardAddress } }]) => {
+      .then(({ data: walletAddresses }) => {
         resetForm(initialFormValues)
         setStatus({
           state: 'success',
@@ -61,16 +55,12 @@ class GetWalletAddressesForm extends PureComponent {
               <ul className="mb-3">
                 {walletAddresses.map(addr => (
                   <>
-                    <li className="mb-1">
+                    <li className="mb-1" key={addr}>
                       <CopyToClipboard>{addr}</CopyToClipboard>
                     </li>
                   </>
                 ))}
               </ul>
-              <p>
-                Miner Address -{' '}
-                <CopyToClipboard>{rewardAddress}</CopyToClipboard>
-              </p>
             </>
           ),
         })
@@ -87,7 +77,7 @@ class GetWalletAddressesForm extends PureComponent {
     return (
       <div className="col-4">
         <div className="card bg-white p-4 mb-4">
-          <h2 className="h5 mb-3">Get all wallet addresses (with miner)</h2>
+          <h2 className="h5 mb-3">Get all wallet addresses</h2>
           <Formik
             initialValues={initialFormValues}
             onSubmit={this.handleSubmit}

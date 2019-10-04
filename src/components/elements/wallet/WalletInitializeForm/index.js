@@ -6,7 +6,7 @@ import CopyToClipboard from '../../../common/CopyToClipboard'
 import customToast from '../../../../utils/toast'
 
 const initialFormValues = {
-  pass: '',
+  walletPassword: '',
   mnemonicPass: '',
 }
 
@@ -15,12 +15,16 @@ class WalletInitializeForm extends PureComponent {
 
   state = { isShowMnemonic: false }
 
-  walletInit = async values => {
-    const { data } = await nodeApi.post('/wallet/init', values, {
-      headers: {
-        api_key: this.context.value,
+  walletInit = async ({ walletPassword, mnemonicPass }) => {
+    const { data } = await nodeApi.post(
+      '/wallet/init',
+      { pass: walletPassword, mnemonicPass },
+      {
+        headers: {
+          api_key: this.context.value,
+        },
       },
-    })
+    )
 
     return data
   }

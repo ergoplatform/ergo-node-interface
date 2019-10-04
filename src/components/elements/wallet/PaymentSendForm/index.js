@@ -4,9 +4,10 @@ import nodeApi from '../../../../api/api'
 import { ApiKeyContext } from '../../../../context/context'
 import customToast from '../../../../utils/toast'
 import CopyToClipboard from '../../../common/CopyToClipboard'
+import constants from '../../../../utils/constants'
 
 const initialFormValues = {
-  walletPassword: '',
+  pass: '',
   recipientAddress: '',
   amount: '',
 }
@@ -18,10 +19,10 @@ class PaymentSendForm extends PureComponent {
     isShowTransactionId: false,
   }
 
-  paymentSend = async ({ walletPassword, recipientAddress, amount }) => {
+  paymentSend = async ({ pass, recipientAddress, amount }) => {
     await nodeApi.post(
       '/wallet/unlock',
-      { pass: walletPassword },
+      { pass },
       {
         headers: {
           api_key: this.context.value,
@@ -34,7 +35,7 @@ class PaymentSendForm extends PureComponent {
       [
         {
           address: recipientAddress,
-          value: Number(amount * 100000000),
+          value: Number(amount * constants.nanoErgInErg),
         },
       ],
       {
@@ -108,7 +109,7 @@ class PaymentSendForm extends PureComponent {
                     Wallet password *
                   </label>
                   <Field
-                    name="walletPassword"
+                    name="pass"
                     type="password"
                     id="wallet-password-input"
                     className="form-control"
