@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChartLine,
-  faExchangeAlt,
+  // faExchangeAlt,
   faGlobe,
   faBook,
 } from '@fortawesome/free-solid-svg-icons'
@@ -17,11 +17,11 @@ const localRouteList = {
     icon: <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>,
     title: 'Dashboard',
   },
-  wallet: {
-    href: '/wallet',
-    icon: <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>,
-    title: 'Wallet',
-  },
+  // wallet: {
+  //   href: '/wallet',
+  //   icon: <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>,
+  //   title: 'Wallet',
+  // },
 }
 
 const externalRouteList = {

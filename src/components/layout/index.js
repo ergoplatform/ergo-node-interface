@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Navbar } from 'react-bootstrap'
 import MenuList from '../common/MenuList'
-import ApiKeyForm from '../elements/ApiKeyForm'
+// import ApiKeyForm from '../elements/ApiKeyForm'
 import logo from '../../assets/images/logotype_white.svg'
 import './index.scss'
 
@@ -16,9 +16,9 @@ class Layout extends Component {
               <img src={logo} alt="logotype" className="logotype" />
             </Link>
           </Navbar.Brand>
-          <div className="ml-4">
+          {/* <div className="ml-4">
             <ApiKeyForm />
-          </div>
+          </div> */}
         </Navbar>
         <div className="sidebar">
           <MenuList></MenuList>
