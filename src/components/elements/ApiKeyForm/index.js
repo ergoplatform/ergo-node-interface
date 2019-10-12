@@ -1,11 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { Formik, Field, Form } from 'formik'
-import { ApiKeyContext } from '../../../context/context'
+import { connect } from 'react-redux'
+import { apiKeySelector } from '../../../selectors/app'
+import appActions from '../../../actions/app'
 
-export default class ApiKeyForm extends Component {
-  static contextType = ApiKeyContext
+const mapStateToProps = state => ({
+  apiKey: apiKeySelector(state),
+})
 
+const mapDispatchToProps = dispatch => ({
+  dispatchSetApiKey: apiKey => dispatch(appActions.setApiKey(apiKey)),
+})
+class ApiKeyForm extends Component {
   constructor(props) {
     super(props)
 
@@ -24,12 +31,12 @@ export default class ApiKeyForm extends Component {
   }
 
   submitForm = ({ apiKey }) => {
-    this.context.setApiKey(apiKey)
+    this.props.dispatchSetApiKey(apiKey)
     this.handleHide()
   }
 
   renderButton = () => {
-    if (this.context.value === '') {
+    if (this.props.apiKey === '') {
       return (
         <button onClick={this.handleShow} className="btn btn-warning">
           Set API key
@@ -102,3 +109,7 @@ export default class ApiKeyForm extends Component {
     )
   }
 }
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(memo(ApiKeyForm))
