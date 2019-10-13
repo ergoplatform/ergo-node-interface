@@ -2,10 +2,7 @@ import React, { Component, memo } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { Formik, Field, Form } from 'formik'
 import { connect } from 'react-redux'
-import {
-  isWalletUnlockedSelector,
-  isWalletInitializedSelector,
-} from '../../../store/selectors/wallet'
+import { isWalletUnlockedSelector } from '../../../store/selectors/wallet'
 import walletActions from '../../../store/actions/walletActions'
 import { apiKeySelector } from '../../../store/selectors/app'
 import customToast from '../../../utils/toast'
@@ -13,14 +10,12 @@ import nodeApi from '../../../api/api'
 
 const mapStateToProps = state => ({
   isWalletUnlocked: isWalletUnlockedSelector(state),
-  isWalletInitialized: isWalletInitializedSelector(state),
   apiKey: apiKeySelector(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetIsWalletUnlocked: isWalletUnlock =>
     dispatch(walletActions.setIsWalletUnlocked(isWalletUnlock)),
-  dispatchCheckWalletStatus: () => dispatch(walletActions.checkWalletStatus()),
 })
 
 class WalletStatusForm extends Component {
@@ -104,17 +99,7 @@ class WalletStatusForm extends Component {
     )
   }
 
-  componentDidMount() {
-    this.props.dispatchCheckWalletStatus()
-  }
-
   render() {
-    const { isWalletInitialized } = this.props
-
-    if (!isWalletInitialized) {
-      return <></>
-    }
-
     return (
       <div>
         {this.renderButton()}
