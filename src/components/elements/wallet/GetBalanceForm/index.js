@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
-import { Formik, Field, Form } from 'formik'
+import { Formik, Form } from 'formik'
 import NumberFormat from 'react-number-format'
 import nodeApi from '../../../../api/api'
-import { ApiKeyContext } from '../../../../context/context'
 import customToast from '../../../../utils/toast'
 
 const initialFormValues = {
@@ -10,37 +9,16 @@ const initialFormValues = {
 }
 
 class GetBalanceForm extends PureComponent {
-  static contextType = ApiKeyContext
-
   state = {
     isShowBalance: false,
   }
 
-  getBalance = async ({ walletPassword }) => {
-    await nodeApi.post(
-      '/wallet/unlock',
-      { pass: walletPassword },
-      {
-        headers: {
-          api_key: this.context.value,
-        },
-      },
-    )
-
-    const balance = await nodeApi.get('/wallet/balances', {
+  getBalance = () =>
+    nodeApi.get('/wallet/balances', {
       headers: {
-        api_key: this.context.value,
+        api_key: this.props.apiKey,
       },
     })
-
-    await nodeApi.get('/wallet/lock', {
-      headers: {
-        api_key: this.context.value,
-      },
-    })
-
-    return balance
-  }
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
     setStatus({ status: 'submitting' })
@@ -96,30 +74,12 @@ class GetBalanceForm extends PureComponent {
                       {status.msg}
                     </div>
                   )}
-                <div className="form-group">
-                  <label htmlFor="wallet-password-input">
-                    Wallet password *
-                  </label>
-                  <Field
-                    name="walletPassword"
-                    type="password"
-                    id="wallet-password-input"
-                    className="form-control"
-                    placeholder="Enter wallet password"
-                  />
-                  <small
-                    id="walletPasswordHelp"
-                    className="form-text text-muted"
-                  >
-                    * If you have it <b>or leave field empty</b>
-                  </small>
-                </div>
                 <button
                   type="submit"
                   className="btn btn-primary"
                   disabled={isSubmitting}
                 >
-                  Send
+                  Get
                 </button>
               </Form>
             )}
