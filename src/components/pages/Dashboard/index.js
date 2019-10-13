@@ -7,12 +7,8 @@ import SynchCard from '../../elements/SynchCard'
 import nodeApi from '../../../api/api'
 
 export default class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      nodeInfo: null,
-    }
+  state = {
+    nodeInfo: null,
   }
 
   componentDidMount() {

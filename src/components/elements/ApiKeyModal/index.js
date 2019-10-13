@@ -15,12 +15,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetApiKey: apiKey => dispatch(appActions.setApiKey(apiKey)),
 })
 class ApiKeyForm extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      showModal: false,
-    }
+  state = {
+    showModal: false,
   }
 
   handleShow = () => {

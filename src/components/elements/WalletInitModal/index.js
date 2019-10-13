@@ -17,12 +17,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class WalletInitModal extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      showModal: false,
-    }
+  state = {
+    showModal: false,
   }
 
   handleShow = () => {
