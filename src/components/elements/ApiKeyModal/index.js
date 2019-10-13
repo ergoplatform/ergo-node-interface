@@ -2,8 +2,10 @@ import React, { Component, memo } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { Formik, Field, Form } from 'formik'
 import { connect } from 'react-redux'
-import { apiKeySelector } from '../../../selectors/app'
-import appActions from '../../../actions/app'
+import { apiKeySelector } from '../../../store/selectors/app'
+import appActions from '../../../store/actions/appActions'
+import nodeApi from '../../../api/api'
+import customToast from '../../../utils/toast'
 
 const mapStateToProps = state => ({
   apiKey: apiKeySelector(state),
@@ -18,7 +20,6 @@ class ApiKeyForm extends Component {
 
     this.state = {
       showModal: false,
-      inputApiKey: '',
     }
   }
 
@@ -31,31 +32,38 @@ class ApiKeyForm extends Component {
   }
 
   submitForm = ({ apiKey }) => {
-    this.props.dispatchSetApiKey(apiKey)
-    this.handleHide()
+    // Check API key for random get method
+    nodeApi
+      .get('/wallet/status', {
+        headers: {
+          api_key: apiKey,
+        },
+      })
+      .then(() => {
+        this.props.dispatchSetApiKey(apiKey)
+        customToast('success', 'Successfully setted API key')
+        this.handleHide()
+      })
+      .catch(() => {
+        customToast('error', 'Bad API key')
+      })
   }
 
   renderButton = () => {
     if (this.props.apiKey === '') {
       return (
-        <button onClick={this.handleShow} className="btn btn-warning">
+        <button onClick={this.handleShow} className="btn btn-success">
           Set API key
         </button>
       )
     }
 
     return (
-      <button onClick={this.handleShow} className="btn btn-outline-light">
+      <button onClick={this.handleShow} className="btn btn-light">
         Update API key
       </button>
     )
   }
-
-  renderLink = () => (
-    <a href="#modal-root" onClick={this.handleShow}>
-      Set API key
-    </a>
-  )
 
   render() {
     return (
@@ -68,7 +76,7 @@ class ApiKeyForm extends Component {
           aria-labelledby="example-custom-modal-styling-title"
         >
           <Formik
-            initialValues={{ apiKey: this.context.value }}
+            initialValues={{ apiKey: this.props.apiKey }}
             onSubmit={this.submitForm}
           >
             {() => (
@@ -92,6 +100,7 @@ class ApiKeyForm extends Component {
 
                 <Modal.Footer>
                   <button
+                    type="button"
                     className="btn btn-outline-secondary"
                     onClick={this.handleHide}
                   >

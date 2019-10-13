@@ -1,36 +1,22 @@
 import React, { PureComponent } from 'react'
 import { Formik, Field, Form } from 'formik'
 import nodeApi from '../../../../api/api'
-import { ApiKeyContext } from '../../../../context/context'
 import customToast from '../../../../utils/toast'
 import CopyToClipboard from '../../../common/CopyToClipboard'
 import constants from '../../../../utils/constants'
 
 const initialFormValues = {
-  pass: '',
   recipientAddress: '',
   amount: '',
 }
 
 class PaymentSendForm extends PureComponent {
-  static contextType = ApiKeyContext
-
   state = {
     isShowTransactionId: false,
   }
 
-  paymentSend = async ({ pass, recipientAddress, amount }) => {
-    await nodeApi.post(
-      '/wallet/unlock',
-      { pass },
-      {
-        headers: {
-          api_key: this.context.value,
-        },
-      },
-    )
-
-    const data = await nodeApi.post(
+  paymentSend = ({ recipientAddress, amount }) =>
+    nodeApi.post(
       '/wallet/payment/send',
       [
         {
@@ -40,19 +26,10 @@ class PaymentSendForm extends PureComponent {
       ],
       {
         headers: {
-          api_key: this.context.value,
+          api_key: this.props.apiKey,
         },
       },
     )
-
-    await nodeApi.get('/wallet/lock', {
-      headers: {
-        api_key: this.context.value,
-      },
-    })
-
-    return data
-  }
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
     setStatus({ status: 'submitting' })
@@ -81,7 +58,7 @@ class PaymentSendForm extends PureComponent {
     return (
       <div className="col-4">
         <div className="card bg-white p-4 mb-4">
-          <h2 className="h5 mb-3">Payment Send</h2>
+          <h2 className="h5 mb-3">Payment send</h2>
           <Formik
             initialValues={initialFormValues}
             onSubmit={this.handleSubmit}
@@ -104,24 +81,6 @@ class PaymentSendForm extends PureComponent {
                       {status.msg}
                     </div>
                   )}
-                <div className="form-group">
-                  <label htmlFor="wallet-password-input">
-                    Wallet password *
-                  </label>
-                  <Field
-                    name="pass"
-                    type="password"
-                    id="wallet-password-input"
-                    className="form-control"
-                    placeholder="Enter wallet password"
-                  />
-                  <small
-                    id="walletPasswordHelp"
-                    className="form-text text-muted"
-                  >
-                    * If you have it <b>or leave field empty</b>
-                  </small>
-                </div>
                 <div className="form-group">
                   <label htmlFor="recipient-address">Recipient address</label>
                   <Field
