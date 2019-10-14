@@ -37,7 +37,7 @@ class ApiKeyForm extends Component {
       })
       .then(() => {
         this.props.dispatchSetApiKey(apiKey)
-        customToast('success', 'Successfully setted API key')
+        customToast('success', 'API key is set successfully')
         this.handleHide()
       })
       .catch(() => {
@@ -55,7 +55,7 @@ class ApiKeyForm extends Component {
     }
 
     return (
-      <button onClick={this.handleShow} className="btn btn-light">
+      <button onClick={this.handleShow} className="btn btn-primary">
         Update API key
       </button>
     )
@@ -69,7 +69,6 @@ class ApiKeyForm extends Component {
           show={this.state.showModal}
           onHide={() => this.handleHide()}
           centered
-          aria-labelledby="example-custom-modal-styling-title"
         >
           <Formik
             initialValues={{ apiKey: this.props.apiKey }}
@@ -78,9 +77,7 @@ class ApiKeyForm extends Component {
             {() => (
               <Form>
                 <Modal.Header closeButton>
-                  <Modal.Title id="example-custom-modal-styling-title">
-                    Authorization
-                  </Modal.Title>
+                  <Modal.Title>Authorization</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <p className="text-">Set API key to access Node requests</p>

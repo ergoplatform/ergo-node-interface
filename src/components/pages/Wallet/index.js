@@ -36,17 +36,14 @@ class Wallet extends Component {
   renderWalletLockedState = () => (
     <div className="container-fluid pt-4">
       <p>
-        Some forms are locked. Need unlock the wallet to access locked forms
+        The wallet UI is locked. You need to unlock the wallet to access its UI.
       </p>
     </div>
   )
 
   renderInitializedState = () => (
     <div className="container-fluid pt-4">
-      <p>
-        Your wallet is not initialized. Your need initialize your wallet for
-        access wallet forms.
-      </p>
+      <p>You need to initializer your wallet to access wallet UI.</p>
     </div>
   )
 
