@@ -57,7 +57,7 @@ class WalletStatusForm extends Component {
     this.walletUnlock(pass)
       .then(() => {
         resetForm({ pass: '' })
-        customToast('success', 'Your wallet successfully unlocked')
+        customToast('success', 'Your wallet is unlocked successfully')
         this.props.dispatchSetIsWalletUnlocked(true)
         this.handleHide()
       })
@@ -73,7 +73,7 @@ class WalletStatusForm extends Component {
     if (confirm('Are you sure want to lock wallet?')) {
       this.walletLock()
         .then(() => {
-          customToast('success', 'Your wallet successfully locked')
+          customToast('success', 'Your wallet is locked successfully')
           this.props.dispatchSetIsWalletUnlocked(false)
         })
         .catch(err => {
@@ -86,15 +86,15 @@ class WalletStatusForm extends Component {
   renderButton = () => {
     if (!this.props.isWalletUnlocked) {
       return (
-        <button onClick={this.handleShow} className="btn btn-success">
-          Wallet locked
+        <button onClick={this.handleShow} className="btn btn-warning">
+          Unlock wallet
         </button>
       )
     }
 
     return (
-      <button onClick={this.submitWalletLockForm} className="btn btn-danger">
-        Wallet unlocked
+      <button onClick={this.submitWalletLockForm} className="btn btn-success">
+        Lock wallet
       </button>
     )
   }

@@ -32,7 +32,7 @@ class WalletInitModal extends Component {
 
   renderButton = () => {
     return (
-      <button onClick={this.handleShow} className="btn btn-warning">
+      <button onClick={this.handleShow} className="btn btn-danger">
         Initialize wallet
       </button>
     )
