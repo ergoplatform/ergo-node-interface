@@ -126,7 +126,7 @@ class WalletStatusForm extends Component {
                       Wallet password *
                     </label>
                     <Field
-                      name="walletPassword"
+                      name="pass"
                       type="password"
                       id="wallet-password-input"
                       className="form-control"
