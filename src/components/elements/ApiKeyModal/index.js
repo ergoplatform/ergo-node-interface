@@ -1,18 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { Formik, Field, Form } from 'formik'
-import { ApiKeyContext } from '../../../context/context'
+import { connect } from 'react-redux'
+import { apiKeySelector } from '../../../store/selectors/app'
+import appActions from '../../../store/actions/appActions'
+import nodeApi from '../../../api/api'
+import customToast from '../../../utils/toast'
 
-export default class ApiKeyForm extends Component {
-  static contextType = ApiKeyContext
+const mapStateToProps = state => ({
+  apiKey: apiKeySelector(state),
+})
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      showModal: false,
-      inputApiKey: '',
-    }
+const mapDispatchToProps = dispatch => ({
+  dispatchSetApiKey: apiKey => dispatch(appActions.setApiKey(apiKey)),
+})
+class ApiKeyForm extends Component {
+  state = {
+    showModal: false,
   }
 
   handleShow = () => {
@@ -24,31 +28,38 @@ export default class ApiKeyForm extends Component {
   }
 
   submitForm = ({ apiKey }) => {
-    this.context.setApiKey(apiKey)
-    this.handleHide()
+    // Check API key for random get method
+    nodeApi
+      .get('/wallet/status', {
+        headers: {
+          api_key: apiKey,
+        },
+      })
+      .then(() => {
+        this.props.dispatchSetApiKey(apiKey)
+        customToast('success', 'API key is set successfully')
+        this.handleHide()
+      })
+      .catch(() => {
+        customToast('error', 'Bad API key')
+      })
   }
 
   renderButton = () => {
-    if (this.context.value === '') {
+    if (this.props.apiKey === '') {
       return (
-        <button onClick={this.handleShow} className="btn btn-warning">
+        <button onClick={this.handleShow} className="btn btn-success">
           Set API key
         </button>
       )
     }
 
     return (
-      <button onClick={this.handleShow} className="btn btn-outline-light">
+      <button onClick={this.handleShow} className="btn btn-primary">
         Update API key
       </button>
     )
   }
-
-  renderLink = () => (
-    <a href="#modal-root" onClick={this.handleShow}>
-      Set API key
-    </a>
-  )
 
   render() {
     return (
@@ -58,18 +69,15 @@ export default class ApiKeyForm extends Component {
           show={this.state.showModal}
           onHide={() => this.handleHide()}
           centered
-          aria-labelledby="example-custom-modal-styling-title"
         >
           <Formik
-            initialValues={{ apiKey: this.context.value }}
+            initialValues={{ apiKey: this.props.apiKey }}
             onSubmit={this.submitForm}
           >
             {() => (
               <Form>
                 <Modal.Header closeButton>
-                  <Modal.Title id="example-custom-modal-styling-title">
-                    Authorization
-                  </Modal.Title>
+                  <Modal.Title>Authorization</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <p className="text-">Set API key to access Node requests</p>
@@ -85,6 +93,7 @@ export default class ApiKeyForm extends Component {
 
                 <Modal.Footer>
                   <button
+                    type="button"
                     className="btn btn-outline-secondary"
                     onClick={this.handleHide}
                   >
@@ -102,3 +111,7 @@ export default class ApiKeyForm extends Component {
     )
   }
 }
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(memo(ApiKeyForm))

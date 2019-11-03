@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Navbar } from 'react-bootstrap'
 import MenuList from '../common/MenuList'
-// import ApiKeyForm from '../elements/ApiKeyForm'
 import logo from '../../assets/images/logotype_white.svg'
 import './index.scss'
+import NavbarInformation from '../elements/NavbarInformation'
 
 class Layout extends Component {
   render() {
@@ -16,12 +16,10 @@ class Layout extends Component {
               <img src={logo} alt="logotype" className="logotype" />
             </Link>
           </Navbar.Brand>
-          {/* <div className="ml-4">
-            <ApiKeyForm />
-          </div> */}
+          <NavbarInformation />
         </Navbar>
         <div className="sidebar">
-          <MenuList></MenuList>
+          <MenuList />
         </div>
         <main className="main-container">
           <div className="content h-100">{this.props.children}</div>
