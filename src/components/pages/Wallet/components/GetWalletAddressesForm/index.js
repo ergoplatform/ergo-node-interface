@@ -1,46 +1,42 @@
 import React, { PureComponent } from 'react'
 import { Formik, Form } from 'formik'
-import NumberFormat from 'react-number-format'
-import nodeApi from '../../../../api/api'
-import customToast from '../../../../utils/toast'
+import nodeApi from '../../../../../api/api'
+import customToast from '../../../../../utils/toast'
+import CopyToClipboard from '../../../../common/CopyToClipboard'
 
-const initialFormValues = {
-  walletPassword: '',
-}
-
-class GetBalanceForm extends PureComponent {
+class GetWalletAddressesForm extends PureComponent {
   state = {
-    isShowBalance: false,
+    isShowWalletAddresses: false,
   }
 
-  getBalance = () =>
-    nodeApi.get('/wallet/balances', {
+  getWalletAddresses = () =>
+    nodeApi.get('/wallet/addresses', {
       headers: {
         api_key: this.props.apiKey,
       },
     })
 
-  handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
+  handleSubmit = (values, { setSubmitting, setStatus }) => {
     setStatus({ status: 'submitting' })
-    this.getBalance(values)
-      .then(({ data: { balance } }) => {
-        resetForm(initialFormValues)
+    this.getWalletAddresses(values)
+      .then(({ data: walletAddresses }) => {
         setStatus({
           state: 'success',
           msg: (
             <>
-              Your wallet balance -{' '}
-              <NumberFormat
-                value={(balance / 1000000000).toFixed(8)}
-                displayType={'text'}
-                thousandSeparator={true}
-                suffix={' ERG'}
-                className="font-weight-bold"
-              />
+              <p className="mb-1">Wallet Addresses:</p>
+              <ul className="mb-3">
+                {walletAddresses.map(addr => (
+                  <li className="mb-1" key={addr}>
+                    <CopyToClipboard>{addr}</CopyToClipboard>
+                  </li>
+                ))}
+              </ul>
             </>
           ),
         })
-        this.setState({ isShowBalance: true })
+        this.setState({ isShowWalletAddresses: true })
+        setSubmitting(false)
       })
       .catch(err => {
         const errMessage = err.data ? err.data.detail : err.message
@@ -53,21 +49,20 @@ class GetBalanceForm extends PureComponent {
     return (
       <div className="col-4">
         <div className="card bg-white p-4 mb-4">
-          <h2 className="h5 mb-3">Get confirmed wallet balance</h2>
-          <Formik
-            initialValues={initialFormValues}
-            onSubmit={this.handleSubmit}
-          >
+          <h2 className="h5 mb-3">Get all wallet addresses</h2>
+          <Formik onSubmit={this.handleSubmit}>
             {({ status, isSubmitting }) => (
               <Form>
                 {status &&
                   status.state === 'success' &&
-                  this.state.isShowBalance && (
+                  this.state.isShowWalletAddresses && (
                     <div className="alert alert-info alert-dismissible">
                       <button
                         type="button"
                         className="close"
-                        onClick={() => this.setState({ isShowBalance: false })}
+                        onClick={() =>
+                          this.setState({ isShowWalletAddresses: false })
+                        }
                       >
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -90,4 +85,4 @@ class GetBalanceForm extends PureComponent {
   }
 }
 
-export default GetBalanceForm
+export default GetWalletAddressesForm

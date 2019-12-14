@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../../api/api'
-import customToast from '../../../../utils/toast'
-import CopyToClipboard from '../../../common/CopyToClipboard'
-import constants from '../../../../utils/constants'
+import nodeApi from '../../../../../api/api'
+import customToast from '../../../../../utils/toast'
+import CopyToClipboard from '../../../../common/CopyToClipboard'
+import constants from '../../../../../utils/constants'
 
 const initialFormValues = {
   recipientAddress: '',

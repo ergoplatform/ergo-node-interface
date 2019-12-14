@@ -1,5 +1,8 @@
 import React, { Fragment, Component } from 'react'
-import { faSync } from '@fortawesome/free-solid-svg-icons'
+import {
+  faExclamationTriangle,
+  faSync,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { format } from 'date-fns'
 import InfoCard from '../../common/InfoCard'
@@ -9,6 +12,7 @@ import nodeApi from '../../../api/api'
 export default class Dashboard extends Component {
   state = {
     nodeInfo: null,
+    error: null,
   }
 
   componentDidMount() {
@@ -19,8 +23,12 @@ export default class Dashboard extends Component {
   getNodeCurrentState = () => nodeApi.get('/info')
 
   setNodeCurrentState = async () => {
-    const { data: nodeInfo } = await this.getNodeCurrentState()
-    this.setState({ nodeInfo })
+    try {
+      const { data: nodeInfo } = await this.getNodeCurrentState()
+      this.setState({ nodeInfo, error: null })
+    } catch {
+      this.setState({ error: 'Node connection is lost.' })
+    }
   }
 
   setTimer = () => {
@@ -33,6 +41,20 @@ export default class Dashboard extends Component {
   }
 
   render() {
+    if (this.state.error !== null) {
+      return (
+        <Fragment>
+          <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
+            <h3 className="text-danger">
+              <FontAwesomeIcon icon={faExclamationTriangle}></FontAwesomeIcon>
+              &nbsp;
+              {this.state.error}
+            </h3>
+          </div>
+        </Fragment>
+      )
+    }
+
     if (this.state.nodeInfo === null) {
       return (
         <Fragment>

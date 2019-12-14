@@ -1,8 +1,8 @@
 import React, { Component, memo } from 'react'
 import { connect } from 'react-redux'
-import PaymentSendForm from '../../elements/wallet/PaymentSendForm'
-import GetBalanceForm from '../../elements/wallet/GetBalanceForm'
-import GetWalletAddressesForm from '../../elements/wallet/GetWalletAddressesForm'
+import PaymentSendForm from './components/PaymentSendForm'
+import GetBalanceForm from './components/GetBalanceForm'
+import GetWalletAddressesForm from './components/GetWalletAddressesForm'
 import { apiKeySelector } from '../../../store/selectors/app'
 import {
   isWalletInitializedSelector,

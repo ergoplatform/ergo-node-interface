@@ -3,8 +3,8 @@ import Modal from 'react-bootstrap/Modal'
 import { connect } from 'react-redux'
 import { apiKeySelector } from '../../../store/selectors/app'
 import appActions from '../../../store/actions/appActions'
-import WalletInitializeForm from '../wallet/WalletInitializeForm'
-import RestoreWalletForm from '../wallet/RestoreWalletForm'
+import WalletInitializeForm from '../../elements/WalletInitializeForm'
+import RestoreWalletForm from '../../elements/RestoreWalletForm'
 import walletActions from '../../../store/actions/walletActions'
 
 const mapStateToProps = state => ({
