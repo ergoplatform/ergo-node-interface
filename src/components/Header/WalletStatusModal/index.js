@@ -86,14 +86,17 @@ class WalletStatusForm extends Component {
   renderButton = () => {
     if (!this.props.isWalletUnlocked) {
       return (
-        <button onClick={this.handleShow} className="btn btn-warning">
+        <button onClick={this.handleShow} className="btn btn-info">
           Unlock wallet
         </button>
       )
     }
 
     return (
-      <button onClick={this.submitWalletLockForm} className="btn btn-success">
+      <button
+        onClick={this.submitWalletLockForm}
+        className="btn btn-outline-info"
+      >
         Lock wallet
       </button>
     )

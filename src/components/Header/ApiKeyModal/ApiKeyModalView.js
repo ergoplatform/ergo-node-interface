@@ -5,14 +5,14 @@ import { Formik, Form, Field } from 'formik'
 const renderButton = (apiKey, handleShow) => {
   if (apiKey === '') {
     return (
-      <button onClick={handleShow} className="btn btn-success">
+      <button onClick={handleShow} className="btn btn-primary">
         Set API key
       </button>
     )
   }
 
   return (
-    <button onClick={handleShow} className="btn btn-primary">
+    <button onClick={handleShow} className="btn btn-outline-primary">
       Update API key
     </button>
   )

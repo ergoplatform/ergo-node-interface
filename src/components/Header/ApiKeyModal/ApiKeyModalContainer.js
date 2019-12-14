@@ -36,7 +36,7 @@ const ApiKeyModalContainer = props => {
         },
       })
       .then(() => {
-        dispatchSetApiKey(values.apiKey)
+        dispatchSetApiKey(values.apiKey.trim())
         customToast('success', 'API key is set successfully')
         handleHide()
       })

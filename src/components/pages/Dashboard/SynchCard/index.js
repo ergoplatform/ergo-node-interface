@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync, faCheck } from '@fortawesome/free-solid-svg-icons'
-import InfoCard from '../../common/InfoCard'
+import InfoCard from '../InfoCard'
 import './index.scss'
 
 export default class SynchCard extends Component {
