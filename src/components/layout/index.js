@@ -8,7 +8,7 @@ class Layout extends Component {
   render() {
     return (
       <div>
-        <Header></Header>
+        <Header />
         <div className="sidebar">
           <MenuList />
         </div>

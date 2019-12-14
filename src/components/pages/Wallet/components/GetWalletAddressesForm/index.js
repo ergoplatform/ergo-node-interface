@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Formik, Form } from 'formik'
 import nodeApi from '../../../../../api/api'
 import customToast from '../../../../../utils/toast'
 import CopyToClipboard from '../../../../common/CopyToClipboard'
@@ -7,6 +6,7 @@ import CopyToClipboard from '../../../../common/CopyToClipboard'
 class GetWalletAddressesForm extends PureComponent {
   state = {
     isShowWalletAddresses: false,
+    walletAddresses: [],
   }
 
   getWalletAddresses = () =>
@@ -16,32 +16,16 @@ class GetWalletAddressesForm extends PureComponent {
       },
     })
 
-  handleSubmit = (values, { setSubmitting, setStatus }) => {
-    setStatus({ status: 'submitting' })
-    this.getWalletAddresses(values)
+  handleSubmit = event => {
+    event.preventDefault()
+
+    this.getWalletAddresses()
       .then(({ data: walletAddresses }) => {
-        setStatus({
-          state: 'success',
-          msg: (
-            <>
-              <p className="mb-1">Wallet Addresses:</p>
-              <ul className="mb-3">
-                {walletAddresses.map(addr => (
-                  <li className="mb-1" key={addr}>
-                    <CopyToClipboard>{addr}</CopyToClipboard>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ),
-        })
-        this.setState({ isShowWalletAddresses: true })
-        setSubmitting(false)
+        this.setState({ isShowWalletAddresses: true, walletAddresses })
       })
       .catch(err => {
         const errMessage = err.data ? err.data.detail : err.message
         customToast('error', errMessage)
-        setSubmitting(false)
       })
   }
 
@@ -50,35 +34,32 @@ class GetWalletAddressesForm extends PureComponent {
       <div className="col-4">
         <div className="card bg-white p-4 mb-4">
           <h2 className="h5 mb-3">Get all wallet addresses</h2>
-          <Formik onSubmit={this.handleSubmit}>
-            {({ status, isSubmitting }) => (
-              <Form>
-                {status &&
-                  status.state === 'success' &&
-                  this.state.isShowWalletAddresses && (
-                    <div className="alert alert-info alert-dismissible">
-                      <button
-                        type="button"
-                        className="close"
-                        onClick={() =>
-                          this.setState({ isShowWalletAddresses: false })
-                        }
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      {status.msg}
-                    </div>
-                  )}
+          <form onSubmit={this.handleSubmit}>
+            {this.state.isShowWalletAddresses && (
+              <div className="alert alert-info alert-dismissible">
                 <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
+                  type="button"
+                  className="close"
+                  onClick={() =>
+                    this.setState({ isShowWalletAddresses: false })
+                  }
                 >
-                  Get
+                  <span aria-hidden="true">&times;</span>
                 </button>
-              </Form>
+                <p className="mb-1">Wallet Addresses:</p>
+                <ul className="mb-3">
+                  {this.state.walletAddresses.map(addr => (
+                    <li className="mb-1" key={addr}>
+                      <CopyToClipboard>{addr}</CopyToClipboard>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
-          </Formik>
+            <button type="submit" className="btn btn-primary">
+              Get
+            </button>
+          </form>
         </div>
       </div>
     )
