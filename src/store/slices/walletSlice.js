@@ -6,6 +6,7 @@ const initialState = {
 }
 
 export default createSlice({
+  name: 'walletSlice',
   initialState,
   reducers: {
     setIsWalletUnlocked: (state, { payload }) => {

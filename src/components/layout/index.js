@@ -1,23 +1,14 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { Navbar } from 'react-bootstrap'
+import { withRouter } from 'react-router-dom'
 import MenuList from '../common/MenuList'
-import logo from '../../assets/images/logotype_white.svg'
 import './index.scss'
-import NavbarInformation from '../elements/NavbarInformation'
+import Header from '../Header'
 
 class Layout extends Component {
   render() {
     return (
       <div>
-        <Navbar className="navbar-background" expand="lg">
-          <Navbar.Brand className="navbar-brand">
-            <Link to="/">
-              <img src={logo} alt="logotype" className="logotype" />
-            </Link>
-          </Navbar.Brand>
-          <NavbarInformation />
-        </Navbar>
+        <Header />
         <div className="sidebar">
           <MenuList />
         </div>

@@ -5,6 +5,7 @@ const initialState = {
 }
 
 export default createSlice({
+  name: 'appSlice',
   initialState,
   reducers: {
     setApiKey: (state, action) => {
