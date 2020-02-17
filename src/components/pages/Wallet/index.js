@@ -43,7 +43,7 @@ class Wallet extends Component {
 
   renderInitializedState = () => (
     <div className="container-fluid pt-4">
-      <p>You need to initializer your wallet to access wallet UI.</p>
+      <p>You need to initialize your wallet to access wallet UI.</p>
     </div>
   )
 
