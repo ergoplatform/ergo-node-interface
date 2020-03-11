@@ -10,7 +10,15 @@ const initialFormValues = {
 }
 
 class WalletInitializeForm extends Component {
-  walletRestore = async ({ walletPassword, mnemonicPass, mnemonic }) => {
+  walletRestore = async ({
+    walletPassword,
+    mnemonicPass = '',
+    mnemonic = '',
+  }) => {
+    if (!mnemonic || String(mnemonic).trim()) {
+      throw Error('Need to set mnemonic')
+    }
+
     return nodeApi.post(
       '/wallet/restore',
       { pass: walletPassword, mnemonicPass, mnemonic },
@@ -59,6 +67,7 @@ class WalletInitializeForm extends Component {
                   id="restore-mnemonic-input"
                   className="form-control"
                   placeholder="Enter mnemonic"
+                  required
                 />
               </div>
               <div className="form-group">
