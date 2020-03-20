@@ -15,7 +15,7 @@ class WalletInitializeForm extends Component {
     mnemonicPass = '',
     mnemonic = '',
   }) => {
-    if (!mnemonic || String(mnemonic).trim()) {
+    if (!mnemonic || !String(mnemonic).trim()) {
       throw Error('Need to set mnemonic')
     }
 
