@@ -21,7 +21,9 @@ class PaymentSendForm extends PureComponent {
       [
         {
           address: recipientAddress,
-          value: Number(amount * constants.nanoErgInErg),
+          value: Number(
+            (parseFloat(amount) * constants.nanoErgInErg).toFixed(1),
+          ),
         },
       ],
       {
