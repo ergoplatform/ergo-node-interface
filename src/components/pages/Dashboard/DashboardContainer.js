@@ -7,6 +7,8 @@ import {
   isWalletUnlockedSelector,
 } from '../../../store/selectors/wallet'
 import { apiKeySelector } from '../../../store/selectors/app'
+import usePrevious from '../../../hooks/usePrevious'
+import walletActions from '../../../store/actions/walletActions'
 
 const mapStateToProps = state => ({
   apiKey: apiKeySelector(state),
@@ -14,8 +16,17 @@ const mapStateToProps = state => ({
   isWalletUnlocked: isWalletUnlockedSelector(state),
 })
 
+const mapDispatchToProps = dispatch => ({
+  dispatchCheckWalletStatus: () => dispatch(walletActions.checkWalletStatus()),
+})
+
 const DashboardContainer = props => {
-  const { isWalletInitialized, isWalletUnlocked, apiKey } = props
+  const {
+    isWalletInitialized,
+    isWalletUnlocked,
+    apiKey,
+    dispatchCheckWalletStatus,
+  } = props
 
   const [nodeInfo, setNodeInfo] = useState(null)
   const [error, setError] = useState(null)
@@ -40,6 +51,13 @@ const DashboardContainer = props => {
     setTimerId(newTimerId)
   }, [setNodeCurrentState])
 
+  const prevError = usePrevious(error)
+  useEffect(() => {
+    if (prevError && prevError !== error) {
+      dispatchCheckWalletStatus()
+    }
+  }, [dispatchCheckWalletStatus, error, prevError])
+
   useEffect(() => {
     setNodeCurrentState()
     setTimer()
@@ -58,4 +76,7 @@ const DashboardContainer = props => {
   )
 }
 
-export default connect(mapStateToProps)(memo(DashboardContainer))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(memo(DashboardContainer))

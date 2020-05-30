@@ -87,6 +87,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://0.0.0.0:9052",
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/register": "^7.7.0",
