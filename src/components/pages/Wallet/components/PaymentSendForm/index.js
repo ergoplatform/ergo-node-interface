@@ -42,8 +42,20 @@ class PaymentSendForm extends PureComponent {
           state: 'success',
           msg: (
             <>
-              Your payment successfully sent. Your transaction ID -{' '}
-              <CopyToClipboard>{data}</CopyToClipboard>
+              <p>
+                Your payment successfully sent. Your transaction ID -{' '}
+                <CopyToClipboard>{data}</CopyToClipboard>
+              </p>
+              <p>
+                Watch her in the{' '}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://explorer.ergoplatform.com/en/transactions/${data}`}
+                >
+                  explorer
+                </a>
+              </p>
             </>
           ),
         })

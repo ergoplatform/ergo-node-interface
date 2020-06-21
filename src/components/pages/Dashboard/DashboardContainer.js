@@ -61,9 +61,15 @@ const DashboardContainer = props => {
   useEffect(() => {
     setNodeCurrentState()
     setTimer()
-    return () => clearInterval(timerId)
     // eslint-disable-next-line
   }, [])
+
+  useEffect(
+    () => () => {
+      clearInterval(timerId)
+    },
+    [timerId],
+  )
 
   return (
     <DashboardView

@@ -74,7 +74,7 @@
       "react-hooks/exhaustive-deps": "warn"
     }
   },
-  "homepage": ".",
+  "homepage": "/",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -87,7 +87,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://0.0.0.0:9052",
+  "proxy": "http://0.0.0.0:9053",
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/register": "^7.7.0",
