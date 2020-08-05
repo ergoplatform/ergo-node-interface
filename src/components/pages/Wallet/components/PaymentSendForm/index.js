@@ -47,13 +47,12 @@ class PaymentSendForm extends PureComponent {
                 <CopyToClipboard>{data}</CopyToClipboard>
               </p>
               <p>
-                Watch her in the{' '}
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href={`https://explorer.ergoplatform.com/en/transactions/${data}`}
                 >
-                  explorer
+                  Click Here To Go To The Explorer
                 </a>
               </p>
             </>
