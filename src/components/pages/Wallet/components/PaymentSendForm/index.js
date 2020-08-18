@@ -43,7 +43,7 @@ class PaymentSendForm extends PureComponent {
           msg: (
             <>
               <p>
-                Your payment successfully sent. Your transaction ID -{' '}
+                Your payment has been sent successfully. The transaction ID is -{' '}
                 <CopyToClipboard>{data}</CopyToClipboard>
               </p>
               <p>

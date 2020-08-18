@@ -53,7 +53,7 @@ class Wallet extends Component {
     if (apiKey === '') {
       return (
         <div className="container-fluid pt-4">
-          <p>For continue need to set API key.</p>
+          <p>To continue, please set your API key.</p>
         </div>
       )
     }
