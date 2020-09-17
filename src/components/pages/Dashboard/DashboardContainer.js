@@ -5,6 +5,9 @@ import DashboardView from './DashboardView'
 import {
   isWalletInitializedSelector,
   isWalletUnlockedSelector,
+  walletStatusDataSelector,
+  walletBalanceDataSelector,
+  ergPriceSelector,
 } from '../../../store/selectors/wallet'
 import { apiKeySelector } from '../../../store/selectors/app'
 import usePrevious from '../../../hooks/usePrevious'
@@ -14,10 +17,15 @@ const mapStateToProps = state => ({
   apiKey: apiKeySelector(state),
   isWalletInitialized: isWalletInitializedSelector(state),
   isWalletUnlocked: isWalletUnlockedSelector(state),
+  walletStatusData: walletStatusDataSelector(state),
+  walletBalanceData: walletBalanceDataSelector(state),
+  ergPrice: ergPriceSelector(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   dispatchCheckWalletStatus: () => dispatch(walletActions.checkWalletStatus()),
+  dispatchGetWalletBalance: () => dispatch(walletActions.getWalletBalance()),
+  dispatchGetErgPrice: () => dispatch(walletActions.getErgPrice()),
 })
 
 const DashboardContainer = props => {
@@ -26,6 +34,11 @@ const DashboardContainer = props => {
     isWalletUnlocked,
     apiKey,
     dispatchCheckWalletStatus,
+    dispatchGetWalletBalance,
+    dispatchGetErgPrice,
+    walletStatusData,
+    walletBalanceData,
+    ergPrice,
   } = props
 
   const [nodeInfo, setNodeInfo] = useState(null)
@@ -46,29 +59,58 @@ const DashboardContainer = props => {
   }, [])
 
   const setTimer = useCallback(() => {
-    const newTimerId = setInterval(setNodeCurrentState, 2000)
+    const newTimerId = setInterval(() => {
+      setNodeCurrentState()
+      dispatchGetErgPrice()
+
+      if (apiKey) {
+        dispatchCheckWalletStatus()
+        dispatchGetWalletBalance()
+      }
+    }, 2000)
 
     setTimerId(newTimerId)
-  }, [setNodeCurrentState])
+  }, [
+    apiKey,
+    dispatchCheckWalletStatus,
+    dispatchGetErgPrice,
+    dispatchGetWalletBalance,
+    setNodeCurrentState,
+  ])
 
   const prevError = usePrevious(error)
   useEffect(() => {
     if (prevError && prevError !== error) {
       dispatchCheckWalletStatus()
+      dispatchGetWalletBalance()
+      dispatchGetErgPrice()
     }
-  }, [dispatchCheckWalletStatus, error, prevError])
+  }, [
+    dispatchCheckWalletStatus,
+    dispatchGetErgPrice,
+    dispatchGetWalletBalance,
+    error,
+    prevError,
+  ])
 
   useEffect(() => {
     setNodeCurrentState()
+    dispatchGetErgPrice()
+
+    if (apiKey) {
+      dispatchCheckWalletStatus()
+      dispatchGetWalletBalance()
+    }
+
     setTimer()
     // eslint-disable-next-line
-  }, [])
+  }, [apiKey])
 
   useEffect(
     () => () => {
       clearInterval(timerId)
     },
-    [timerId],
+    [timerId, apiKey],
   )
 
   return (
@@ -78,6 +120,9 @@ const DashboardContainer = props => {
       isWalletInitialized={isWalletInitialized}
       isWalletUnlocked={isWalletUnlocked}
       apiKey={apiKey}
+      walletStatusData={walletStatusData}
+      walletBalanceData={walletBalanceData}
+      ergPrice={ergPrice}
     />
   )
 }

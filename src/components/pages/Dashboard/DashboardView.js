@@ -1,36 +1,32 @@
 import React, { Fragment } from 'react'
-import {
-  faExclamationTriangle,
-  faSync,
-} from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { format } from 'date-fns'
 import InfoCard from './InfoCard'
 import SynchCard from './SynchCard'
+import WalletSyncCard from './WalletSyncCard'
+import LoaderLogo from '../../common/ErgoLoader/index'
 
-const getWalletStatus = (isWalletInitialized, isWalletUnlocked) => {
+const getWalletStatus = isWalletInitialized => {
   if (!isWalletInitialized) {
     return 'Not initialized'
   }
 
-  if (!isWalletUnlocked) {
-    return 'Initialized'
-  }
-
-  return 'Unlocked'
+  return 'Initialized'
 }
 
 const DashboardView = ({
   error,
   nodeInfo,
   isWalletInitialized,
-  isWalletUnlocked,
-  apiKey,
+  walletStatusData,
+  walletBalanceData,
+  ergPrice,
 }) => {
   if (error !== null) {
     return (
       <Fragment>
-        <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
+        <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
           <h3 className="text-danger">
             <FontAwesomeIcon icon={faExclamationTriangle}></FontAwesomeIcon>
             &nbsp;
@@ -44,8 +40,8 @@ const DashboardView = ({
   if (nodeInfo === null) {
     return (
       <Fragment>
-        <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
-          <FontAwesomeIcon className="h1" icon={faSync} spin></FontAwesomeIcon>
+        <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
+          <LoaderLogo></LoaderLogo>
         </div>
       </Fragment>
     )
@@ -62,68 +58,125 @@ const DashboardView = ({
 
   return (
     <Fragment>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-3 p-0 border-right mb-3">
-            <InfoCard className="card rounded-0 shadow-none border-bottom">
-              <p className="info-card__title">Node version</p>
+      <div className="dashboard">
+        <h2 className="dashboard__title">Node Information</h2>
+        <div className="dashboard__container">
+          <div className="dashboard__item">
+            <InfoCard className="card rounded-0 shadow-none">
+              <p className="info-card__title">Version</p>
               <p className="info-card__label">{appVersion}</p>
             </InfoCard>
           </div>
-          <div className="col-3 p-0 border-right mb-3">
-            <SynchCard
-              nodeInfo={nodeInfo}
-              className="border-bottom"
-            ></SynchCard>
+          <div className="dashboard__item">
+            <SynchCard nodeInfo={nodeInfo}></SynchCard>
           </div>
-          <div className="col-3 p-0 border-right mb-3">
-            <InfoCard className="rounded-0 shadow-none border-bottom">
-              <p className="info-card__title">Node started at</p>
+          <div className="dashboard__item">
+            <InfoCard className="rounded-0 shadow-none">
+              <p className="info-card__title">Started at</p>
               <p className="info-card__label">
                 {format(new Date(launchTime), 'MM-dd-yyyy HH:mm:ss')}
               </p>
             </InfoCard>
           </div>
           {fullHeight === null ? null : (
-            <div className="col-3 p-0 border-right mb-3">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
+            <div className="dashboard__item">
+              <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Current height</p>
                 <p className="info-card__label">{fullHeight}</p>
               </InfoCard>
             </div>
           )}
           {bestHeaderId === null ? null : (
-            <div className="col-3 p-0 border-right mb-3">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
+            <div className="dashboard__item">
+              <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Best block id</p>
                 <p className="info-card__label">{bestHeaderId}</p>
               </InfoCard>
             </div>
           )}
-          <div className="col-3 p-0 border-right mb-3">
-            <InfoCard className="rounded-0 shadow-none border-bottom">
+          <div className="dashboard__item">
+            <InfoCard className="rounded-0 shadow-none">
               <p className="info-card__title">Mining enabled</p>
-              <p className="info-card__label">{isMining ? 'true' : 'false'}</p>
+              <p className="info-card__label">{isMining ? 'Yes' : 'No'}</p>
             </InfoCard>
           </div>
-          <div className="col-3 p-0 border-right mb-3">
-            <InfoCard className="rounded-0 shadow-none border-bottom">
+          <div className="dashboard__item">
+            <InfoCard className="rounded-0 shadow-none">
               <p className="info-card__title">Peers connected</p>
               <p className="info-card__label">{peersCount}</p>
             </InfoCard>
           </div>
-          {apiKey !== '' && (
-            <div className="col-3 p-0 border-right mb-3">
-              <InfoCard className="rounded-0 shadow-none border-bottom">
-                <p className="info-card__title">Wallet status</p>
+        </div>
+      </div>
+      {ergPrice && (
+        <div className="dashboard">
+          <h2 className="dashboard__title">ERG Information</h2>
+          <div className="dashboard__container">
+            <div className="dashboard__item">
+              <InfoCard className="rounded-0 shadow-none">
+                <p className="info-card__title">
+                  ERG price in $ <br />
+                  (based on oracle pool data)
+                </p>
+                <p className="info-card__label">{ergPrice}</p>
+              </InfoCard>
+            </div>
+          </div>
+        </div>
+      )}
+      {walletStatusData && (
+        <div className="dashboard">
+          <h2 className="dashboard__title">Wallet Information</h2>
+          <div className="dashboard__container">
+            <div className="dashboard__item">
+              <InfoCard className="rounded-0 shadow-none">
+                <p className="info-card__title">Initialization state</p>
                 <p className="info-card__label">
-                  {getWalletStatus(isWalletInitialized, isWalletUnlocked)}
+                  {getWalletStatus(isWalletInitialized)}
                 </p>
               </InfoCard>
             </div>
-          )}
+            <div className="dashboard__item">
+              <InfoCard className="rounded-0 shadow-none">
+                <p className="info-card__title">Lock state</p>
+                <p className="info-card__label">
+                  {walletStatusData.isUnlocked ? 'Unlocked' : 'Locked'}
+                </p>
+              </InfoCard>
+            </div>
+            <div className="dashboard__item">
+              <WalletSyncCard
+                walletStatusData={walletStatusData}
+                headersHeight={nodeInfo.headersHeight}
+              />
+            </div>
+            {walletBalanceData && (
+              <div className="dashboard__item">
+                <InfoCard className="rounded-0 shadow-none">
+                  <p className="info-card__title">Balance</p>
+                  <p className="info-card__label">
+                    {walletBalanceData.balance} ERG{' '}
+                    {ergPrice &&
+                      `~ $${Number(
+                        ergPrice * walletBalanceData.balance,
+                      ).toFixed(2)}`}
+                  </p>
+                </InfoCard>
+              </div>
+            )}
+            {walletBalanceData && (
+              <div className="dashboard__item">
+                <InfoCard className="rounded-0 shadow-none">
+                  <p className="info-card__title">Assets quantity</p>
+                  <p className="info-card__label">
+                    {Object.values(walletBalanceData.assets).length || '0'}
+                  </p>
+                </InfoCard>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </Fragment>
   )
 }

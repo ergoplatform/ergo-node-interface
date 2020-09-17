@@ -13,7 +13,7 @@ class Layout extends Component {
           <MenuList />
         </div>
         <main className="main-container">
-          <div className="content h-100">{this.props.children}</div>
+          <div className="content">{this.props.children}</div>
         </main>
       </div>
     )

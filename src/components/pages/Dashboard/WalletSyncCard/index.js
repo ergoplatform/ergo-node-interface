@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync, faCheck } from '@fortawesome/free-solid-svg-icons'
 import InfoCard from '../InfoCard'
 
-export default class SynchCard extends Component {
+export default class WalletSyncCard extends Component {
   renderActiveSynchronization = () => (
     <>
       <p className="info-card__title">Synchronization state</p>
@@ -18,7 +18,7 @@ export default class SynchCard extends Component {
     <>
       <p className="info-card__title">Synchronization state</p>
       <p className="info-card__label text-success">
-        <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Node is synced
+        <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Wallet is synced
       </p>
     </>
   )
@@ -29,11 +29,11 @@ export default class SynchCard extends Component {
       complete: this.renderCompleteSynchronization,
     }[state])
 
-  getSynchronizationState = ({ fullHeight, headersHeight }) => {
+  getSynchronizationState = (walletStatusData, headersHeight) => {
     if (
-      fullHeight !== null &&
+      walletStatusData.walletHeight !== null &&
       headersHeight !== null &&
-      fullHeight === headersHeight
+      walletStatusData.walletHeight === headersHeight
     ) {
       return 'complete'
     }
@@ -41,19 +41,12 @@ export default class SynchCard extends Component {
     return 'active'
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (
-      this.getSynchronizationState(nextProps) !==
-      this.getSynchronizationState(this.props.nodeInfo)
-    ) {
-      return true
-    }
-
-    return false
-  }
-
   render() {
-    const currentSynchState = this.getSynchronizationState(this.props.nodeInfo)
+    const { walletStatusData, headersHeight } = this.props
+    const currentSynchState = this.getSynchronizationState(
+      walletStatusData,
+      headersHeight,
+    )
     return (
       <InfoCard className={this.props.className}>
         {this.renderSynchronizationState(currentSynchState)()}
