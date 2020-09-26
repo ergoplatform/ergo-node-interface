@@ -1,15 +1,15 @@
-import React from 'react'
-import copy from 'clipboard-copy'
-import { Overlay, Tooltip } from 'react-bootstrap'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import copy from 'clipboard-copy';
+import { Overlay, Tooltip } from 'react-bootstrap';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class CopyToClipboard extends React.PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.myRef = React.createRef()
-    this.state = { showTooltip: false }
+    this.myRef = React.createRef();
+    this.state = { showTooltip: false };
   }
 
   render() {
@@ -33,31 +33,31 @@ class CopyToClipboard extends React.PureComponent {
           <Tooltip>Copied!</Tooltip>
         </Overlay>
       </>
-    )
+    );
   }
 
   startTimer = () => {
     const timerId = setTimeout(
       () => this.setState({ showTooltip: false }),
-      1500,
-    )
-    this.setState({ timerId })
-  }
+      1500
+    );
+    this.setState({ timerId });
+  };
 
-  onCopy = e => {
-    e.preventDefault()
-    copy(this.props.children)
-    this.setState({ showTooltip: true })
-    this.startTimer()
-  }
+  onCopy = (e) => {
+    e.preventDefault();
+    copy(this.props.children);
+    this.setState({ showTooltip: true });
+    this.startTimer();
+  };
 
   handleOnTooltipClose = () => {
-    this.setState({ showTooltip: false })
-  }
+    this.setState({ showTooltip: false });
+  };
 
   componentWillUnmount() {
-    clearTimeout(this.state.timerId)
+    clearTimeout(this.state.timerId);
   }
 }
 
-export default CopyToClipboard
+export default CopyToClipboard;

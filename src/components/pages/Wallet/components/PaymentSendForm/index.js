@@ -1,19 +1,19 @@
-import React, { PureComponent } from 'react'
-import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../../../api/api'
-import customToast from '../../../../../utils/toast'
-import CopyToClipboard from '../../../../common/CopyToClipboard'
-import constants from '../../../../../utils/constants'
+import React, { PureComponent } from 'react';
+import { Form, Field } from 'react-final-form';
+import nodeApi from '../../../../../api/api';
+import customToast from '../../../../../utils/toast';
+import CopyToClipboard from '../../../../common/CopyToClipboard';
+import constants from '../../../../../utils/constants';
 
 const initialFormValues = {
   recipientAddress: '',
   amount: '',
-}
+};
 
 class PaymentSendForm extends PureComponent {
   state = {
     isShowTransactionId: false,
-  }
+  };
 
   paymentSend = ({ recipientAddress, amount }) =>
     nodeApi.post(
@@ -22,7 +22,7 @@ class PaymentSendForm extends PureComponent {
         {
           address: recipientAddress,
           value: Number(
-            (parseFloat(amount) * constants.nanoErgInErg).toFixed(1),
+            (parseFloat(amount) * constants.nanoErgInErg).toFixed(1)
           ),
         },
       ],
@@ -30,14 +30,18 @@ class PaymentSendForm extends PureComponent {
         headers: {
           api_key: this.props.apiKey,
         },
-      },
-    )
+      }
+    );
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
-    setStatus({ status: 'submitting' })
+    if (values.recipientAddress.trim() === '' || !values.recipientAddress) {
+      return;
+    }
+
+    setStatus({ status: 'submitting' });
     this.paymentSend(values)
       .then(({ data }) => {
-        resetForm(initialFormValues)
+        resetForm(initialFormValues);
         setStatus({
           state: 'success',
           msg: (
@@ -57,27 +61,26 @@ class PaymentSendForm extends PureComponent {
               </p>
             </>
           ),
-        })
-        this.setState({ isShowTransactionId: true })
+        });
+        this.setState({ isShowTransactionId: true });
       })
-      .catch(err => {
-        const errMessage = err.data ? err.data.detail : err.message
-        customToast('error', errMessage)
-        setSubmitting(false)
-      })
-  }
+      .catch((err) => {
+        const errMessage = err.data ? err.data.detail : err.message;
+        customToast('error', errMessage);
+        setSubmitting(false);
+      });
+  };
 
   render() {
     return (
-      <div className="col-4">
+      <div className="">
         <div className="card bg-white p-4 mb-4">
           <h2 className="h5 mb-3">Payment send</h2>
-          <Formik
+          <Form
             initialValues={initialFormValues}
             onSubmit={this.handleSubmit}
-          >
-            {({ status, isSubmitting }) => (
-              <Form>
+            render={({ handleSubmit }) => (
+              <form>
                 {status &&
                   status.state === 'success' &&
                   this.state.isShowTransactionId && (
@@ -121,13 +124,13 @@ class PaymentSendForm extends PureComponent {
                 >
                   Send
                 </button>
-              </Form>
+              </form>
             )}
-          </Formik>
+          />
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default PaymentSendForm
+export default PaymentSendForm;

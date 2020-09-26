@@ -1,33 +1,33 @@
-import React, { PureComponent } from 'react'
-import nodeApi from '../../../../../api/api'
-import customToast from '../../../../../utils/toast'
-import CopyToClipboard from '../../../../common/CopyToClipboard'
+import React, { PureComponent } from 'react';
+import nodeApi from '../../../../../api/api';
+import customToast from '../../../../../utils/toast';
+import CopyToClipboard from '../../../../common/CopyToClipboard';
 
 class GetWalletAddressesForm extends PureComponent {
   state = {
     isShowWalletAddresses: false,
     walletAddresses: [],
-  }
+  };
 
   getWalletAddresses = () =>
     nodeApi.get('/wallet/addresses', {
       headers: {
         api_key: this.props.apiKey,
       },
-    })
+    });
 
-  handleSubmit = event => {
-    event.preventDefault()
+  handleSubmit = (event) => {
+    event.preventDefault();
 
     this.getWalletAddresses()
       .then(({ data: walletAddresses }) => {
-        this.setState({ isShowWalletAddresses: true, walletAddresses })
+        this.setState({ isShowWalletAddresses: true, walletAddresses });
       })
-      .catch(err => {
-        const errMessage = err.data ? err.data.detail : err.message
-        customToast('error', errMessage)
-      })
-  }
+      .catch((err) => {
+        const errMessage = err.data ? err.data.detail : err.message;
+        customToast('error', errMessage);
+      });
+  };
 
   render() {
     return (
@@ -48,7 +48,7 @@ class GetWalletAddressesForm extends PureComponent {
                 </button>
                 <p className="mb-1">Wallet Addresses:</p>
                 <ul className="mb-3">
-                  {this.state.walletAddresses.map(addr => (
+                  {this.state.walletAddresses.map((addr) => (
                     <li className="mb-1" key={addr}>
                       <CopyToClipboard>{addr}</CopyToClipboard>
                     </li>
@@ -62,8 +62,8 @@ class GetWalletAddressesForm extends PureComponent {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default GetWalletAddressesForm
+export default GetWalletAddressesForm;

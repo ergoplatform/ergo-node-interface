@@ -1,6 +1,6 @@
-import React from 'react'
-import clsx from 'clsx'
-import './index.scss'
+import React from 'react';
+import clsx from 'clsx';
+import './index.scss';
 
 const InfoCard = ({ color, children, className }) => {
   return (
@@ -11,12 +11,12 @@ const InfoCard = ({ color, children, className }) => {
           'info-card--green': color === 'green',
           'info-card--orange': color === 'orange',
         },
-        className,
+        className
       )}
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default InfoCard
+export default InfoCard;

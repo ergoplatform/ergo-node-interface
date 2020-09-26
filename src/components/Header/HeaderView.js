@@ -1,14 +1,14 @@
-import React, { memo } from 'react'
-import { Navbar } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import ApiKeyModal from './ApiKeyModal'
-import WalletStatusModal from './WalletStatusModal'
-import WalletInitModal from './WalletInitModal'
-import logo from '../../assets/images/logotype_white.svg'
+import React, { memo } from 'react';
+import { Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import ApiKeyModal from './ApiKeyModal';
+import WalletStatusModal from './WalletStatusModal';
+import WalletInitModal from './WalletInitModal';
+import logo from '../../assets/images/logotype_white.svg';
 
-const renderWalletForms = isWalletInitialized => {
+const renderWalletForms = (isWalletInitialized) => {
   if (isWalletInitialized === null) {
-    return <></>
+    return <></>;
   }
 
   if (isWalletInitialized) {
@@ -16,15 +16,15 @@ const renderWalletForms = isWalletInitialized => {
       <div className="ml-4">
         <WalletStatusModal />
       </div>
-    )
+    );
   }
 
   return (
     <div className="ml-4">
       <WalletInitModal />
     </div>
-  )
-}
+  );
+};
 
 const HeaderView = ({ isApiKeySetted, isWalletInitialized }) => {
   return (
@@ -39,7 +39,7 @@ const HeaderView = ({ isApiKeySetted, isWalletInitialized }) => {
       </div>
       {isApiKeySetted && renderWalletForms(isWalletInitialized)}
     </Navbar>
-  )
-}
+  );
+};
 
-export default memo(HeaderView)
+export default memo(HeaderView);

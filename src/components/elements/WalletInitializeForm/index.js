@@ -1,16 +1,16 @@
-import React, { Component, memo } from 'react'
-import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../api/api'
-import CopyToClipboard from '../../common/CopyToClipboard'
-import customToast from '../../../utils/toast'
+import React, { Component, memo } from 'react';
+import { Formik, Field, Form } from 'formik';
+import nodeApi from '../../../api/api';
+import CopyToClipboard from '../../common/CopyToClipboard';
+import customToast from '../../../utils/toast';
 
 const initialFormValues = {
   walletPassword: '',
   mnemonicPass: '',
-}
+};
 
 class WalletInitializeForm extends Component {
-  state = { isShowMnemonic: false }
+  state = { isShowMnemonic: false };
 
   walletInit = async ({ walletPassword, mnemonicPass }) => {
     const { data } = await nodeApi.post(
@@ -20,17 +20,17 @@ class WalletInitializeForm extends Component {
         headers: {
           api_key: this.props.apiKey,
         },
-      },
-    )
+      }
+    );
 
-    return data
-  }
+    return data;
+  };
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
-    setStatus({ status: 'submitting' })
+    setStatus({ status: 'submitting' });
     this.walletInit(values)
-      .then(result => {
-        resetForm(initialFormValues)
+      .then((result) => {
+        resetForm(initialFormValues);
         setStatus({
           state: 'success',
           msg: (
@@ -39,15 +39,15 @@ class WalletInitializeForm extends Component {
               <CopyToClipboard>{result.mnemonic}</CopyToClipboard>
             </>
           ),
-        })
-        this.setState({ isShowMnemonic: true })
+        });
+        this.setState({ isShowMnemonic: true });
       })
-      .catch(err => {
-        const errMessage = err.data ? err.data.detail : err.message
-        customToast('error', errMessage)
-        setSubmitting(false)
-      })
-  }
+      .catch((err) => {
+        const errMessage = err.data ? err.data.detail : err.message;
+        customToast('error', errMessage);
+        setSubmitting(false);
+      });
+  };
 
   render() {
     return (
@@ -108,8 +108,8 @@ class WalletInitializeForm extends Component {
           )}
         </Formik>
       </div>
-    )
+    );
   }
 }
 
-export default memo(WalletInitializeForm)
+export default memo(WalletInitializeForm);

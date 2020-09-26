@@ -1,12 +1,12 @@
-import Axios from 'axios'
-import walletActions from '../actions/walletActions'
-import nodeApi from '../../api/api'
-import { apiKeySelector } from '../selectors/app'
-import oracleApi from '../../api/oracleApi'
+import Axios from 'axios';
+import walletActions from '../actions/walletActions';
+import nodeApi from '../../api/api';
+import { apiKeySelector } from '../selectors/app';
+import oracleApi from '../../api/oracleApi';
 
-export default store => next => action => {
-  const { dispatch, getState } = store
-  const apiKey = apiKeySelector(getState())
+export default (store) => (next) => (action) => {
+  const { dispatch, getState } = store;
+  const apiKey = apiKeySelector(getState());
 
   switch (action.type) {
     case walletActions.checkWalletStatus.type:
@@ -17,15 +17,15 @@ export default store => next => action => {
           },
         })
         .then(({ data: walletData }) => {
-          dispatch(walletActions.setIsWalletUnlocked(walletData.isUnlocked))
+          dispatch(walletActions.setIsWalletUnlocked(walletData.isUnlocked));
           dispatch(
-            walletActions.setIsWalletInitialized(walletData.isInitialized),
-          )
-          dispatch(walletActions.setWalletStatusData(walletData))
+            walletActions.setIsWalletInitialized(walletData.isInitialized)
+          );
+          dispatch(walletActions.setWalletStatusData(walletData));
         })
-        .catch(() => {})
+        .catch(() => {});
 
-      break
+      break;
 
     case walletActions.getWalletBalance.type:
       nodeApi
@@ -35,11 +35,11 @@ export default store => next => action => {
           },
         })
         .then(({ data: walletData }) => {
-          dispatch(walletActions.setWalletBalanceData(walletData))
+          dispatch(walletActions.setWalletBalanceData(walletData));
         })
-        .catch(() => {})
+        .catch(() => {});
 
-      break
+      break;
 
     case walletActions.getErgPrice.type:
       oracleApi
@@ -50,14 +50,14 @@ export default store => next => action => {
           ],
         })
         .then(({ data }) => {
-          dispatch(walletActions.setErgPrice(data.latest_price))
+          dispatch(walletActions.setErgPrice(data.latest_price));
         })
-        .catch(() => {})
+        .catch(() => {});
 
-      break
+      break;
 
     default:
-      break
+      break;
   }
-  next(action)
-}
+  next(action);
+};

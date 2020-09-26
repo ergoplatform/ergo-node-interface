@@ -1,6 +1,6 @@
-import React from 'react'
-import { Modal } from 'react-bootstrap'
-import { Formik, Form, Field } from 'formik'
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+import { Formik, Form, Field } from 'formik';
 
 const renderButton = (apiKey, handleShow) => {
   if (apiKey === '') {
@@ -8,15 +8,15 @@ const renderButton = (apiKey, handleShow) => {
       <button onClick={handleShow} className="btn btn-primary">
         Set API key
       </button>
-    )
+    );
   }
 
   return (
     <button onClick={handleShow} className="btn btn-outline-primary">
       Update API key
     </button>
-  )
-}
+  );
+};
 
 const ApiKeyModalView = ({
   showModal,
@@ -64,7 +64,7 @@ const ApiKeyModalView = ({
         </Formik>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default ApiKeyModalView
+export default ApiKeyModalView;

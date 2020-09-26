@@ -1,13 +1,13 @@
-import React, { Component, memo } from 'react'
-import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../api/api'
-import customToast from '../../../utils/toast'
+import React, { Component, memo } from 'react';
+import { Formik, Field, Form } from 'formik';
+import nodeApi from '../../../api/api';
+import customToast from '../../../utils/toast';
 
 const initialFormValues = {
   walletPassword: '',
   mnemonicPass: '',
   mnemonic: '',
-}
+};
 
 class WalletInitializeForm extends Component {
   walletRestore = async ({
@@ -16,7 +16,7 @@ class WalletInitializeForm extends Component {
     mnemonic = '',
   }) => {
     if (!mnemonic || !String(mnemonic).trim()) {
-      throw Error('Need to set mnemonic')
+      throw Error('Need to set mnemonic');
     }
 
     return nodeApi.post(
@@ -26,23 +26,23 @@ class WalletInitializeForm extends Component {
         headers: {
           api_key: this.props.apiKey,
         },
-      },
-    )
-  }
+      }
+    );
+  };
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
-    setStatus({ status: 'submitting' })
+    setStatus({ status: 'submitting' });
     this.walletRestore(values)
       .then(() => {
-        resetForm(initialFormValues)
-        customToast('success', 'Your wallet successfully re-stored')
+        resetForm(initialFormValues);
+        customToast('success', 'Your wallet successfully re-stored');
       })
-      .catch(err => {
-        const errMessage = err.data ? err.data.detail : err.message
-        customToast('error', errMessage)
-        setSubmitting(false)
-      })
-  }
+      .catch((err) => {
+        const errMessage = err.data ? err.data.detail : err.message;
+        customToast('error', errMessage);
+        setSubmitting(false);
+      });
+  };
 
   render() {
     return (
@@ -105,8 +105,8 @@ class WalletInitializeForm extends Component {
           )}
         </Formik>
       </div>
-    )
+    );
   }
 }
 
-export default memo(WalletInitializeForm)
+export default memo(WalletInitializeForm);

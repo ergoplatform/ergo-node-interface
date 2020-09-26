@@ -1,8 +1,8 @@
-import React from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Layout from '../components/layout'
-import Dashboard from '../components/pages/Dashboard'
-import Wallet from '../components/pages/Wallet'
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Layout from '../components/layout';
+import Dashboard from '../components/pages/Dashboard';
+import Wallet from '../components/pages/Wallet';
 
 const Router = () => (
   <BrowserRouter basename="/panel">
@@ -13,6 +13,6 @@ const Router = () => (
       </Switch>
     </Layout>
   </BrowserRouter>
-)
+);
 
-export default Router
+export default Router;

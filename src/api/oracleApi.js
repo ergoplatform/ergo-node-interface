@@ -1,14 +1,14 @@
-import axios from 'axios'
-import environment from '../utils/environment'
+import axios from 'axios';
+import environment from '../utils/environment';
 
 function NetworkError({ status, message, data, statusText }) {
-  this.name = 'NetworkError'
-  this.message = message || statusText
-  this.status = status
-  this.data = data
+  this.name = 'NetworkError';
+  this.message = message || statusText;
+  this.status = status;
+  this.data = data;
 }
 
-NetworkError.prototype = Object.create(Error.prototype)
+NetworkError.prototype = Object.create(Error.prototype);
 
 const oracleApi = axios.create({
   baseURL: environment.oracleApiLink,
@@ -17,11 +17,11 @@ const oracleApi = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-})
+});
 
 oracleApi.interceptors.response.use(
-  response => Promise.resolve(response),
-  error => Promise.reject(new NetworkError(error.response || error)),
-)
+  (response) => Promise.resolve(response),
+  (error) => Promise.reject(new NetworkError(error.response || error))
+);
 
-export default oracleApi
+export default oracleApi;

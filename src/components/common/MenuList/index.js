@@ -1,46 +1,46 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartLine,
   faExchangeAlt,
   faGlobe,
   faBook,
-} from '@fortawesome/free-solid-svg-icons'
-import clsx from 'clsx'
-import { faWpexplorer } from '@fortawesome/free-brands-svg-icons'
-import { withRouter, Link } from 'react-router-dom'
-import constants from '../../../utils/constants'
+} from '@fortawesome/free-solid-svg-icons';
+import clsx from 'clsx';
+import { faWpexplorer } from '@fortawesome/free-brands-svg-icons';
+import { withRouter, Link } from 'react-router-dom';
+import constants from '../../../utils/constants';
 
 const localRouteList = {
   dashboard: {
     href: '/',
-    icon: <FontAwesomeIcon icon={faChartLine}></FontAwesomeIcon>,
+    icon: <FontAwesomeIcon icon={faChartLine} />,
     title: 'Dashboard',
   },
   wallet: {
     href: '/wallet',
-    icon: <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>,
+    icon: <FontAwesomeIcon icon={faExchangeAlt} />,
     title: 'Wallet',
   },
-}
+};
 
 const externalRouteList = {
   swaggerInterface: {
     href: constants.swaggerInterface,
-    icon: <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>,
+    icon: <FontAwesomeIcon icon={faBook} />,
     title: 'Swagger',
   },
   explorer: {
     href: constants.explorer,
-    icon: <FontAwesomeIcon icon={faWpexplorer}></FontAwesomeIcon>,
+    icon: <FontAwesomeIcon icon={faWpexplorer} />,
     title: 'Explorer',
   },
   website: {
     href: constants.website,
-    icon: <FontAwesomeIcon icon={faGlobe}></FontAwesomeIcon>,
+    icon: <FontAwesomeIcon icon={faGlobe} />,
     title: 'Website',
   },
-}
+};
 
 const MenuList = ({ location: { pathname } }) => {
   return (
@@ -78,11 +78,11 @@ const MenuList = ({ location: { pathname } }) => {
             >
               {icon} {title}
             </a>
-          ),
+          )
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(MenuList)
+export default withRouter(MenuList);

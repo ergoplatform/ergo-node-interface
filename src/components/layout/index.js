@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import MenuList from '../common/MenuList'
-import './index.scss'
-import Header from '../Header'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import MenuList from '../common/MenuList';
+import './index.scss';
+import Header from '../Header';
 
 class Layout extends Component {
   render() {
@@ -16,8 +16,8 @@ class Layout extends Component {
           <div className="content">{this.props.children}</div>
         </main>
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(Layout)
+export default withRouter(Layout);
