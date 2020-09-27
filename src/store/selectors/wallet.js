@@ -1,28 +1,30 @@
-import { createSelector } from 'redux-starter-kit'
+import { createSelector } from 'redux-starter-kit';
 
-export const walletSelector = state => state.wallet
+export const walletSelector = (state) => state.wallet;
 
 export const isWalletUnlockedSelector = createSelector(
   walletSelector,
-  wallet => wallet.isWalletUnlocked,
-)
+  (wallet) => wallet.isWalletUnlocked,
+);
 
 export const isWalletInitializedSelector = createSelector(
   walletSelector,
-  wallet => wallet.isWalletInitialized,
-)
+  (wallet) => wallet.isWalletInitialized,
+);
 
 export const walletStatusDataSelector = createSelector(
   walletSelector,
-  wallet => wallet.walletStatusData,
-)
+  (wallet) => wallet.walletStatusData,
+);
 
 export const walletBalanceDataSelector = createSelector(
   walletSelector,
-  wallet => wallet.walletBalanceData,
-)
+  (wallet) => wallet.walletBalanceData,
+);
 
-export const ergPriceSelector = createSelector(
+export const walletAddressesSelector = createSelector(
   walletSelector,
-  wallet => wallet.ergPrice,
-)
+  (wallet) => wallet.walletAddresses,
+);
+
+export const ergPriceSelector = createSelector(walletSelector, (wallet) => wallet.ergPrice);

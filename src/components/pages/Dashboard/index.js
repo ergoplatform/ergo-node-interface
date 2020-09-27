@@ -1,4 +1,4 @@
-import DashboardContainer from './DashboardContainer'
-import './index.scss'
+import DashboardContainer from './DashboardContainer';
+import './index.scss';
 
-export default DashboardContainer
+export default DashboardContainer;

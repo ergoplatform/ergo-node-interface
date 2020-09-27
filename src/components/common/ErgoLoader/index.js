@@ -1,5 +1,5 @@
-import React from 'react'
-import './index.scss'
+import React from 'react';
+import './index.scss';
 
 const LoaderLogo = () => {
   return (
@@ -23,7 +23,7 @@ const LoaderLogo = () => {
         />
       </svg>
     </div>
-  )
-}
+  );
+};
 
-export default LoaderLogo
+export default LoaderLogo;

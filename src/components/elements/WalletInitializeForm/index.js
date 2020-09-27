@@ -1,16 +1,16 @@
-import React, { Component, memo } from 'react'
-import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../api/api'
-import CopyToClipboard from '../../common/CopyToClipboard'
-import customToast from '../../../utils/toast'
+import React, { Component, memo } from 'react';
+import { Formik, Field, Form } from 'formik';
+import nodeApi from '../../../api/api';
+import CopyToClipboard from '../../common/CopyToClipboard';
+import customToast from '../../../utils/toast';
 
 const initialFormValues = {
   walletPassword: '',
   mnemonicPass: '',
-}
+};
 
 class WalletInitializeForm extends Component {
-  state = { isShowMnemonic: false }
+  state = { isShowMnemonic: false };
 
   walletInit = async ({ walletPassword, mnemonicPass }) => {
     const { data } = await nodeApi.post(
@@ -21,16 +21,16 @@ class WalletInitializeForm extends Component {
           api_key: this.props.apiKey,
         },
       },
-    )
+    );
 
-    return data
-  }
+    return data;
+  };
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
-    setStatus({ status: 'submitting' })
+    setStatus({ status: 'submitting' });
     this.walletInit(values)
-      .then(result => {
-        resetForm(initialFormValues)
+      .then((result) => {
+        resetForm(initialFormValues);
         setStatus({
           state: 'success',
           msg: (
@@ -39,15 +39,15 @@ class WalletInitializeForm extends Component {
               <CopyToClipboard>{result.mnemonic}</CopyToClipboard>
             </>
           ),
-        })
-        this.setState({ isShowMnemonic: true })
+        });
+        this.setState({ isShowMnemonic: true });
       })
-      .catch(err => {
-        const errMessage = err.data ? err.data.detail : err.message
-        customToast('error', errMessage)
-        setSubmitting(false)
-      })
-  }
+      .catch((err) => {
+        const errMessage = err.data ? err.data.detail : err.message;
+        customToast('error', errMessage);
+        setSubmitting(false);
+      });
+  };
 
   render() {
     return (
@@ -61,20 +61,18 @@ class WalletInitializeForm extends Component {
                   {status.msg}
                 </div>
               )}
-              {status &&
-                status.state === 'success' &&
-                this.state.isShowMnemonic && (
-                  <div className="alert alert-success alert-dismissible">
-                    <button
-                      type="button"
-                      className="close"
-                      onClick={() => this.setState({ isShowMnemonic: false })}
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    {status.msg}
-                  </div>
-                )}
+              {status && status.state === 'success' && this.state.isShowMnemonic && (
+                <div className="alert alert-success alert-dismissible">
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={() => this.setState({ isShowMnemonic: false })}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {status.msg}
+                </div>
+              )}
               <div className="form-group">
                 <label htmlFor="wallet-password-input">Wallet password</label>
                 <Field
@@ -86,9 +84,7 @@ class WalletInitializeForm extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="mnemonic-password-input">
-                  Mnemonic password
-                </label>
+                <label htmlFor="mnemonic-password-input">Mnemonic password</label>
                 <Field
                   name="mnemonicPass"
                   type="password"
@@ -97,19 +93,15 @@ class WalletInitializeForm extends Component {
                   placeholder="Enter mnemonic password"
                 />
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                 Send
               </button>
             </Form>
           )}
         </Formik>
       </div>
-    )
+    );
   }
 }
 
-export default memo(WalletInitializeForm)
+export default memo(WalletInitializeForm);

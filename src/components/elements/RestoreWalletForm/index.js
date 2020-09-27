@@ -1,22 +1,18 @@
-import React, { Component, memo } from 'react'
-import { Formik, Field, Form } from 'formik'
-import nodeApi from '../../../api/api'
-import customToast from '../../../utils/toast'
+import React, { Component, memo } from 'react';
+import { Formik, Field, Form } from 'formik';
+import nodeApi from '../../../api/api';
+import customToast from '../../../utils/toast';
 
 const initialFormValues = {
   walletPassword: '',
   mnemonicPass: '',
   mnemonic: '',
-}
+};
 
 class WalletInitializeForm extends Component {
-  walletRestore = async ({
-    walletPassword,
-    mnemonicPass = '',
-    mnemonic = '',
-  }) => {
+  walletRestore = async ({ walletPassword, mnemonicPass = '', mnemonic = '' }) => {
     if (!mnemonic || !String(mnemonic).trim()) {
-      throw Error('Need to set mnemonic')
+      throw Error('Need to set mnemonic');
     }
 
     return nodeApi.post(
@@ -27,22 +23,22 @@ class WalletInitializeForm extends Component {
           api_key: this.props.apiKey,
         },
       },
-    )
-  }
+    );
+  };
 
   handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
-    setStatus({ status: 'submitting' })
+    setStatus({ status: 'submitting' });
     this.walletRestore(values)
       .then(() => {
-        resetForm(initialFormValues)
-        customToast('success', 'Your wallet successfully re-stored')
+        resetForm(initialFormValues);
+        customToast('success', 'Your wallet successfully re-stored');
       })
-      .catch(err => {
-        const errMessage = err.data ? err.data.detail : err.message
-        customToast('error', errMessage)
-        setSubmitting(false)
-      })
-  }
+      .catch((err) => {
+        const errMessage = err.data ? err.data.detail : err.message;
+        customToast('error', errMessage);
+        setSubmitting(false);
+      });
+  };
 
   render() {
     return (
@@ -71,9 +67,7 @@ class WalletInitializeForm extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="restore-wallet-password-input">
-                  Wallet password
-                </label>
+                <label htmlFor="restore-wallet-password-input">Wallet password</label>
                 <Field
                   name="walletPassword"
                   type="password"
@@ -83,9 +77,7 @@ class WalletInitializeForm extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="restore-mnemonic-password-input">
-                  Mnemonic password
-                </label>
+                <label htmlFor="restore-mnemonic-password-input">Mnemonic password</label>
                 <Field
                   name="mnemonicPass"
                   type="password"
@@ -94,19 +86,15 @@ class WalletInitializeForm extends Component {
                   placeholder="Enter mnemonic password"
                 />
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                 Send
               </button>
             </Form>
           )}
         </Formik>
       </div>
-    )
+    );
   }
 }
 
-export default memo(WalletInitializeForm)
+export default memo(WalletInitializeForm);

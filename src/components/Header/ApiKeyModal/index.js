@@ -1,3 +1,3 @@
-import ApiKeyModalContainer from './ApiKeyModalContainer'
+import ApiKeyModalContainer from './ApiKeyModalContainer';
 
-export default ApiKeyModalContainer
+export default ApiKeyModalContainer;

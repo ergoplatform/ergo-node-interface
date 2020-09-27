@@ -1,0 +1,68 @@
+@import 'assets/styles/utils';
+
+.button {
+  border-radius: 8px;
+  border-color: transparent;
+  box-shadow: 0 3px 8px var(--gray2);
+  background-color: var(--white);
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, border 0.2s ease,
+    color 0.2s ease;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__arrow {
+    vertical-align: middle;
+    margin-left: rem(9);
+
+    &.disabled {
+      path {
+        fill: var(--gray5);
+      }
+    }
+
+    &.dark {
+      path {
+        fill: var(--spaceGray);
+      }
+    }
+  }
+
+  &.l {
+    height: 56px;
+    padding: 0 rem(24);
+    font-size: rem(18);
+    font-weight: 500;
+
+    .button__arrow {
+      height: 16px;
+    }
+  }
+
+  &.m {
+    height: 40px;
+    padding: 0 rem(24);
+    font-size: rem(16);
+    font-weight: 500;
+
+    .button__arrow {
+      height: 12px;
+    }
+  }
+
+  &.s {
+    height: 36px;
+    padding: 0 rem(16);
+    font-size: rem(14);
+    font-weight: 300;
+
+    .button__arrow {
+      height: 10px;
+    }
+  }
+}

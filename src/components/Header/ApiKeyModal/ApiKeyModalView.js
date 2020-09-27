@@ -1,30 +1,24 @@
-import React from 'react'
-import { Modal } from 'react-bootstrap'
-import { Formik, Form, Field } from 'formik'
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+import { Formik, Form, Field } from 'formik';
 
 const renderButton = (apiKey, handleShow) => {
   if (apiKey === '') {
     return (
-      <button onClick={handleShow} className="btn btn-primary">
+      <button type="button" onClick={handleShow} className="btn btn-primary">
         Set API key
       </button>
-    )
+    );
   }
 
   return (
-    <button onClick={handleShow} className="btn btn-outline-primary">
+    <button type="button" onClick={handleShow} className="btn btn-outline-primary">
       Update API key
     </button>
-  )
-}
+  );
+};
 
-const ApiKeyModalView = ({
-  showModal,
-  handleHide,
-  submitForm,
-  apiKey,
-  handleShow,
-}) => {
+const ApiKeyModalView = ({ showModal, handleHide, submitForm, apiKey, handleShow }) => {
   return (
     <div>
       {renderButton(apiKey, handleShow)}
@@ -48,11 +42,7 @@ const ApiKeyModalView = ({
               </Modal.Body>
 
               <Modal.Footer>
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary"
-                  onClick={handleHide}
-                >
+                <button type="button" className="btn btn-outline-secondary" onClick={handleHide}>
                   Close
                 </button>
                 <button type="submit" className="btn btn-primary">
@@ -64,7 +54,7 @@ const ApiKeyModalView = ({
         </Formik>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default ApiKeyModalView
+export default ApiKeyModalView;

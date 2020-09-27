@@ -1,0 +1,20 @@
+@import './_variables';
+
+// use for convertation 'px' to 'rem'
+// example: rem(24px) or rem(24)
+@function rem($size, $baseSize: $baseFontSize) {
+  @if (unitless($size)) {
+    $size: $size * 1px;
+  }
+
+  // Fix less then 1px problem
+  @if ($size == 1px or $size == -1px) {
+    @return $size;
+  }
+
+  @if (unitless($baseSize)) {
+    $baseSize: $baseSize * 1px;
+  }
+
+  @return $size / $baseSize * 1rem;
+}

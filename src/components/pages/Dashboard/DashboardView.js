@@ -1,19 +1,20 @@
-import React, { Fragment } from 'react'
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { format } from 'date-fns'
-import InfoCard from './InfoCard'
-import SynchCard from './SynchCard'
-import WalletSyncCard from './WalletSyncCard'
-import LoaderLogo from '../../common/ErgoLoader/index'
+import React from 'react';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { format } from 'date-fns';
+import constants from 'utils/constants';
+import InfoCard from './InfoCard';
+import SynchCard from './SynchCard';
+import WalletSyncCard from './WalletSyncCard';
+import LoaderLogo from '../../common/ErgoLoader/index';
 
-const getWalletStatus = isWalletInitialized => {
+const getWalletStatus = (isWalletInitialized) => {
   if (!isWalletInitialized) {
-    return 'Not initialized'
+    return 'Not initialized';
   }
 
-  return 'Initialized'
-}
+  return 'Initialized';
+};
 
 const DashboardView = ({
   error,
@@ -25,39 +26,32 @@ const DashboardView = ({
 }) => {
   if (error !== null) {
     return (
-      <Fragment>
+      <>
         <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
           <h3 className="text-danger">
-            <FontAwesomeIcon icon={faExclamationTriangle}></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faExclamationTriangle} />
             &nbsp;
             {error}
           </h3>
         </div>
-      </Fragment>
-    )
+      </>
+    );
   }
 
   if (nodeInfo === null) {
     return (
-      <Fragment>
+      <>
         <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
-          <LoaderLogo></LoaderLogo>
+          <LoaderLogo />
         </div>
-      </Fragment>
-    )
+      </>
+    );
   }
 
-  const {
-    peersCount,
-    bestHeaderId,
-    launchTime,
-    fullHeight,
-    appVersion,
-    isMining,
-  } = nodeInfo
+  const { peersCount, bestHeaderId, launchTime, fullHeight, appVersion, isMining } = nodeInfo;
 
   return (
-    <Fragment>
+    <>
       <div className="dashboard">
         <h2 className="dashboard__title">Node Information</h2>
         <div className="dashboard__container">
@@ -68,7 +62,7 @@ const DashboardView = ({
             </InfoCard>
           </div>
           <div className="dashboard__item">
-            <SynchCard nodeInfo={nodeInfo}></SynchCard>
+            <SynchCard nodeInfo={nodeInfo} />
           </div>
           <div className="dashboard__item">
             <InfoCard className="rounded-0 shadow-none">
@@ -131,9 +125,7 @@ const DashboardView = ({
             <div className="dashboard__item">
               <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Initialization state</p>
-                <p className="info-card__label">
-                  {getWalletStatus(isWalletInitialized)}
-                </p>
+                <p className="info-card__label">{getWalletStatus(isWalletInitialized)}</p>
               </InfoCard>
             </div>
             <div className="dashboard__item">
@@ -155,10 +147,10 @@ const DashboardView = ({
                 <InfoCard className="rounded-0 shadow-none">
                   <p className="info-card__title">Balance</p>
                   <p className="info-card__label">
-                    {walletBalanceData.balance} ERG{' '}
+                    {walletBalanceData.balance / constants.nanoErgInErg} ERG{' '}
                     {ergPrice &&
                       `~ $${Number(
-                        ergPrice * walletBalanceData.balance,
+                        ergPrice * (walletBalanceData.balance / constants.nanoErgInErg),
                       ).toFixed(2)}`}
                   </p>
                 </InfoCard>
@@ -177,8 +169,8 @@ const DashboardView = ({
           </div>
         </div>
       )}
-    </Fragment>
-  )
-}
+    </>
+  );
+};
 
-export default DashboardView
+export default DashboardView;

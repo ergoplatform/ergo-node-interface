@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit'
+import { createSlice } from 'redux-starter-kit';
 
 const initialState = {
   isWalletUnlocked: null,
@@ -6,26 +6,30 @@ const initialState = {
   walletStatusData: null,
   walletBalanceData: null,
   ergPrice: null,
-}
+  walletAddresses: null,
+};
 
 export default createSlice({
   name: 'walletSlice',
   initialState,
   reducers: {
     setIsWalletUnlocked: (state, { payload }) => {
-      state.isWalletUnlocked = payload
+      state.isWalletUnlocked = payload;
     },
     setIsWalletInitialized: (state, { payload }) => {
-      state.isWalletInitialized = payload
+      state.isWalletInitialized = payload;
     },
     setWalletStatusData: (state, { payload }) => {
-      state.walletStatusData = payload
+      state.walletStatusData = payload;
     },
     setWalletBalanceData: (state, { payload }) => {
-      state.walletBalanceData = payload
+      state.walletBalanceData = payload;
     },
     setErgPrice: (state, { payload }) => {
-      state.ergPrice = payload
+      state.ergPrice = payload;
+    },
+    setWalletAddresses: (state, { payload }) => {
+      state.walletAddresses = payload;
     },
   },
-})
+});

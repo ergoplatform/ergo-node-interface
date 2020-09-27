@@ -1,14 +1,14 @@
-import axios from 'axios'
-import environment from '../utils/environment'
+import axios from 'axios';
+import environment from '../utils/environment';
 
 function NetworkError({ status, message, data, statusText }) {
-  this.name = 'NetworkError'
-  this.message = message || statusText
-  this.status = status
-  this.data = data
+  this.name = 'NetworkError';
+  this.message = message || statusText;
+  this.status = status;
+  this.data = data;
 }
 
-NetworkError.prototype = Object.create(Error.prototype)
+NetworkError.prototype = Object.create(Error.prototype);
 
 const nodeApi = axios.create({
   baseURL: environment.nodeApiLink,
@@ -17,11 +17,11 @@ const nodeApi = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-})
+});
 
 nodeApi.interceptors.response.use(
-  response => Promise.resolve(response),
-  error => Promise.reject(new NetworkError(error.response || error)),
-)
+  (response) => Promise.resolve(response),
+  (error) => Promise.reject(new NetworkError(error.response || error)),
+);
 
-export default nodeApi
+export default nodeApi;

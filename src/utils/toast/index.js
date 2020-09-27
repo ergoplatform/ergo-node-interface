@@ -1,5 +1,5 @@
-import { toast } from 'react-toastify'
-import './index.scss'
+import { toast } from 'react-toastify';
+import './index.scss';
 
 const toastStates = {
   success: (text, options) =>
@@ -29,9 +29,7 @@ const toastStates = {
       ...options,
     }),
   info: toast.info,
-}
+};
 
 export default (state, text, options) =>
-  toastStates[state]
-    ? toastStates[state](text, options)
-    : new Error(`Bad toast state`)
+  toastStates[state] ? toastStates[state](text, options) : new Error(`Bad toast state`);

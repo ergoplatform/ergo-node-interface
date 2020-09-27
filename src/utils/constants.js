@@ -3,4 +3,4 @@ export default {
   website: 'https://ergoplatform.org',
   explorer: 'https://explorer.ergoplatform.com',
   nanoErgInErg: 1000000000,
-}
+};
