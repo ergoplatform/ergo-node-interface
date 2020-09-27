@@ -62,6 +62,11 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error", // Проверяем правила хуков
     "react-hooks/exhaustive-deps": "warn",
     "jsx-a11y/no-static-element-interactions": 'off',
+    "react/prop-types": 'off',
+    "no-param-reassign": 'off',
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/destructuring-assignment": "off",
+    "react/state-in-constructor": "off",
     'prettier/prettier': [
       'error',
       {

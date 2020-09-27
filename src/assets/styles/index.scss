@@ -1,5 +1,8 @@
 @import './_normalize.scss';
 @import './_fonts.scss';
+@import 'variables';
+@import './components/button';
+@import './components/infoModal';
 
 * {
   box-sizing: border-box;

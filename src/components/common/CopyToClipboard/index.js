@@ -1,8 +1,6 @@
 import React from 'react';
 import copy from 'clipboard-copy';
 import { Overlay, Tooltip } from 'react-bootstrap';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class CopyToClipboard extends React.PureComponent {
   constructor(props) {
@@ -12,28 +10,8 @@ class CopyToClipboard extends React.PureComponent {
     this.state = { showTooltip: false };
   }
 
-  render() {
-    return (
-      <>
-        <a
-          href="#copyClipboard"
-          ref={this.myRef}
-          onClick={this.onCopy}
-          className="font-weight-bold text-decoration-none"
-        >
-          {this.props.children}
-          &nbsp;
-          <FontAwesomeIcon icon={faCopy} />
-        </a>
-        <Overlay
-          target={this.myRef.current}
-          show={this.state.showTooltip}
-          placement="right"
-        >
-          <Tooltip>Copied!</Tooltip>
-        </Overlay>
-      </>
-    );
+  componentWillUnmount() {
+    clearTimeout(this.state.timerId);
   }
 
   startTimer = () => {
@@ -55,8 +33,26 @@ class CopyToClipboard extends React.PureComponent {
     this.setState({ showTooltip: false });
   };
 
-  componentWillUnmount() {
-    clearTimeout(this.state.timerId);
+  render() {
+    return (
+      <>
+        <a
+          href="#copyClipboard"
+          ref={this.myRef}
+          onClick={this.onCopy}
+          className="font-weight-bold text-decoration-none"
+        >
+          {this.props.children}
+        </a>
+        <Overlay
+          target={this.myRef.current}
+          show={this.state.showTooltip}
+          placement="right"
+        >
+          <Tooltip>Copied!</Tooltip>
+        </Overlay>
+      </>
+    );
   }
 }
 

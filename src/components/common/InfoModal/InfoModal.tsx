@@ -3,9 +3,7 @@ import { createPortal } from 'react-dom';
 import usePortal from 'hooks/usePortal';
 import useBodyScroll from 'hooks/useBodyScroll';
 import useCurrentState from 'hooks/useCurrentState';
-import { observer } from 'mobx-react-lite';
 import Text from 'components/common/Text/Text';
-import { Button } from 'components/common/Button/Button';
 import Backdrop from '../Backdrop/Backdrop';
 import { ModalConfig, ModalContext } from './modal-context';
 import CssTransition from '../CssTransition/CssTransition';
@@ -70,7 +68,7 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 
     setVisible(open);
     setBodyHidden(open);
-  }, [onClose, onOpen, open, setBodyHidden, setVisible, visibleRef]);
+  }, [open]);
 
   const closeFromBackdrop = () => {
     if (disableBackdropClick) return;
@@ -114,13 +112,7 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
         <CssTransition name="wrapper" visible={visible} clearTime={300}>
           <div className="info-modal">
             <div className="info-modal__content">
-              <Text
-                xl="subtitle2"
-                color="black"
-                className="mb-16 mb-md-32 pr-40 pr-md-0"
-              >
-                {title}
-              </Text>
+              <h3 className="mb-3">{title}</h3>
               <Text
                 xl="body-text1"
                 sm="small-text1"
@@ -128,22 +120,20 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
               >
                 {description}
               </Text>
-              <Button
-                variant="primary"
-                size="m"
-                className="info-modal__button--primary"
+              <button
+                type="button"
+                className="btn btn-primary px-4"
                 onClick={primaryButtonClickHandler}
               >
                 {primaryButtonContent}
-              </Button>
-              <Button
-                variant="flat"
-                size="l"
-                className="info-modal__button--secondary"
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-secondary px-4 ml-3"
                 onClick={secondaryButtonClickHandler}
               >
                 {secondaryButtonContent}
-              </Button>
+              </button>
             </div>
             <button
               type="button"
@@ -153,7 +143,7 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
               <CloseIcon />
             </button>
 
-            <style jsx>{`
+            <style>{`
               .wrapper-enter {
                 opacity: 0;
                 transform: translate3d(0px, -40px, 0px);
@@ -169,9 +159,6 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
               .wrapper-leave-active {
                 opacity: 0;
                 transform: translate3d(0px, -50px, 0px);
-              }
-              .info-modal-backdrop {
-                width: 100px;
               }
             `}</style>
           </div>

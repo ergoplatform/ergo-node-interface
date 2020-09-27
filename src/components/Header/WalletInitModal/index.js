@@ -32,7 +32,11 @@ class WalletInitModal extends Component {
 
   renderButton = () => {
     return (
-      <button onClick={this.handleShow} className="btn btn-primary">
+      <button
+        type="button"
+        onClick={this.handleShow}
+        className="btn btn-primary"
+      >
         Initialize wallet
       </button>
     );
@@ -65,6 +69,7 @@ class WalletInitModal extends Component {
           </Modal.Body>
           <Modal.Footer>
             <button
+              type="button"
               className="btn btn-outline-secondary"
               onClick={this.handleHide}
             >

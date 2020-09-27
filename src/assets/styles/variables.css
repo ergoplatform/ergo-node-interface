@@ -1,0 +1,24 @@
+:root {
+  --brandOrange: #ff7200;
+  --purple: #7000ff;
+  --black: #0c0c0c;
+  --spaceGray: #333333;
+  --spaceGray2: #2c2b2d;
+  --accent: #7654ff;
+  --gray5: #76767a;
+  --gray4: #a7a8ab;
+  --gray3: #d9d9de;
+  --gray2: #e5e5eb;
+  --gray1: #f5f5f7;
+  --white: #ffffff;
+
+  --orange: #f69c00;
+  --red: #d51a1a;
+  --green: #2fc26e;
+  --blue: #0061d9;
+  --blueHover: #619de8;
+  --brandOrangeHover: #fa6900;
+  --brandOrangeActive: #ec6504;
+  --purpleHover: #5c03cd;
+  --purpleActive: #5100b9;
+}

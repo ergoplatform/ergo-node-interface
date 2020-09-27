@@ -4,6 +4,17 @@ import { faSync, faCheck } from '@fortawesome/free-solid-svg-icons';
 import InfoCard from '../InfoCard';
 
 export default class SynchCard extends Component {
+  shouldComponentUpdate(nextProps) {
+    if (
+      this.getSynchronizationState(nextProps) !==
+      this.getSynchronizationState(this.props.nodeInfo)
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   renderActiveSynchronization = () => (
     <>
       <p className="info-card__title">Synchronization state</p>
@@ -39,17 +50,6 @@ export default class SynchCard extends Component {
 
     return 'active';
   };
-
-  shouldComponentUpdate(nextProps) {
-    if (
-      this.getSynchronizationState(nextProps) !==
-      this.getSynchronizationState(this.props.nodeInfo)
-    ) {
-      return true;
-    }
-
-    return false;
-  }
 
   render() {
     const currentSynchState = this.getSynchronizationState(this.props.nodeInfo);

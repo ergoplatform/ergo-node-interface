@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
+import constants from 'utils/constants';
 import InfoCard from './InfoCard';
 import SynchCard from './SynchCard';
 import WalletSyncCard from './WalletSyncCard';
@@ -155,10 +156,11 @@ const DashboardView = ({
                 <InfoCard className="rounded-0 shadow-none">
                   <p className="info-card__title">Balance</p>
                   <p className="info-card__label">
-                    {walletBalanceData.balance} ERG{' '}
+                    {walletBalanceData.balance / constants.nanoErgInErg} ERG{' '}
                     {ergPrice &&
                       `~ $${Number(
-                        ergPrice * walletBalanceData.balance
+                        ergPrice *
+                          (walletBalanceData.balance / constants.nanoErgInErg)
                       ).toFixed(2)}`}
                   </p>
                 </InfoCard>

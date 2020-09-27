@@ -1,12 +1,12 @@
 import React, { Component, memo } from 'react';
 import { connect } from 'react-redux';
-import PaymentSendForm from './components/PaymentSendForm';
+import PaymentSendForm from './components/PaymentSendForm/index';
 import { apiKeySelector } from '../../../store/selectors/app';
 import {
   isWalletInitializedSelector,
   isWalletUnlockedSelector,
 } from '../../../store/selectors/wallet';
-import WalletInformationTable from './components/WalletInformationTable';
+import WalletInformationTable from './components/WalletInformationTable/index';
 import './index.scss';
 
 const mapStateToProps = (state) => ({

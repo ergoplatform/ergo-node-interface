@@ -46,11 +46,25 @@ export default (store) => (next) => (action) => {
         .get('/frontendData', {
           transformResponse: [
             ...Axios.defaults.transformResponse,
-            (data: any) => JSON.parse(data),
+            (data) => JSON.parse(data),
           ],
         })
         .then(({ data }) => {
           dispatch(walletActions.setErgPrice(data.latest_price));
+        })
+        .catch(() => {});
+
+      break;
+
+    case walletActions.getWalletAddresses.type:
+      nodeApi
+        .get('/wallet/addresses', {
+          headers: {
+            api_key: apiKey,
+          },
+        })
+        .then(({ data: walletAddresses }) => {
+          dispatch(walletActions.setWalletAddresses(walletAddresses));
         })
         .catch(() => {});
 

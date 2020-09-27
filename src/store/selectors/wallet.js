@@ -22,6 +22,11 @@ export const walletBalanceDataSelector = createSelector(
   (wallet) => wallet.walletBalanceData
 );
 
+export const walletAddressesSelector = createSelector(
+  walletSelector,
+  (wallet) => wallet.walletAddresses
+);
+
 export const ergPriceSelector = createSelector(
   walletSelector,
   (wallet) => wallet.ergPrice

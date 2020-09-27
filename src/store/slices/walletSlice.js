@@ -6,6 +6,7 @@ const initialState = {
   walletStatusData: null,
   walletBalanceData: null,
   ergPrice: null,
+  walletAddresses: null,
 };
 
 export default createSlice({
@@ -26,6 +27,9 @@ export default createSlice({
     },
     setErgPrice: (state, { payload }) => {
       state.ergPrice = payload;
+    },
+    setWalletAddresses: (state, { payload }) => {
+      state.walletAddresses = payload;
     },
   },
 });
