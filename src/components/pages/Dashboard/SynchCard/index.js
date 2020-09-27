@@ -6,8 +6,7 @@ import InfoCard from '../InfoCard';
 export default class SynchCard extends Component {
   shouldComponentUpdate(nextProps) {
     if (
-      this.getSynchronizationState(nextProps) !==
-      this.getSynchronizationState(this.props.nodeInfo)
+      this.getSynchronizationState(nextProps) !== this.getSynchronizationState(this.props.nodeInfo)
     ) {
       return true;
     }
@@ -40,11 +39,7 @@ export default class SynchCard extends Component {
     }[state]);
 
   getSynchronizationState = ({ fullHeight, headersHeight }) => {
-    if (
-      fullHeight !== null &&
-      headersHeight !== null &&
-      fullHeight === headersHeight
-    ) {
+    if (fullHeight !== null && headersHeight !== null && fullHeight === headersHeight) {
       return 'complete';
     }
 

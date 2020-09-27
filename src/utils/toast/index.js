@@ -32,6 +32,4 @@ const toastStates = {
 };
 
 export default (state, text, options) =>
-  toastStates[state]
-    ? toastStates[state](text, options)
-    : new Error(`Bad toast state`);
+  toastStates[state] ? toastStates[state](text, options) : new Error(`Bad toast state`);

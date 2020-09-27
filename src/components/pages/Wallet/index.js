@@ -25,9 +25,7 @@ class Wallet extends Component {
 
   renderWalletLockedState = () => (
     <div className="container-fluid pt-4">
-      <p>
-        The wallet UI is locked. You need to unlock the wallet to access its UI.
-      </p>
+      <p>The wallet UI is locked. You need to unlock the wallet to access its UI.</p>
     </div>
   );
 

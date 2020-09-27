@@ -15,10 +15,7 @@ class CopyToClipboard extends React.PureComponent {
   }
 
   startTimer = () => {
-    const timerId = setTimeout(
-      () => this.setState({ showTooltip: false }),
-      1500
-    );
+    const timerId = setTimeout(() => this.setState({ showTooltip: false }), 1500);
     this.setState({ timerId });
   };
 
@@ -44,11 +41,7 @@ class CopyToClipboard extends React.PureComponent {
         >
           {this.props.children}
         </a>
-        <Overlay
-          target={this.myRef.current}
-          show={this.state.showTooltip}
-          placement="right"
-        >
+        <Overlay target={this.myRef.current} show={this.state.showTooltip} placement="right">
           <Tooltip>Copied!</Tooltip>
         </Overlay>
       </>

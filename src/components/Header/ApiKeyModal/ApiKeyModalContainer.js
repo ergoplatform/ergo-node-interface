@@ -56,7 +56,4 @@ const ApiKeyModalContainer = (props) => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(ApiKeyModalContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(ApiKeyModalContainer));

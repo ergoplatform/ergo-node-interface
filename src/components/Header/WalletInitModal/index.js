@@ -32,11 +32,7 @@ class WalletInitModal extends Component {
 
   renderButton = () => {
     return (
-      <button
-        type="button"
-        onClick={this.handleShow}
-        className="btn btn-primary"
-      >
+      <button type="button" onClick={this.handleShow} className="btn btn-primary">
         Initialize wallet
       </button>
     );
@@ -48,16 +44,9 @@ class WalletInitModal extends Component {
     return (
       <div>
         {this.renderButton()}
-        <Modal
-          show={this.state.showModal}
-          onHide={() => this.handleHide()}
-          centered
-          size="lg"
-        >
+        <Modal show={this.state.showModal} onHide={() => this.handleHide()} centered size="lg">
           <Modal.Header closeButton>
-            <Modal.Title id="example-custom-modal-styling-title">
-              Wallet initialization
-            </Modal.Title>
+            <Modal.Title id="example-custom-modal-styling-title">Wallet initialization</Modal.Title>
           </Modal.Header>
           <Modal.Body className="row">
             <div className="col-6">
@@ -68,11 +57,7 @@ class WalletInitModal extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={this.handleHide}
-            >
+            <button type="button" className="btn btn-outline-secondary" onClick={this.handleHide}>
               Close
             </button>
           </Modal.Footer>
@@ -81,7 +66,4 @@ class WalletInitModal extends Component {
     );
   }
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(WalletInitModal));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(WalletInitModal));

@@ -42,10 +42,7 @@ export default class WalletSyncCard extends Component {
 
   render() {
     const { walletStatusData, headersHeight } = this.props;
-    const currentSynchState = this.getSynchronizationState(
-      walletStatusData,
-      headersHeight
-    );
+    const currentSynchState = this.getSynchronizationState(walletStatusData, headersHeight);
     return (
       <InfoCard className={this.props.className}>
         {this.renderSynchronizationState(currentSynchState)()}

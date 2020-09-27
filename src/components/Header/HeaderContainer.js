@@ -25,15 +25,7 @@ const HeaderContainer = (props) => {
 
   const isApiKeySetted = apiKey !== '';
 
-  return (
-    <HeaderView
-      isApiKeySetted={isApiKeySetted}
-      isWalletInitialized={isWalletInitialized}
-    />
-  );
+  return <HeaderView isApiKeySetted={isApiKeySetted} isWalletInitialized={isWalletInitialized} />;
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(HeaderContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(HeaderContainer));

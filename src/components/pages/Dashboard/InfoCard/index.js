@@ -11,7 +11,7 @@ const InfoCard = ({ color, children, className }) => {
           'info-card--green': color === 'green',
           'info-card--orange': color === 'orange',
         },
-        className
+        className,
       )}
     >
       {children}

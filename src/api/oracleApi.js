@@ -21,7 +21,7 @@ const oracleApi = axios.create({
 
 oracleApi.interceptors.response.use(
   (response) => Promise.resolve(response),
-  (error) => Promise.reject(new NetworkError(error.response || error))
+  (error) => Promise.reject(new NetworkError(error.response || error)),
 );
 
 export default oracleApi;

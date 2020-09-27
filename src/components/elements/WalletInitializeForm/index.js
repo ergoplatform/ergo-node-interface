@@ -20,7 +20,7 @@ class WalletInitializeForm extends Component {
         headers: {
           api_key: this.props.apiKey,
         },
-      }
+      },
     );
 
     return data;
@@ -61,20 +61,18 @@ class WalletInitializeForm extends Component {
                   {status.msg}
                 </div>
               )}
-              {status &&
-                status.state === 'success' &&
-                this.state.isShowMnemonic && (
-                  <div className="alert alert-success alert-dismissible">
-                    <button
-                      type="button"
-                      className="close"
-                      onClick={() => this.setState({ isShowMnemonic: false })}
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    {status.msg}
-                  </div>
-                )}
+              {status && status.state === 'success' && this.state.isShowMnemonic && (
+                <div className="alert alert-success alert-dismissible">
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={() => this.setState({ isShowMnemonic: false })}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {status.msg}
+                </div>
+              )}
               <div className="form-group">
                 <label htmlFor="wallet-password-input">Wallet password</label>
                 <Field
@@ -86,9 +84,7 @@ class WalletInitializeForm extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="mnemonic-password-input">
-                  Mnemonic password
-                </label>
+                <label htmlFor="mnemonic-password-input">Mnemonic password</label>
                 <Field
                   name="mnemonicPass"
                   type="password"
@@ -97,11 +93,7 @@ class WalletInitializeForm extends Component {
                   placeholder="Enter mnemonic password"
                 />
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                 Send
               </button>
             </Form>

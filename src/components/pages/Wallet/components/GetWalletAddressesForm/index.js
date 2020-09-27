@@ -40,9 +40,7 @@ class GetWalletAddressesForm extends PureComponent {
                 <button
                   type="button"
                   className="close"
-                  onClick={() =>
-                    this.setState({ isShowWalletAddresses: false })
-                  }
+                  onClick={() => this.setState({ isShowWalletAddresses: false })}
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>

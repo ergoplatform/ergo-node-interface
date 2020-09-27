@@ -19,7 +19,6 @@ const WalletInformationTableItem = ({ name, value }: any) => {
 
   if (Array.isArray(value)) {
     resultTitle = value.length;
-    console.log(value);
 
     resultContent = (
       <div>
@@ -48,15 +47,10 @@ const WalletInformationTableItem = ({ name, value }: any) => {
         <div className="wallet-table-item-header__title">{name}</div>
         <div className="wallet-table-item-header__right-side">
           {!isOpen && (
-            <div className="wallet-table-item-header__opacity-paragraph">
-              {resultTitle}
-            </div>
+            <div className="wallet-table-item-header__opacity-paragraph">{resultTitle}</div>
           )}
 
-          <a
-            className="wallet-table-item-header__link"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
+          <a className="wallet-table-item-header__link" onClick={() => setIsOpen((prev) => !prev)}>
             {!isOpen && 'More'}
             {isOpen && <RemoveIcon />}
           </a>
@@ -81,11 +75,7 @@ const WalletInformationTable = (props: any) => {
     dispatchGetWalletBalance();
     dispatchGetErgPrice();
     dispatchGetWalletAddresses();
-  }, [
-    dispatchGetWalletBalance,
-    dispatchGetErgPrice,
-    dispatchGetWalletAddresses,
-  ]);
+  }, [dispatchGetWalletBalance, dispatchGetErgPrice, dispatchGetWalletAddresses]);
 
   const getAddreses = useCallback((addresses: String[]) => {
     if (addresses.length === 0) {
@@ -143,7 +133,7 @@ const WalletInformationTable = (props: any) => {
         value: walletAddresses ? getAddreses(walletAddresses) : `Loading...`,
       },
     ],
-    [walletBalance, ergPrice, getAssets, walletAddresses, getAddreses]
+    [walletBalance, ergPrice, getAssets, walletAddresses, getAddreses],
   );
 
   const updateValues = useCallback(() => {
@@ -155,11 +145,7 @@ const WalletInformationTable = (props: any) => {
       <div className="wallet-table__header">
         <h2 className="wallet-table__title">
           Wallet Information{' '}
-          <button
-            type="button"
-            className="wallet-table__icon-redo"
-            onClick={updateValues}
-          >
+          <button type="button" className="wallet-table__icon-redo" onClick={updateValues}>
             <RedoIcon />
           </button>
         </h2>
@@ -182,11 +168,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchGetWalletBalance: () => dispatch(walletActions.getWalletBalance()),
   dispatchGetErgPrice: () => dispatch(walletActions.getErgPrice()),
-  dispatchGetWalletAddresses: () =>
-    dispatch(walletActions.getWalletAddresses()),
+  dispatchGetWalletAddresses: () => dispatch(walletActions.getWalletAddresses()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletInformationTable);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletInformationTable);

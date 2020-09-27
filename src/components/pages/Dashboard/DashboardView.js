@@ -48,14 +48,7 @@ const DashboardView = ({
     );
   }
 
-  const {
-    peersCount,
-    bestHeaderId,
-    launchTime,
-    fullHeight,
-    appVersion,
-    isMining,
-  } = nodeInfo;
+  const { peersCount, bestHeaderId, launchTime, fullHeight, appVersion, isMining } = nodeInfo;
 
   return (
     <>
@@ -132,9 +125,7 @@ const DashboardView = ({
             <div className="dashboard__item">
               <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Initialization state</p>
-                <p className="info-card__label">
-                  {getWalletStatus(isWalletInitialized)}
-                </p>
+                <p className="info-card__label">{getWalletStatus(isWalletInitialized)}</p>
               </InfoCard>
             </div>
             <div className="dashboard__item">
@@ -159,8 +150,7 @@ const DashboardView = ({
                     {walletBalanceData.balance / constants.nanoErgInErg} ERG{' '}
                     {ergPrice &&
                       `~ $${Number(
-                        ergPrice *
-                          (walletBalanceData.balance / constants.nanoErgInErg)
+                        ergPrice * (walletBalanceData.balance / constants.nanoErgInErg),
                       ).toFixed(2)}`}
                   </p>
                 </InfoCard>

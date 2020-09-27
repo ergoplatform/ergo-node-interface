@@ -85,13 +85,7 @@ const DashboardContainer = (props) => {
       dispatchGetWalletBalance();
       dispatchGetErgPrice();
     }
-  }, [
-    dispatchCheckWalletStatus,
-    dispatchGetErgPrice,
-    dispatchGetWalletBalance,
-    error,
-    prevError,
-  ]);
+  }, [dispatchCheckWalletStatus, dispatchGetErgPrice, dispatchGetWalletBalance, error, prevError]);
 
   useEffect(() => {
     setNodeCurrentState();
@@ -110,7 +104,7 @@ const DashboardContainer = (props) => {
     () => () => {
       clearInterval(timerId);
     },
-    [timerId, apiKey]
+    [timerId, apiKey],
   );
 
   return (
@@ -127,7 +121,4 @@ const DashboardContainer = (props) => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(DashboardContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(DashboardContainer));

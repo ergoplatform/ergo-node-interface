@@ -10,11 +10,7 @@ const initialFormValues = {
 };
 
 class WalletInitializeForm extends Component {
-  walletRestore = async ({
-    walletPassword,
-    mnemonicPass = '',
-    mnemonic = '',
-  }) => {
+  walletRestore = async ({ walletPassword, mnemonicPass = '', mnemonic = '' }) => {
     if (!mnemonic || !String(mnemonic).trim()) {
       throw Error('Need to set mnemonic');
     }
@@ -26,7 +22,7 @@ class WalletInitializeForm extends Component {
         headers: {
           api_key: this.props.apiKey,
         },
-      }
+      },
     );
   };
 
@@ -71,9 +67,7 @@ class WalletInitializeForm extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="restore-wallet-password-input">
-                  Wallet password
-                </label>
+                <label htmlFor="restore-wallet-password-input">Wallet password</label>
                 <Field
                   name="walletPassword"
                   type="password"
@@ -83,9 +77,7 @@ class WalletInitializeForm extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="restore-mnemonic-password-input">
-                  Mnemonic password
-                </label>
+                <label htmlFor="restore-mnemonic-password-input">Mnemonic password</label>
                 <Field
                   name="mnemonicPass"
                   type="password"
@@ -94,11 +86,7 @@ class WalletInitializeForm extends Component {
                   placeholder="Enter mnemonic password"
                 />
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                 Send
               </button>
             </Form>

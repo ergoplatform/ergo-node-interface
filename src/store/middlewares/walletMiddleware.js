@@ -18,9 +18,7 @@ export default (store) => (next) => (action) => {
         })
         .then(({ data: walletData }) => {
           dispatch(walletActions.setIsWalletUnlocked(walletData.isUnlocked));
-          dispatch(
-            walletActions.setIsWalletInitialized(walletData.isInitialized)
-          );
+          dispatch(walletActions.setIsWalletInitialized(walletData.isInitialized));
           dispatch(walletActions.setWalletStatusData(walletData));
         })
         .catch(() => {});
@@ -44,10 +42,7 @@ export default (store) => (next) => (action) => {
     case walletActions.getErgPrice.type:
       oracleApi
         .get('/frontendData', {
-          transformResponse: [
-            ...Axios.defaults.transformResponse,
-            (data) => JSON.parse(data),
-          ],
+          transformResponse: [...Axios.defaults.transformResponse, (data) => JSON.parse(data)],
         })
         .then(({ data }) => {
           dispatch(walletActions.setErgPrice(data.latest_price));

@@ -97,27 +97,19 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
     () => ({
       close: closeModal,
     }),
-    [closeModal]
+    [closeModal],
   );
 
   if (!portal) return null;
 
   return createPortal(
     <ModalContext.Provider value={modalConfig}>
-      <Backdrop
-        onClick={closeFromBackdrop}
-        visible={visible}
-        className="info-modal-backdrop"
-      >
+      <Backdrop onClick={closeFromBackdrop} visible={visible} className="info-modal-backdrop">
         <CssTransition name="wrapper" visible={visible} clearTime={300}>
           <div className="info-modal">
             <div className="info-modal__content">
               <h3 className="mb-3">{title}</h3>
-              <Text
-                xl="body-text1"
-                sm="small-text1"
-                className="mb-40 mb-md-56 pr-40 pr-md-0"
-              >
+              <Text xl="body-text1" sm="small-text1" className="mb-40 mb-md-56 pr-40 pr-md-0">
                 {description}
               </Text>
               <button
@@ -135,11 +127,7 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
                 {secondaryButtonContent}
               </button>
             </div>
-            <button
-              type="button"
-              className="info-modal__button--close"
-              onClick={closeModal}
-            >
+            <button type="button" className="info-modal__button--close" onClick={closeModal}>
               <CloseIcon />
             </button>
 
@@ -165,7 +153,7 @@ const InfoModal: React.FC<React.PropsWithChildren<ModalProps>> = ({
         </CssTransition>
       </Backdrop>
     </ModalContext.Provider>,
-    portal
+    portal,
   );
 };
 

@@ -54,31 +54,22 @@ class GetBalanceForm extends PureComponent {
       <div className="col-4">
         <div className="card bg-white p-4 mb-4">
           <h2 className="h5 mb-3">Get confirmed wallet balance</h2>
-          <Formik
-            initialValues={initialFormValues}
-            onSubmit={this.handleSubmit}
-          >
+          <Formik initialValues={initialFormValues} onSubmit={this.handleSubmit}>
             {({ status, isSubmitting }) => (
               <Form>
-                {status &&
-                  status.state === 'success' &&
-                  this.state.isShowBalance && (
-                    <div className="alert alert-info alert-dismissible">
-                      <button
-                        type="button"
-                        className="close"
-                        onClick={() => this.setState({ isShowBalance: false })}
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      {status.msg}
-                    </div>
-                  )}
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
-                >
+                {status && status.state === 'success' && this.state.isShowBalance && (
+                  <div className="alert alert-info alert-dismissible">
+                    <button
+                      type="button"
+                      className="close"
+                      onClick={() => this.setState({ isShowBalance: false })}
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    {status.msg}
+                  </div>
+                )}
+                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                   Get
                 </button>
               </Form>

@@ -12,23 +12,13 @@ const renderButton = (apiKey, handleShow) => {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleShow}
-      className="btn btn-outline-primary"
-    >
+    <button type="button" onClick={handleShow} className="btn btn-outline-primary">
       Update API key
     </button>
   );
 };
 
-const ApiKeyModalView = ({
-  showModal,
-  handleHide,
-  submitForm,
-  apiKey,
-  handleShow,
-}) => {
+const ApiKeyModalView = ({ showModal, handleHide, submitForm, apiKey, handleShow }) => {
   return (
     <div>
       {renderButton(apiKey, handleShow)}
@@ -52,11 +42,7 @@ const ApiKeyModalView = ({
               </Modal.Body>
 
               <Modal.Footer>
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary"
-                  onClick={handleHide}
-                >
+                <button type="button" className="btn btn-outline-secondary" onClick={handleHide}>
                   Close
                 </button>
                 <button type="submit" className="btn btn-primary">

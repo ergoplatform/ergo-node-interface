@@ -21,7 +21,7 @@ const nodeApi = axios.create({
 
 nodeApi.interceptors.response.use(
   (response) => Promise.resolve(response),
-  (error) => Promise.reject(new NetworkError(error.response || error))
+  (error) => Promise.reject(new NetworkError(error.response || error)),
 );
 
 export default nodeApi;

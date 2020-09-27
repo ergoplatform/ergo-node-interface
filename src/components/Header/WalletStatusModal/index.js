@@ -39,7 +39,7 @@ class WalletStatusForm extends Component {
         headers: {
           api_key: this.props.apiKey,
         },
-      }
+      },
     );
 
   walletLock = () =>
@@ -49,10 +49,7 @@ class WalletStatusForm extends Component {
       },
     });
 
-  submitWalletUnlockForm = (
-    { pass },
-    { setSubmitting, resetForm, setStatus }
-  ) => {
+  submitWalletUnlockForm = ({ pass }, { setSubmitting, resetForm, setStatus }) => {
     setStatus({ status: 'submitting' });
     this.walletUnlock(pass)
       .then(() => {
@@ -86,22 +83,14 @@ class WalletStatusForm extends Component {
   renderButton = () => {
     if (!this.props.isWalletUnlocked) {
       return (
-        <button
-          type="button"
-          onClick={this.handleShow}
-          className="btn btn-info"
-        >
+        <button type="button" onClick={this.handleShow} className="btn btn-info">
           Unlock wallet
         </button>
       );
     }
 
     return (
-      <button
-        type="button"
-        onClick={this.submitWalletLockForm}
-        className="btn btn-outline-info"
-      >
+      <button type="button" onClick={this.submitWalletLockForm} className="btn btn-outline-info">
         Lock wallet
       </button>
     );
@@ -117,10 +106,7 @@ class WalletStatusForm extends Component {
           centered
           aria-labelledby="example-custom-modal-styling-title"
         >
-          <Formik
-            initialValues={{ pass: '' }}
-            onSubmit={this.submitWalletUnlockForm}
-          >
+          <Formik initialValues={{ pass: '' }} onSubmit={this.submitWalletUnlockForm}>
             {({ isSubmitting }) => (
               <Form>
                 <Modal.Header closeButton>
@@ -130,9 +116,7 @@ class WalletStatusForm extends Component {
                 </Modal.Header>
                 <Modal.Body>
                   <div className="form-group">
-                    <label htmlFor="wallet-password-input">
-                      Wallet password *
-                    </label>
+                    <label htmlFor="wallet-password-input">Wallet password *</label>
                     <Field
                       name="pass"
                       type="password"
@@ -140,10 +124,7 @@ class WalletStatusForm extends Component {
                       className="form-control"
                       placeholder="Enter wallet password"
                     />
-                    <small
-                      id="walletPasswordHelp"
-                      className="form-text text-muted"
-                    >
+                    <small id="walletPasswordHelp" className="form-text text-muted">
                       * If you have it <b>or leave field empty</b>
                     </small>
                   </div>
@@ -157,11 +138,7 @@ class WalletStatusForm extends Component {
                   >
                     Close
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={isSubmitting}
-                  >
+                  <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                     Save changes
                   </button>
                 </Modal.Footer>
@@ -173,7 +150,4 @@ class WalletStatusForm extends Component {
     );
   }
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(memo(WalletStatusForm));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(WalletStatusForm));
