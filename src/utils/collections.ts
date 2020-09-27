@@ -3,12 +3,11 @@ import React, { ReactNode } from 'react';
 // Устанавливает index в детей
 export const setChildrenIndex = (
   children: ReactNode | undefined,
-  targetComponents: Array<React.ElementType> = []
+  targetComponents: Array<React.ElementType> = [],
 ): ReactNode | undefined => {
   if (React.Children.count(children) === 0) return [];
   const allowAll = targetComponents.length === 0;
-  const clone = (child: React.ReactElement, props = {}) =>
-    React.cloneElement(child, props);
+  const clone = (child: React.ReactElement, props = {}) => React.cloneElement(child, props);
   let index = 0;
 
   return React.Children.map(children, (item) => {
@@ -25,7 +24,7 @@ export const setChildrenIndex = (
 
 export const pickChild = (
   children: ReactNode | undefined,
-  targetChild: React.ElementType
+  targetChild: React.ElementType,
 ): [ReactNode | undefined, ReactNode | undefined] => {
   const target: ReactNode[] = [];
   const withoutTargetChildren = React.Children.map(children, (item) => {

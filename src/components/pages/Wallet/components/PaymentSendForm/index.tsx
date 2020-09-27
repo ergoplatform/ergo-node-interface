@@ -23,18 +23,16 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
         [
           {
             address: recipientAddress,
-            value: Number(
-              (parseFloat(amount) * constants.nanoErgInErg).toFixed(1)
-            ),
+            value: Number((parseFloat(amount) * constants.nanoErgInErg).toFixed(1)),
           },
         ],
         {
           headers: {
             api_key: apiKey,
           },
-        }
+        },
       ),
-    [apiKey]
+    [apiKey],
   );
 
   const resetForm = (form: any) => {
@@ -58,7 +56,7 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
           customToast('error', errMessage);
         });
     },
-    [paymentSend]
+    [paymentSend],
   );
 
   const validateForm = useCallback((values) => {
@@ -122,11 +120,7 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
                     )}
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={submitting || pristine}
-                >
+                <button type="submit" className="btn btn-primary" disabled={submitting || pristine}>
                   Send
                 </button>
               </form>
@@ -140,8 +134,8 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
                 description={
                   <>
                     <p>
-                      Your payment has been sent successfully. The transaction
-                      ID is - <CopyToClipboard>{transactionId}</CopyToClipboard>
+                      Your payment has been sent successfully. The transaction ID is -{' '}
+                      <CopyToClipboard>{transactionId}</CopyToClipboard>
                     </p>
                     <p>
                       <a

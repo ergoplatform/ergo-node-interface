@@ -85,10 +85,7 @@ const Text = ({
   }
 
   return (
-    <Component
-      className={cn({ colored: color }, currentVariant, className)}
-      {...props}
-    >
+    <Component className={cn({ colored: color }, currentVariant, className)} {...props}>
       {children}
       <style>{`
         .colored {

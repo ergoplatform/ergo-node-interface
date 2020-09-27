@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const isBrowser = (): boolean => {
-  return Boolean(
-    typeof window !== 'undefined' &&
-      window.document &&
-      window.document.createElement
-  );
+  return Boolean(typeof window !== 'undefined' && window.document && window.document.createElement);
 };
 
 type SSRState = {
@@ -32,12 +28,12 @@ const createElement = (id: string): HTMLElement => {
 };
 
 const usePortal = (
-  selectId: string = Math.random().toString(32).slice(2, 10)
+  selectId: string = Math.random().toString(32).slice(2, 10),
 ): HTMLElement | null => {
   const id = `id-${selectId}`;
   const isUsingBrowser = useSSR().isBrowser;
   const [elSnapshot, setElSnapshot] = useState<HTMLElement | null>(
-    isUsingBrowser ? createElement(id) : null
+    isUsingBrowser ? createElement(id) : null,
   );
 
   useEffect(() => {

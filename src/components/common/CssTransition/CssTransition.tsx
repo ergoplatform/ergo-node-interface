@@ -45,9 +45,7 @@ const CSSTransition: React.FC<React.PropsWithChildren<CSSTransitionProps>> = ({
 
     // set class to active
     const timer = setTimeout(() => {
-      setClasses(
-        `${name}-${statusClassName} ${name}-${statusClassName}-active`
-      );
+      setClasses(`${name}-${statusClassName} ${name}-${statusClassName}-active`);
       clearTimeout(timer);
     }, time);
 

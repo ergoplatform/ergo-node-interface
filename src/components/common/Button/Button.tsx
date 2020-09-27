@@ -4,21 +4,13 @@ import cn from 'classnames';
 const DEFAULT_SIZE = 'l';
 
 export type ButtonSize = 'l' | 'm' | 's';
-export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'icon'
-  | 'round'
-  | 'flat'
-  | 'accent';
+export type ButtonVariant = 'primary' | 'secondary' | 'icon' | 'round' | 'flat' | 'accent';
 export interface IButton {
   variant: ButtonVariant;
   color?: string;
   size?: ButtonSize;
   disabled?: boolean;
-  onClick?: (
-    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-  ) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   href?: string;
   download?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
