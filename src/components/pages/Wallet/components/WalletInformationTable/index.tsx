@@ -118,12 +118,12 @@ const WalletInformationTable = (props: any) => {
           ? `${walletBalance.balance / constants.nanoErgInErg} ERG`
           : 'loading...',
       },
-      {
-        name: 'Balance in USD',
-        value: walletBalance
-          ? `$ ${(walletBalance.balance / constants.nanoErgInErg) * ergPrice}`
-          : 'Loading...',
-      },
+      // {
+      //   name: 'Balance in USD',
+      //   value: walletBalance
+      //     ? `$ ${(walletBalance.balance / constants.nanoErgInErg) * ergPrice}`
+      //     : 'Loading...',
+      // },
       {
         name: 'Assets',
         value: walletBalance ? getAssets(walletBalance.assets) : `Loading...`,

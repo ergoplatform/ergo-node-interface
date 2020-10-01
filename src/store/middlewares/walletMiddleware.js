@@ -1,8 +1,8 @@
-import Axios from 'axios';
+// import Axios from 'axios';
 import walletActions from '../actions/walletActions';
 import nodeApi from '../../api/api';
 import { apiKeySelector } from '../selectors/app';
-import oracleApi from '../../api/oracleApi';
+// import oracleApi from '../../api/oracleApi';
 
 export default (store) => (next) => (action) => {
   const { dispatch, getState } = store;
@@ -39,17 +39,17 @@ export default (store) => (next) => (action) => {
 
       break;
 
-    case walletActions.getErgPrice.type:
-      oracleApi
-        .get('/frontendData', {
-          transformResponse: [...Axios.defaults.transformResponse, (data) => JSON.parse(data)],
-        })
-        .then(({ data }) => {
-          dispatch(walletActions.setErgPrice(data.latest_price));
-        })
-        .catch(() => {});
+    // case walletActions.getErgPrice.type:
+    //   oracleApi
+    //     .get('/frontendData', {
+    //       transformResponse: [...Axios.defaults.transformResponse, (data) => JSON.parse(data)],
+    //     })
+    //     .then(({ data }) => {
+    //       dispatch(walletActions.setErgPrice(data.latest_price));
+    //     })
+    //     .catch(() => {});
 
-      break;
+    //   break;
 
     case walletActions.getWalletAddresses.type:
       nodeApi
