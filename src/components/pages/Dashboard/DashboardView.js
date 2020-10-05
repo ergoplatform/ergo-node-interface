@@ -159,7 +159,7 @@ const DashboardView = ({
             {walletBalanceData && (
               <div className="dashboard__item">
                 <InfoCard className="rounded-0 shadow-none">
-                  <p className="info-card__title">Assets quantity</p>
+                  <p className="info-card__title">Assets</p>
                   <p className="info-card__label">
                     {Object.values(walletBalanceData.assets).length || '0'}
                   </p>

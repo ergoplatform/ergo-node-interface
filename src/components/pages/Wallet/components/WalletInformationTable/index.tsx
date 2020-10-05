@@ -64,7 +64,6 @@ const WalletInformationTableItem = ({ name, value }: any) => {
 const WalletInformationTable = (props: any) => {
   const {
     walletBalance,
-    ergPrice,
     dispatchGetWalletBalance,
     dispatchGetErgPrice,
     dispatchGetWalletAddresses,
@@ -95,16 +94,20 @@ const WalletInformationTable = (props: any) => {
     }));
   }, []);
 
-  const getAssets = useCallback((assets) => {
-    if (Object.values(assets).length === 0) {
-      return 0;
-    }
+  // const getAssets = useCallback((assets) => {
+  //   if (Object.values(assets).length === 0) {
+  //     return 0;
+  //   }
 
-    return assets.map(({ tokenId, amount }: any) => ({
-      name: <span className="text-muted">{tokenId}</span>,
-      value: <span className="font-weight-bold">{amount}</span>,
-    }));
-  }, []);
+  //   if (Array.isArray(assets) && assets.length !== 0) {
+  //     return assets.map(({ tokenId, amount }: any) => ({
+  //       name: <span className="text-muted">{tokenId}</span>,
+  //       value: <span className="font-weight-bold">{amount}</span>,
+  //     }));
+  //   }
+
+  //   return 0;
+  // }, []);
 
   useEffect(() => {
     getValues();
@@ -124,16 +127,16 @@ const WalletInformationTable = (props: any) => {
       //     ? `$ ${(walletBalance.balance / constants.nanoErgInErg) * ergPrice}`
       //     : 'Loading...',
       // },
-      {
-        name: 'Assets',
-        value: walletBalance ? getAssets(walletBalance.assets) : `Loading...`,
-      },
+      // {
+      //   name: 'Assets',
+      //   value: walletBalance ? getAssets(walletBalance.assets) : `Loading...`,
+      // },
       {
         name: 'Addresses',
         value: walletAddresses ? getAddreses(walletAddresses) : `Loading...`,
       },
     ],
-    [walletBalance, ergPrice, getAssets, walletAddresses, getAddreses],
+    [walletBalance, walletAddresses, getAddreses],
   );
 
   const updateValues = useCallback(() => {
