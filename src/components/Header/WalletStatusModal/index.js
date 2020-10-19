@@ -7,6 +7,7 @@ import walletActions from '../../../store/actions/walletActions';
 import { apiKeySelector } from '../../../store/selectors/app';
 import customToast from '../../../utils/toast';
 import nodeApi from '../../../api/api';
+import { MODAL_STATES } from '../utils';
 
 const mapStateToProps = (state) => ({
   isWalletUnlocked: isWalletUnlockedSelector(state),
@@ -24,10 +25,12 @@ class WalletStatusForm extends Component {
   };
 
   handleShow = () => {
+    this.props.onOpen(MODAL_STATES.STATUS);
     this.setState({ showModal: true });
   };
 
   handleHide = () => {
+    this.props.onOpen(null);
     this.setState({ showModal: false });
   };
 

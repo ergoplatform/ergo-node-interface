@@ -94,20 +94,16 @@ const WalletInformationTable = (props: any) => {
     }));
   }, []);
 
-  // const getAssets = useCallback((assets) => {
-  //   if (Object.values(assets).length === 0) {
-  //     return 0;
-  //   }
+  const getAssets = useCallback((assets) => {
+    if (Object.values(assets).length === 0) {
+      return 0;
+    }
 
-  //   if (Array.isArray(assets) && assets.length !== 0) {
-  //     return assets.map(({ tokenId, amount }: any) => ({
-  //       name: <span className="text-muted">{tokenId}</span>,
-  //       value: <span className="font-weight-bold">{amount}</span>,
-  //     }));
-  //   }
-
-  //   return 0;
-  // }, []);
+    return Object.keys(assets).map((key: any) => ({
+      name: <span className="text-muted">{key}</span>,
+      value: <span className="font-weight-bold">{assets[key]}</span>,
+    }));
+  }, []);
 
   useEffect(() => {
     getValues();
@@ -127,10 +123,10 @@ const WalletInformationTable = (props: any) => {
       //     ? `$ ${(walletBalance.balance / constants.nanoErgInErg) * ergPrice}`
       //     : 'Loading...',
       // },
-      // {
-      //   name: 'Assets',
-      //   value: walletBalance ? getAssets(walletBalance.assets) : `Loading...`,
-      // },
+      {
+        name: 'Assets',
+        value: walletBalance ? getAssets(walletBalance.assets) : `Loading...`,
+      },
       {
         name: 'Addresses',
         value: walletAddresses ? getAddreses(walletAddresses) : `Loading...`,
