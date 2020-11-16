@@ -20,7 +20,7 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string; walletBalanceData: any })
   const paymentSend = useCallback(
     ({ recipientAddress, amount, fee }) =>
       nodeApi.post(
-        '/wallet/payment/send',
+        '/wallet/transaction/send',
         {
           requests: [
             {
@@ -29,8 +29,6 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string; walletBalanceData: any })
             },
           ],
           fee: Number((parseFloat(fee) * constants.nanoErgInErg).toFixed(1)),
-          inputsRaw: ['string'],
-          dataInputsRaw: ['string'],
         },
         {
           headers: {
