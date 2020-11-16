@@ -13,13 +13,7 @@ type Errors = {
   fee?: string;
 };
 
-const PaymentSendForm = ({
-  apiKey,
-  walletBalanceData,
-}: {
-  apiKey: string;
-  walletBalanceData: any;
-}) => {
+const PaymentSendForm = ({ apiKey }: { apiKey: string; walletBalanceData: any }) => {
   const [transactionId, setTransactionId] = useState(null);
   const [isSendedModalOpen, setIsSendedModalOpen] = useState(false);
 
@@ -81,7 +75,7 @@ const PaymentSendForm = ({
     }
     return errors;
   }, []);
-  console.log(walletBalanceData?.assets);
+
   return (
     <div className="">
       <div className="card bg-white p-4">
