@@ -23,12 +23,12 @@ const WalletInformationTableItem = ({ name, value }: any) => {
     resultContent = (
       <div>
         {value.map((item) => (
-          <>
+          <div key={item.name}>
             <div>
               {item.value || ''} {item.name || ''}
             </div>
             <br />
-          </>
+          </div>
         ))}
       </div>
     );
@@ -64,7 +64,6 @@ const WalletInformationTableItem = ({ name, value }: any) => {
 const WalletInformationTable = (props: any) => {
   const {
     walletBalance,
-    ergPrice,
     dispatchGetWalletBalance,
     dispatchGetErgPrice,
     dispatchGetWalletAddresses,
@@ -100,9 +99,9 @@ const WalletInformationTable = (props: any) => {
       return 0;
     }
 
-    return assets.map(({ tokenId, amount }: any) => ({
-      name: <span className="text-muted">{tokenId}</span>,
-      value: <span className="font-weight-bold">{amount}</span>,
+    return Object.keys(assets).map((key) => ({
+      name: <span className="text-muted">{key}</span>,
+      value: <span className="font-weight-bold">{assets[key]}</span>,
     }));
   }, []);
 
@@ -133,7 +132,7 @@ const WalletInformationTable = (props: any) => {
         value: walletAddresses ? getAddreses(walletAddresses) : `Loading...`,
       },
     ],
-    [walletBalance, ergPrice, getAssets, walletAddresses, getAddreses],
+    [walletBalance, getAssets, walletAddresses, getAddreses],
   );
 
   const updateValues = useCallback(() => {

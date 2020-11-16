@@ -10,22 +10,34 @@ import constants from '../../../../../utils/constants';
 type Errors = {
   recipientAddress?: string;
   amount?: string;
+  fee?: string;
 };
 
-const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
+const PaymentSendForm = ({
+  apiKey,
+  walletBalanceData,
+}: {
+  apiKey: string;
+  walletBalanceData: any;
+}) => {
   const [transactionId, setTransactionId] = useState(null);
   const [isSendedModalOpen, setIsSendedModalOpen] = useState(false);
 
   const paymentSend = useCallback(
-    ({ recipientAddress, amount }) =>
+    ({ recipientAddress, amount, fee }) =>
       nodeApi.post(
         '/wallet/payment/send',
-        [
-          {
-            address: recipientAddress,
-            value: Number((parseFloat(amount) * constants.nanoErgInErg).toFixed(1)),
-          },
-        ],
+        {
+          requests: [
+            {
+              address: recipientAddress,
+              value: Number((parseFloat(amount) * constants.nanoErgInErg).toFixed(1)),
+            },
+          ],
+          fee: Number((parseFloat(fee) * constants.nanoErgInErg).toFixed(1)),
+          inputsRaw: ['string'],
+          dataInputsRaw: ['string'],
+        },
         {
           headers: {
             api_key: apiKey,
@@ -64,12 +76,12 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
     if (!values.recipientAddress) {
       errors.recipientAddress = 'The field cannot be empty';
     }
-    if (!values.amount || values.amount < 0.001) {
-      errors.amount = 'Minimum 0.001 ERG';
+    if (!values.fee || values.fee < 0.001) {
+      errors.fee = 'Minimum 0.001 ERG';
     }
     return errors;
   }, []);
-
+  console.log(walletBalanceData?.assets);
   return (
     <div className="">
       <div className="card bg-white p-4">
@@ -77,6 +89,7 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
         <Form
           onSubmit={sendForm}
           validate={validateForm}
+          initialValues={{ fee: 0.001 }}
           render={({ handleSubmit, submitting, pristine, form }) => (
             <>
               <form onSubmit={handleSubmit}>
@@ -108,6 +121,27 @@ const PaymentSendForm = ({ apiKey }: { apiKey: string }) => {
                       <>
                         <input
                           id="amount"
+                          className={cn('form-control', {
+                            'is-invalid': meta.touched && meta.error,
+                          })}
+                          type="number"
+                          placeholder="0.000"
+                          {...input}
+                        />
+                        <div className="invalid-feedback">{meta.error}</div>
+                      </>
+                    )}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="fee">Fee (in ERG)</label>
+                  <Field
+                    name="fee"
+                    value="0.001"
+                    render={({ input, meta }) => (
+                      <>
+                        <input
+                          id="fee"
                           className={cn('form-control', {
                             'is-invalid': meta.touched && meta.error,
                           })}

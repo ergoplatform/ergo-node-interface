@@ -5,6 +5,7 @@ import { apiKeySelector } from '../../../store/selectors/app';
 import {
   isWalletInitializedSelector,
   isWalletUnlockedSelector,
+  walletBalanceDataSelector,
 } from '../../../store/selectors/wallet';
 import WalletInformationTable from './components/WalletInformationTable/index';
 import './index.scss';
@@ -13,12 +14,14 @@ const mapStateToProps = (state) => ({
   apiKey: apiKeySelector(state),
   isWalletInitialized: isWalletInitializedSelector(state),
   isWalletUnlocked: isWalletUnlockedSelector(state),
+  walletBalanceData: walletBalanceDataSelector(state),
 });
 
 class Wallet extends Component {
   renderState = (state) =>
     ({
-      unlocked: (apiKey) => this.renderWalletUnlockedState(apiKey),
+      unlocked: (apiKey, walletBalanceData) =>
+        this.renderWalletUnlockedState(apiKey, walletBalanceData),
       locked: () => this.renderWalletLockedState(),
       initialized: (apiKey) => this.renderInitializedState(apiKey),
     }[state]);
@@ -35,17 +38,21 @@ class Wallet extends Component {
     </div>
   );
 
-  renderWalletUnlockedState = (apiKey) => (
+  renderWalletUnlockedState = (apiKey, walletBalanceData) => (
     <div className="wallet-container">
-      <WalletInformationTable />
-      <PaymentSendForm apiKey={apiKey} />
+      <div>
+        <WalletInformationTable />
+      </div>
+      <div>
+        <PaymentSendForm apiKey={apiKey} walletBalanceData={walletBalanceData} />
+      </div>
       {/* <GetBalanceForm apiKey={apiKey} />
         <GetWalletAddressesForm apiKey={apiKey} /> */}
     </div>
   );
 
   render() {
-    const { apiKey, isWalletUnlocked, isWalletInitialized } = this.props;
+    const { apiKey, isWalletUnlocked, isWalletInitialized, walletBalanceData } = this.props;
 
     if (apiKey === '') {
       return (
@@ -60,7 +67,7 @@ class Wallet extends Component {
     }
 
     if (isWalletUnlocked) {
-      return this.renderState('unlocked')(apiKey);
+      return this.renderState('unlocked')(apiKey, walletBalanceData);
     }
 
     return this.renderState('locked')();
