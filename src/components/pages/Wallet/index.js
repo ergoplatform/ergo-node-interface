@@ -1,5 +1,6 @@
 import React, { Component, memo } from 'react';
 import { connect } from 'react-redux';
+import walletActions from 'store/actions/walletActions';
 import PaymentSendForm from './components/PaymentSendForm/index';
 import { apiKeySelector } from '../../../store/selectors/app';
 import {
@@ -17,11 +18,15 @@ const mapStateToProps = (state) => ({
   walletBalanceData: walletBalanceDataSelector(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  dispatchGetWalletBalance: () => dispatch(walletActions.getWalletBalance()),
+});
+
 class Wallet extends Component {
   renderState = (state) =>
     ({
-      unlocked: (apiKey, walletBalanceData) =>
-        this.renderWalletUnlockedState(apiKey, walletBalanceData),
+      unlocked: (apiKey, walletBalanceData, getWalletBalance) =>
+        this.renderWalletUnlockedState(apiKey, walletBalanceData, getWalletBalance),
       locked: () => this.renderWalletLockedState(),
       initialized: (apiKey) => this.renderInitializedState(apiKey),
     }[state]);
@@ -38,13 +43,17 @@ class Wallet extends Component {
     </div>
   );
 
-  renderWalletUnlockedState = (apiKey, walletBalanceData) => (
+  renderWalletUnlockedState = (apiKey, walletBalanceData, dispatchGetWalletBalance) => (
     <div className="wallet-container">
       <div>
         <WalletInformationTable />
       </div>
       <div>
-        <PaymentSendForm apiKey={apiKey} walletBalanceData={walletBalanceData} />
+        <PaymentSendForm
+          apiKey={apiKey}
+          walletBalanceData={walletBalanceData}
+          getWalletBalance={dispatchGetWalletBalance}
+        />
       </div>
       {/* <GetBalanceForm apiKey={apiKey} />
         <GetWalletAddressesForm apiKey={apiKey} /> */}
@@ -52,7 +61,13 @@ class Wallet extends Component {
   );
 
   render() {
-    const { apiKey, isWalletUnlocked, isWalletInitialized, walletBalanceData } = this.props;
+    const {
+      apiKey,
+      isWalletUnlocked,
+      isWalletInitialized,
+      walletBalanceData,
+      dispatchGetWalletBalance,
+    } = this.props;
 
     if (apiKey === '') {
       return (
@@ -67,11 +82,11 @@ class Wallet extends Component {
     }
 
     if (isWalletUnlocked) {
-      return this.renderState('unlocked')(apiKey, walletBalanceData);
+      return this.renderState('unlocked')(apiKey, walletBalanceData, dispatchGetWalletBalance);
     }
 
     return this.renderState('locked')();
   }
 }
 
-export default connect(mapStateToProps)(memo(Wallet));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Wallet));
