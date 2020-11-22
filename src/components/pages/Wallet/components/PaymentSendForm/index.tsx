@@ -95,13 +95,15 @@ const PaymentSendForm = ({
         errors.asset = 'You need to choose asset';
       }
 
+      const asset = walletBalanceData?.assets?.find(([key]: any) => key === values.asset);
+
       if (
         walletBalanceData &&
         values.assetAmount &&
         values.asset !== 'none' &&
-        values.assetAmount > walletBalanceData.assets[values.asset]
+        values.assetAmount > asset?.[1]
       ) {
-        errors.assetAmount = `Maximum ${walletBalanceData.assets[values.asset]}`;
+        errors.assetAmount = `Maximum ${asset?.[1]}`;
       }
 
       if (assetCheckbox && !values.assetAmount) {
@@ -167,7 +169,7 @@ const PaymentSendForm = ({
                     />
                   </div>
 
-                  {Object.keys(walletBalanceData?.assets || {}).length > 0 && (
+                  {(walletBalanceData?.assets || []).length > 0 && (
                     <div className="form-check mb-2">
                       <input
                         className="form-check-input"
@@ -190,7 +192,7 @@ const PaymentSendForm = ({
                         <label htmlFor="asset">Asset</label>
                         <Field name="asset" component="select" className={cn('form-control')}>
                           <option value="none">Choose asset</option>
-                          {Object.keys(walletBalanceData?.assets || {}).map((tokenId) => (
+                          {(walletBalanceData?.assets || []).map(([tokenId]: any) => (
                             <option key={tokenId} value={tokenId}>
                               {tokenId}
                             </option>
