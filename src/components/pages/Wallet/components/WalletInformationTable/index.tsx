@@ -99,9 +99,9 @@ const WalletInformationTable = (props: any) => {
       return 0;
     }
 
-    return assets.map(([key, value]: any) => ({
+    return Object.keys(assets).map((key) => ({
       name: <span className="text-muted">{key}</span>,
-      value: <span className="font-weight-bold">{value}</span>,
+      value: <span className="font-weight-bold">{assets[key]}</span>,
     }));
   }, []);
 
