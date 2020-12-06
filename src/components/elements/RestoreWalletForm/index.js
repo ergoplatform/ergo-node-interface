@@ -9,7 +9,7 @@ const initialFormValues = {
   mnemonic: '',
 };
 
-class WalletInitializeForm extends Component {
+class RestoreWalletForm extends Component {
   walletRestore = async ({ walletPassword, mnemonicPass = '', mnemonic = '' }) => {
     if (!mnemonic || !String(mnemonic).trim()) {
       throw Error('Need to set mnemonic');
@@ -97,4 +97,4 @@ class WalletInitializeForm extends Component {
   }
 }
 
-export default memo(WalletInitializeForm);
+export default memo(RestoreWalletForm);
