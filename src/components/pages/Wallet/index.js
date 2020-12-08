@@ -50,10 +50,14 @@ class Wallet extends Component {
         <WalletInformationTable />
       </div>
       <div>
-        <PaymentSendForm apiKey={apiKey} getWalletBalance={dispatchGetWalletBalance} />
+        <PaymentSendForm
+          apiKey={apiKey}
+          walletBalanceData={walletBalanceData}
+          getWalletBalance={dispatchGetWalletBalance}
+        />
       </div>
       <div>
-        <AssetIssueForm apiKey={apiKey} />
+        <AssetIssueForm apiKey={apiKey} getWalletBalance={dispatchGetWalletBalance} />
       </div>
       {/* <GetBalanceForm apiKey={apiKey} />
         <GetWalletAddressesForm apiKey={apiKey} /> */}
