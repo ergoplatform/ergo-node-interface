@@ -25,7 +25,7 @@ const PaymentSendForm = ({
   getWalletBalance: any;
 }) => {
   const [transactionId, setTransactionId] = useState(null);
-  const [isSendedModalOpen, setIsSendedModalOpen] = useState(false);
+  const [isSentModalOpen, setIsSentModalOpen] = useState(false);
   const [assetCheckbox, setAssetCheckbox] = useState(false);
 
   const paymentSend = useCallback(
@@ -56,7 +56,7 @@ const PaymentSendForm = ({
 
   const resetForm = (form: any) => {
     form.restart();
-    setIsSendedModalOpen(false);
+    setIsSentModalOpen(false);
   };
 
   const sendForm = useCallback(
@@ -68,7 +68,7 @@ const PaymentSendForm = ({
       paymentSend(values)
         .then(({ data }) => {
           setTransactionId(data);
-          setIsSendedModalOpen(true);
+          setIsSentModalOpen(true);
           getWalletBalance();
         })
         .catch((err) => {
@@ -258,9 +258,9 @@ const PaymentSendForm = ({
                 </form>
 
                 <InfoModal
-                  open={isSendedModalOpen}
+                  open={isSentModalOpen}
                   onClose={() => {
-                    setIsSendedModalOpen(false);
+                    setIsSentModalOpen(false);
                   }}
                   title="Payment sent"
                   description={
