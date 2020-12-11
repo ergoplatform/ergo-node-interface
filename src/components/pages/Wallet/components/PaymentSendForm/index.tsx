@@ -145,7 +145,7 @@ const PaymentSendForm = ({
                       )}
                     />
                   </div>
-                  <div className="mb-3">
+                  <div className="mb-3 amount-container">
                     <label htmlFor="amount">Amount</label>
                     <Field
                       name="amount"
@@ -161,6 +161,18 @@ const PaymentSendForm = ({
                             placeholder="0,000"
                             {...input}
                           />
+                          <button
+                            className="btn btn-primary btn-sm btn-add-all"
+                            type="button"
+                            onClick={() => {
+                              values.amount =
+                                (walletBalanceData.balance - values.fee * constants.nanoErgInErg) /
+                                constants.nanoErgInErg;
+                              form.blur('amount');
+                            }}
+                          >
+                            Add all
+                          </button>
                           <div className="invalid-feedback">{meta.error}</div>
                         </>
                       )}
