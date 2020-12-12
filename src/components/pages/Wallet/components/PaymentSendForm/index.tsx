@@ -24,6 +24,8 @@ const PaymentSendForm = ({
   walletBalanceData: any;
   getWalletBalance: any;
 }) => {
+  const currentBalance = walletBalanceData?.balance;
+
   const [transactionId, setTransactionId] = useState(null);
   const [isSentModalOpen, setIsSentModalOpen] = useState(false);
   const [assetCheckbox, setAssetCheckbox] = useState(false);
@@ -83,6 +85,9 @@ const PaymentSendForm = ({
     (values) => {
       const errors: Errors = {};
 
+      const totalFeeAndAmount =
+        (Number(values.amount) + Number(values.fee)) * constants.nanoErgInErg;
+
       if (!values.recipientAddress) {
         errors.recipientAddress = 'The field cannot be empty';
       }
@@ -108,9 +113,15 @@ const PaymentSendForm = ({
         errors.assetAmount = 'The field cannot be empty';
       }
 
+      if (currentBalance < totalFeeAndAmount) {
+        errors.amount = `Maximum ${
+          currentBalance / constants.nanoErgInErg - Number(values.fee)
+        } ERG`;
+      }
+
       return errors;
     },
-    [assetCheckbox, walletBalanceData],
+    [assetCheckbox, walletBalanceData, currentBalance],
   );
 
   return (
@@ -166,7 +177,7 @@ const PaymentSendForm = ({
                             type="button"
                             onClick={() => {
                               values.amount =
-                                (walletBalanceData.balance - values.fee * constants.nanoErgInErg) /
+                                (currentBalance - values.fee * constants.nanoErgInErg) /
                                 constants.nanoErgInErg;
                               form.blur('amount');
                             }}
