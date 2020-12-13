@@ -4,3 +4,14 @@
   grid-template-columns: repeat(auto-fill, 400px);
   grid-gap: 32px;
 }
+
+.amount-container {
+  position: relative;
+}
+//
+.btn-add-all {
+  position: absolute;
+  right: 3px;
+  top: 35px;
+  height: 32px;
+}
