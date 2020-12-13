@@ -110,13 +110,24 @@ const PaymentSendForm = ({
       }
 
       if (assetCheckbox && !values.assetAmount) {
-        errors.assetAmount = 'The field cannot be empty';
+        errors.assetAmount = "The field can't be empty";
       }
 
       if (currentBalance < totalFeeAndAmount) {
-        errors.amount = `Maximum ${
-          currentBalance / constants.nanoErgInErg - Number(values.fee)
-        } ERG`;
+        errors.amount = `Maximum ${Math.abs(
+          currentBalance / constants.nanoErgInErg - Number(values.fee),
+        )} ERG`;
+      }
+      if (values.amount < 0) {
+        errors.amount = "Amount can't be negative";
+      }
+
+      if (currentBalance === 0) {
+        errors.amount = 'Your balance is empty';
+      }
+
+      if (values.fee < 0) {
+        errors.fee = "Fee can't be negative";
       }
 
       return errors;
@@ -172,18 +183,21 @@ const PaymentSendForm = ({
                             placeholder="0,000"
                             {...input}
                           />
-                          <button
-                            className="btn btn-primary btn-sm btn-add-all"
-                            type="button"
-                            onClick={() => {
-                              values.amount =
-                                (currentBalance - values.fee * constants.nanoErgInErg) /
-                                constants.nanoErgInErg;
-                              form.blur('amount');
-                            }}
-                          >
-                            Add all
-                          </button>
+                          {currentBalance !== 0 && (
+                            <button
+                              className="btn btn-link btn-sm btn-add-all"
+                              type="button"
+                              onClick={() => {
+                                values.amount = Math.abs(
+                                  (currentBalance - values.fee * constants.nanoErgInErg) /
+                                    constants.nanoErgInErg,
+                                );
+                                form.blur('amount');
+                              }}
+                            >
+                              Maximum
+                            </button>
+                          )}
                           <div className="invalid-feedback">{meta.error}</div>
                         </>
                       )}

@@ -11,7 +11,10 @@
 //
 .btn-add-all {
   position: absolute;
-  right: 3px;
-  top: 35px;
-  height: 32px;
+  right: 0px;
+  top: 2px;
+  padding: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
