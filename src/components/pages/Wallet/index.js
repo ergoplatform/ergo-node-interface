@@ -2,6 +2,7 @@ import React, { Component, memo } from 'react';
 import { connect } from 'react-redux';
 import walletActions from 'store/actions/walletActions';
 import PaymentSendForm from './components/PaymentSendForm/index';
+import AssetIssueForm from './components/AssetIssueForm/index';
 import { apiKeySelector } from '../../../store/selectors/app';
 import {
   isWalletInitializedSelector,
@@ -54,6 +55,9 @@ class Wallet extends Component {
           walletBalanceData={walletBalanceData}
           getWalletBalance={dispatchGetWalletBalance}
         />
+      </div>
+      <div>
+        <AssetIssueForm apiKey={apiKey} getWalletBalance={dispatchGetWalletBalance} />
       </div>
       {/* <GetBalanceForm apiKey={apiKey} />
         <GetWalletAddressesForm apiKey={apiKey} /> */}
