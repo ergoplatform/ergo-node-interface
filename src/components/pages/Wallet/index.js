@@ -59,8 +59,6 @@ class Wallet extends Component {
       <div>
         <AssetIssueForm apiKey={apiKey} getWalletBalance={dispatchGetWalletBalance} />
       </div>
-      {/* <GetBalanceForm apiKey={apiKey} />
-        <GetWalletAddressesForm apiKey={apiKey} /> */}
     </div>
   );
 
