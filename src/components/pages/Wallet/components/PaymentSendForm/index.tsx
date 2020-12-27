@@ -7,12 +7,9 @@ import customToast from '../../../../../utils/toast';
 import CopyToClipboard from '../../../../common/CopyToClipboard';
 import constants from '../../../../../utils/constants';
 
-type Errors = {
-  recipientAddress?: string;
-  amount?: string;
-  fee?: string;
-  asset?: string;
-  assetAmount?: string;
+type FormattedAsset = {
+  tokenId: string;
+  amount: number;
 };
 
 const PaymentSendForm = ({
@@ -29,22 +26,42 @@ const PaymentSendForm = ({
   const [transactionId, setTransactionId] = useState(null);
   const [isSentModalOpen, setIsSentModalOpen] = useState(false);
   const [assetCheckbox, setAssetCheckbox] = useState(false);
+  const [assetsFormControlCounter, setAssetsFromControlCounter] = useState(1);
+
+  const getFormattedAssets = (values: any) => {
+    return Object.keys(values)
+      .filter((key) => key.includes('asset') && !key.includes('Amount'))
+      .reduce((acc: any, key) => {
+        const tokenId = values[key];
+        const amount = Number(values[`${key}Amount`]) * constants.nanoErgInErg;
+
+        if (!tokenId || !amount) {
+          return acc;
+        }
+
+        const assetData = {
+          tokenId,
+          amount,
+        };
+
+        return [...acc, assetData];
+      }, []);
+  };
 
   const paymentSend = useCallback(
-    ({ recipientAddress, amount, fee, asset, assetAmount }) => {
+    (values: any) => {
+      const assets: Array<FormattedAsset> = getFormattedAssets(values);
+
       const request = {
-        address: recipientAddress,
-        value: Number((parseFloat(amount) * constants.nanoErgInErg).toFixed(1)),
-        assets:
-          assetCheckbox && asset !== 'none' && assetAmount > 0
-            ? [{ tokenId: asset, amount: Number(assetAmount) }]
-            : [],
+        address: values.recipientAddress,
+        value: Number((parseFloat(values.amount) * constants.nanoErgInErg).toFixed(1)),
+        assets: assetCheckbox ? assets : [],
       };
       return nodeApi.post(
         '/wallet/transaction/send',
         {
           requests: [request],
-          fee: Number((parseFloat(fee) * constants.nanoErgInErg).toFixed(1)),
+          fee: Number((parseFloat(values.fee) * constants.nanoErgInErg).toFixed(1)),
         },
         {
           headers: {
@@ -83,7 +100,7 @@ const PaymentSendForm = ({
 
   const validateForm = useCallback(
     (values) => {
-      const errors: Errors = {};
+      const errors: any = {};
 
       const totalFeeAndAmount =
         (Number(values.amount) + Number(values.fee)) * constants.nanoErgInErg;
@@ -96,21 +113,25 @@ const PaymentSendForm = ({
         errors.fee = 'Minimum 0.001 ERG';
       }
 
-      if (values.asset === 'none') {
-        errors.asset = 'You need to choose asset';
-      }
+      if (assetCheckbox) {
+        for (let i = 0; i < Array(assetsFormControlCounter).fill('asset').length; i += 1) {
+          if (values[`asset${i}`] === 'none') {
+            errors[`asset${i}`] = 'You need to choose asset';
+          }
 
-      if (
-        walletBalanceData &&
-        values.assetAmount &&
-        values.asset !== 'none' &&
-        values.assetAmount > walletBalanceData.assets[values.asset]
-      ) {
-        errors.assetAmount = `Maximum ${walletBalanceData.assets[values.asset]}`;
-      }
+          if (
+            walletBalanceData &&
+            values[`asset${i}Amount`] &&
+            values[`asset${i}`] !== 'none' &&
+            values[`asset${i}Amount`] > walletBalanceData.assets[values[`asset${i}`]]
+          ) {
+            errors[`asset${i}Amount`] = `Maximum ${walletBalanceData.assets[values.asset]}`;
+          }
 
-      if (assetCheckbox && !values.assetAmount) {
-        errors.assetAmount = "The field can't be empty";
+          if (!values[`asset${i}Amount`]) {
+            errors[`asset${i}Amount`] = "The field can't be empty";
+          }
+        }
       }
 
       if (currentBalance < totalFeeAndAmount) {
@@ -132,7 +153,7 @@ const PaymentSendForm = ({
 
       return errors;
     },
-    [assetCheckbox, walletBalanceData, currentBalance],
+    [assetCheckbox, walletBalanceData, currentBalance, assetsFormControlCounter],
   );
 
   return (
@@ -216,47 +237,71 @@ const PaymentSendForm = ({
                         id="assetCheckbox"
                       />
                       <label className="form-check-label" htmlFor="assetCheckbox">
-                        Add asset
+                        Add assets
                       </label>
                     </div>
                   )}
 
                   {assetCheckbox && (
                     <>
-                      <div className="mb-3">
-                        <label htmlFor="asset">Asset</label>
-                        <Field name="asset" component="select" className={cn('form-control')}>
-                          <option value="none">Choose asset</option>
-                          {Object.keys(walletBalanceData?.assets || {}).map((tokenId) => (
-                            <option key={tokenId} value={tokenId}>
-                              {tokenId}
-                            </option>
-                          ))}
-                        </Field>
-                      </div>
-                      {values.asset && values.asset !== 'none' && (
-                        <div className="mb-3">
-                          <label htmlFor="assetAmount">Asset amount</label>
-                          <Field
-                            name="assetAmount"
-                            className={cn('form-control')}
-                            render={({ input, meta }) => (
-                              <>
-                                <input
-                                  id="assetAmount"
-                                  className={cn('form-control', {
-                                    'is-invalid': meta.touched && meta.error,
-                                  })}
-                                  type="number"
-                                  placeholder="0,000"
-                                  {...input}
-                                />
-                                <div className="invalid-feedback">{meta.error}</div>
-                              </>
-                            )}
-                          />
-                        </div>
-                      )}
+                      {Array(assetsFormControlCounter)
+                        .fill('asset')
+                        .map((fieldName, index) => {
+                          return (
+                            <>
+                              <div className="mb-3">
+                                <label htmlFor={`${fieldName}${index}`}>{`Asset ${
+                                  index + 1
+                                }`}</label>
+                                <Field
+                                  name={`${fieldName}${index}`}
+                                  component="select"
+                                  className={cn('form-control')}
+                                >
+                                  <option value="none">Choose asset</option>
+                                  {Object.keys(walletBalanceData?.assets || {}).map((tokenId) => (
+                                    <option key={tokenId} value={tokenId}>
+                                      {tokenId}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </div>
+                              {values[`${fieldName}${index}`] &&
+                                values[`${fieldName}${index}`] !== 'none' && (
+                                  <div className="mb-3">
+                                    <label htmlFor={`${fieldName}${index}Amount`}>
+                                      {`Asset ${index + 1} amount`}
+                                    </label>
+                                    <Field
+                                      name={`${fieldName}${index}Amount`}
+                                      className={cn('form-control')}
+                                      render={({ input, meta }) => (
+                                        <>
+                                          <input
+                                            id="assetAmount"
+                                            className={cn('form-control', {
+                                              'is-invalid': meta.touched && meta.error,
+                                            })}
+                                            type="number"
+                                            placeholder="0,000"
+                                            {...input}
+                                          />
+                                          <div className="invalid-feedback">{meta.error}</div>
+                                        </>
+                                      )}
+                                    />
+                                  </div>
+                                )}
+                            </>
+                          );
+                        })}
+                      <button
+                        className="btn btn-link btn-add-asset"
+                        type="button"
+                        onClick={() => setAssetsFromControlCounter(assetsFormControlCounter + 1)}
+                      >
+                        + asset
+                      </button>
                     </>
                   )}
                   <div className="mb-3">
@@ -283,12 +328,7 @@ const PaymentSendForm = ({
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    disabled={
-                      submitting ||
-                      Object.keys(errors).length > 0 ||
-                      pristine ||
-                      values.asset === 'none'
-                    }
+                    disabled={submitting || Object.keys(errors).length > 0 || pristine}
                   >
                     Send
                   </button>
