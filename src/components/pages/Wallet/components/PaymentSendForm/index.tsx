@@ -48,6 +48,14 @@ const PaymentSendForm = ({
       }, []);
   };
 
+  const addAssetsField = useCallback(() => {
+    setAssetsFromControlCounter(
+      assetsFormControlCounter < Object.keys(walletBalanceData?.assets).length
+        ? assetsFormControlCounter + 1
+        : assetsFormControlCounter,
+    );
+  }, [walletBalanceData, assetsFormControlCounter]);
+
   const paymentSend = useCallback(
     (values: any) => {
       const assets: Array<FormattedAsset> = getFormattedAssets(values);
@@ -298,7 +306,7 @@ const PaymentSendForm = ({
                       <button
                         className="btn btn-link btn-add-asset"
                         type="button"
-                        onClick={() => setAssetsFromControlCounter(assetsFormControlCounter + 1)}
+                        onClick={addAssetsField}
                       >
                         + asset
                       </button>
