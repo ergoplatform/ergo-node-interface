@@ -6,11 +6,15 @@ import nodeApi from '../../../../../api/api';
 import customToast from '../../../../../utils/toast';
 import CopyToClipboard from '../../../../common/CopyToClipboard';
 import constants from '../../../../../utils/constants';
+import { CloseIcon } from '../../../../common/icons/CloseIcon';
 
 type FormattedAsset = {
   tokenId: string;
   amount: number;
 };
+
+const ASSET_PREFIX = 'asset_';
+const ASSET_AMOUNT_POSTFIX = '_amount';
 
 const PaymentSendForm = ({
   apiKey,
@@ -23,17 +27,23 @@ const PaymentSendForm = ({
 }) => {
   const currentBalance = walletBalanceData?.balance;
 
+  const generateRandomId = () => {
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
+  };
+
   const [transactionId, setTransactionId] = useState(null);
   const [isSentModalOpen, setIsSentModalOpen] = useState(false);
   const [assetCheckbox, setAssetCheckbox] = useState(false);
-  const [assetsFormControlCounter, setAssetsFromControlCounter] = useState(1);
+  const [assetsFormControlFields, setAssetsFromControlFields] = useState([generateRandomId()]);
 
   const getFormattedAssets = (values: any) => {
     return Object.keys(values)
-      .filter((key) => key.includes('asset') && !key.includes('Amount'))
+      .filter((key) => key.includes(ASSET_PREFIX) && !key.includes(ASSET_AMOUNT_POSTFIX))
       .reduce((acc: any, key) => {
         const tokenId = values[key];
-        const amount = Number(values[`${key}Amount`]) * constants.nanoErgInErg;
+        const amount = Number(values[`${key}${ASSET_AMOUNT_POSTFIX}`]) * constants.nanoErgInErg;
 
         if (!tokenId || !amount) {
           return acc;
@@ -48,13 +58,22 @@ const PaymentSendForm = ({
       }, []);
   };
 
-  const addAssetsField = useCallback(() => {
-    setAssetsFromControlCounter(
-      assetsFormControlCounter < Object.keys(walletBalanceData?.assets).length
-        ? assetsFormControlCounter + 1
-        : assetsFormControlCounter,
-    );
-  }, [walletBalanceData, assetsFormControlCounter]);
+  const addAssetsField = () => {
+    if (assetsFormControlFields.length < Object.keys(walletBalanceData?.assets).length) {
+      setAssetsFromControlFields([...assetsFormControlFields, generateRandomId()]);
+    }
+  };
+
+  const removeAssetsField = (assetFieldId: string) => {
+    // TODO: need to add form value clearance
+
+    const index = assetsFormControlFields.indexOf(assetFieldId);
+
+    setAssetsFromControlFields([
+      ...assetsFormControlFields.slice(0, index),
+      ...assetsFormControlFields.slice(index + 1, assetsFormControlFields.length),
+    ]);
+  };
 
   const paymentSend = useCallback(
     (values: any) => {
@@ -122,22 +141,33 @@ const PaymentSendForm = ({
       }
 
       if (assetCheckbox) {
-        for (let i = 0; i < Array(assetsFormControlCounter).fill('asset').length; i += 1) {
-          if (values[`asset${i}`] === 'none') {
-            errors[`asset${i}`] = 'You need to choose asset';
+        for (let i = 0; i < assetsFormControlFields.length; i += 1) {
+          const assetId = i;
+          const assetKey = `${ASSET_PREFIX}${assetId}`;
+          const assetAmountKey = `${ASSET_PREFIX}${assetId}${ASSET_AMOUNT_POSTFIX}`;
+
+          const currentAsset = values[assetKey];
+          const currentAssetAmount = values[assetAmountKey];
+
+          if (currentAsset === 'none') {
+            errors[assetKey] = 'You need to choose asset';
           }
 
           if (
             walletBalanceData &&
-            values[`asset${i}Amount`] &&
-            values[`asset${i}`] !== 'none' &&
-            values[`asset${i}Amount`] > walletBalanceData.assets[values[`asset${i}`]]
+            currentAssetAmount &&
+            currentAsset !== 'none' &&
+            currentAssetAmount > walletBalanceData.assets[values[`asset${i}`]]
           ) {
-            errors[`asset${i}Amount`] = `Maximum ${walletBalanceData.assets[values.asset]}`;
+            errors[assetAmountKey] = `Maximum ${walletBalanceData.assets[values.asset]}`;
           }
 
-          if (!values[`asset${i}Amount`]) {
-            errors[`asset${i}Amount`] = "The field can't be empty";
+          if (!currentAssetAmount) {
+            errors[assetAmountKey] = "The field can't be empty";
+          }
+
+          if (currentAsset && currentAsset !== 'none' && !currentAssetAmount) {
+            errors[assetAmountKey] = 'Enter Asset amount';
           }
         }
       }
@@ -161,7 +191,7 @@ const PaymentSendForm = ({
 
       return errors;
     },
-    [assetCheckbox, walletBalanceData, currentBalance, assetsFormControlCounter],
+    [assetCheckbox, walletBalanceData, currentBalance, assetsFormControlFields],
   );
 
   return (
@@ -250,59 +280,70 @@ const PaymentSendForm = ({
                     </div>
                   )}
 
+                  {console.log('values', values)}
+                  {console.log('>> assetsFormControlFields', assetsFormControlFields)}
+
                   {assetCheckbox && (
                     <>
-                      {Array(assetsFormControlCounter)
-                        .fill('asset')
-                        .map((fieldName, index) => {
-                          return (
-                            <>
+                      {assetsFormControlFields.map((assetFieldsId) => {
+                        const assetKey = `${ASSET_PREFIX}${assetFieldsId}`;
+                        const assetAmountKey = `${ASSET_PREFIX}${assetFieldsId}${ASSET_AMOUNT_POSTFIX}`;
+
+                        return (
+                          <div className="asset-field">
+                            <button
+                              type="button"
+                              className="asset-field__btn-close"
+                              onClick={() => {
+                                removeAssetsField(assetFieldsId);
+                                /*
+                                  How to reset special form field ??
+                                */
+                              }}
+                            >
+                              <CloseIcon className="asset-field__btn-close-icon" />
+                            </button>
+                            <div className="mb-3">
+                              <label htmlFor={assetKey}>Asset ID</label>
+                              <Field
+                                name={assetKey}
+                                component="select"
+                                className={cn('form-control')}
+                              >
+                                <option value="none">Choose asset</option>
+                                {Object.keys(walletBalanceData?.assets || {}).map((tokenId) => (
+                                  <option key={tokenId} value={tokenId}>
+                                    {tokenId}
+                                  </option>
+                                ))}
+                              </Field>
+                            </div>
+                            {values[assetKey] && values[assetKey] !== 'none' && (
                               <div className="mb-3">
-                                <label htmlFor={`${fieldName}${index}`}>{`Asset ${
-                                  index + 1
-                                }`}</label>
+                                <label htmlFor={assetAmountKey}>Asset amount</label>
                                 <Field
-                                  name={`${fieldName}${index}`}
-                                  component="select"
+                                  name={assetAmountKey}
                                   className={cn('form-control')}
-                                >
-                                  <option value="none">Choose asset</option>
-                                  {Object.keys(walletBalanceData?.assets || {}).map((tokenId) => (
-                                    <option key={tokenId} value={tokenId}>
-                                      {tokenId}
-                                    </option>
-                                  ))}
-                                </Field>
+                                  render={({ input, meta }) => (
+                                    <>
+                                      <input
+                                        id="assetAmount"
+                                        className={cn('form-control', {
+                                          'is-invalid': meta.touched && meta.error,
+                                        })}
+                                        type="number"
+                                        placeholder="0,000"
+                                        {...input}
+                                      />
+                                      <div className="invalid-feedback">{meta.error}</div>
+                                    </>
+                                  )}
+                                />
                               </div>
-                              {values[`${fieldName}${index}`] &&
-                                values[`${fieldName}${index}`] !== 'none' && (
-                                  <div className="mb-3">
-                                    <label htmlFor={`${fieldName}${index}Amount`}>
-                                      {`Asset ${index + 1} amount`}
-                                    </label>
-                                    <Field
-                                      name={`${fieldName}${index}Amount`}
-                                      className={cn('form-control')}
-                                      render={({ input, meta }) => (
-                                        <>
-                                          <input
-                                            id="assetAmount"
-                                            className={cn('form-control', {
-                                              'is-invalid': meta.touched && meta.error,
-                                            })}
-                                            type="number"
-                                            placeholder="0,000"
-                                            {...input}
-                                          />
-                                          <div className="invalid-feedback">{meta.error}</div>
-                                        </>
-                                      )}
-                                    />
-                                  </div>
-                                )}
-                            </>
-                          );
-                        })}
+                            )}
+                          </div>
+                        );
+                      })}
                       <button
                         className="btn btn-link btn-add-asset"
                         type="button"

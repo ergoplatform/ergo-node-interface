@@ -1,3 +1,5 @@
+$payment-send-form-border-color: #ced4da;
+
 .wallet-container {
   padding: 32px;
   display: grid;
@@ -17,6 +19,23 @@
   outline: none !important;
   box-shadow: none !important;
   border: none !important;
+}
+
+.asset-field {
+  position: relative;
+  padding: 20px;
+  background-clip: padding-box;
+  border: 1px solid $payment-send-form-border-color;
+  border-radius: .25rem;
+  margin-bottom: 15px;
+
+  &__btn-close {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 1px;
+    right: -4px;
+  }
 }
 
 .btn-add-asset {
