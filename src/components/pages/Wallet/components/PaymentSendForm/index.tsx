@@ -33,7 +33,7 @@ const PaymentSendForm = ({
   const paymentSend = useCallback(
     ({ recipientAddress, amount, fee, asset, assetAmount }) => {
       const request = {
-        address: recipientAddress,
+        address: recipientAddress.trim(),
         value: Number((parseFloat(amount) * constants.nanoErgInErg).toFixed(1)),
         assets:
           assetCheckbox && asset !== 'none' && assetAmount > 0
@@ -88,7 +88,7 @@ const PaymentSendForm = ({
       const totalFeeAndAmount =
         (Number(values.amount) + Number(values.fee)) * constants.nanoErgInErg;
 
-      if (!values.recipientAddress) {
+      if (!values.recipientAddress || values.recipientAddress?.trim() === '') {
         errors.recipientAddress = 'The field cannot be empty';
       }
 
