@@ -6,12 +6,14 @@ import InfoModal from 'components/common/InfoModal/InfoModal';
 import CopyToClipboard from 'components/common/CopyToClipboard';
 import customToast from 'utils/toast';
 import nodeApi from 'api/api';
+import constants from '../../../../../utils/constants';
 
 type AssetIssueFormData = {
   name?: string;
   amount?: string;
   decimals?: string;
   description?: string;
+  fee?: string;
 };
 
 const AssetIssueForm = ({
@@ -27,7 +29,7 @@ const AssetIssueForm = ({
   const [assetName, setAssetName] = useState(null);
 
   const issueAsset = useCallback(
-    ({ name, amount, decimals, description }) => {
+    ({ name, amount, decimals, description, fee }) => {
       setAssetAmount(amount);
       setAssetName(name);
       const request = {
@@ -41,6 +43,7 @@ const AssetIssueForm = ({
         '/wallet/transaction/send',
         {
           requests: [request],
+          fee: Number((parseFloat(fee) * constants.nanoErgInErg).toFixed(1)),
         },
         {
           headers: {
@@ -93,12 +96,20 @@ const AssetIssueForm = ({
       errors.description = 'The field cannot be empty';
     }
 
+    if (!values.fee || Number(values.fee) < 0.001) {
+      errors.fee = 'Minimum 0.001 ERG';
+    }
+
     if (!Number.isInteger(Number(values.amount)) && values.amount) {
       errors.amount = 'Should be an integer';
     }
 
     if (!Number.isInteger(Number(values.decimals)) && values.decimals) {
       errors.decimals = 'Should be an integer';
+    }
+
+    if (Number(values.fee) < 0) {
+      errors.fee = "Fee can't be negative";
     }
 
     return errors;
@@ -110,12 +121,13 @@ const AssetIssueForm = ({
       <Form
         onSubmit={submitForm}
         validate={validateForm}
+        initialValues={{ fee: 0.001 }}
         render={({ handleSubmit, submitting, pristine, form, errors }) => {
           return (
             <>
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="name">Asset name*</label>
+                  <label htmlFor="name">Asset name</label>
                   <Field
                     name="name"
                     render={({ input, meta }) => (
@@ -136,7 +148,7 @@ const AssetIssueForm = ({
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="amount">Net amount*</label>
+                  <label htmlFor="amount">Net amount</label>
                   <Field
                     name="amount"
                     render={({ input, meta }) => (
@@ -157,7 +169,7 @@ const AssetIssueForm = ({
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="decimals">Decimal places*</label>
+                  <label htmlFor="decimals">Decimal places</label>
                   <Field
                     name="decimals"
                     render={({ input, meta }) => (
@@ -178,7 +190,7 @@ const AssetIssueForm = ({
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="description">Brief description*</label>
+                  <label htmlFor="description">Brief description</label>
                   <Field
                     name="description"
                     render={({ input, meta }) => (
@@ -189,6 +201,28 @@ const AssetIssueForm = ({
                             'is-invalid': meta.touched && meta.error,
                           })}
                           placeholder="Add asset description"
+                          {...input}
+                        />
+                        <div className="invalid-feedback">{meta.error}</div>
+                      </>
+                    )}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="fee">Fee (in ERG)</label>
+                  <Field
+                    name="fee"
+                    value="0.001"
+                    render={({ input, meta }) => (
+                      <>
+                        <input
+                          id="fee"
+                          className={cn('form-control', {
+                            'is-invalid': meta.touched && meta.error,
+                          })}
+                          type="number"
+                          placeholder="Minimum 0.001 ERG"
                           {...input}
                         />
                         <div className="invalid-feedback">{meta.error}</div>
