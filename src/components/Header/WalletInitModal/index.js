@@ -6,6 +6,7 @@ import appActions from '../../../store/actions/appActions';
 import WalletInitializeForm from '../../elements/WalletInitializeForm';
 import RestoreWalletForm from '../../elements/RestoreWalletForm';
 import walletActions from '../../../store/actions/walletActions';
+import { MODAL_STATES } from '../utils';
 
 const mapStateToProps = (state) => ({
   apiKey: apiKeySelector(state),
@@ -22,10 +23,12 @@ class WalletInitModal extends Component {
   };
 
   handleShow = () => {
+    this.props.onOpen(MODAL_STATES.INIT);
     this.setState({ showModal: true });
   };
 
   handleHide = () => {
+    this.props.onOpen(null);
     this.props.dispatchCheckWalletStatus();
     this.setState({ showModal: false });
   };
