@@ -1,5 +1,6 @@
 import React, { Component, memo } from 'react';
 import { Formik, Field, Form } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 import nodeApi from '../../../api/api';
 import customToast from '../../../utils/toast';
 
@@ -10,14 +11,19 @@ const initialFormValues = {
 };
 
 class RestoreWalletForm extends Component {
-  walletRestore = async ({ walletPassword, mnemonicPass = '', mnemonic = '' }) => {
-    if (!mnemonic || !String(mnemonic).trim()) {
+  walletRestore = async (values, uuid) => {
+    const { walletPassword, mnemonicPass = '' } = values;
+    if (!values[`mnemonic${uuid}`] || !String(values[`mnemonic${uuid}`]).trim()) {
       throw Error('Need to set mnemonic');
     }
 
     return nodeApi.post(
       '/wallet/restore',
-      { pass: walletPassword, mnemonicPass, mnemonic },
+      {
+        pass: walletPassword || '',
+        mnemonicPass: mnemonicPass || '',
+        mnemonic: values[`mnemonic${uuid}`],
+      },
       {
         headers: {
           api_key: this.props.apiKey,
@@ -26,9 +32,9 @@ class RestoreWalletForm extends Component {
     );
   };
 
-  handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
+  handleSubmit = (values, { setSubmitting, resetForm, setStatus }, uuid) => {
     setStatus({ status: 'submitting' });
-    this.walletRestore(values)
+    this.walletRestore(values, uuid)
       .then(() => {
         resetForm(initialFormValues);
         customToast('success', 'Your wallet successfully re-stored');
@@ -41,10 +47,15 @@ class RestoreWalletForm extends Component {
   };
 
   render() {
+    const uuid = uuidv4();
+
     return (
       <div className="card bg-white p-4 mb-4">
         <h2 className="h5 mb-3">Re-store wallet</h2>
-        <Formik initialValues={initialFormValues} onSubmit={this.handleSubmit}>
+        <Formik
+          initialValues={{ walletPassword: '', mnemonicPass: '', [`mnemonic${uuid}`]: '' }}
+          onSubmit={(values, props) => this.handleSubmit(values, props, uuid)}
+        >
           {({ status, isSubmitting }) => (
             <Form>
               {status && status.state === 'error' && (
@@ -58,7 +69,7 @@ class RestoreWalletForm extends Component {
               <div className="form-group">
                 <label htmlFor="restore-mnemonic-input">Mnemonic</label>
                 <Field
-                  name="mnemonic"
+                  name={`mnemonic${uuid}`}
                   type="text"
                   id="restore-mnemonic-input"
                   className="form-control"

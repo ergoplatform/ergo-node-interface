@@ -27,16 +27,16 @@ const ApiKeyModalContainer = (props) => {
     setShowModal(false);
   };
 
-  const submitForm = (values) => {
+  const submitForm = (values, uuid) => {
     // Check API key for random get method
     nodeApi
       .get('/wallet/status', {
         headers: {
-          api_key: values.apiKey,
+          api_key: values[`apiKey${uuid}`],
         },
       })
       .then(() => {
-        dispatchSetApiKey(values.apiKey.trim());
+        dispatchSetApiKey(values[`apiKey${uuid}`].trim());
         customToast('success', 'API key is set successfully');
         handleHide();
       })

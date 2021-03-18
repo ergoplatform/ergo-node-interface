@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 
 const renderButton = (apiKey, handleShow) => {
   if (apiKey === '') {
@@ -19,11 +20,15 @@ const renderButton = (apiKey, handleShow) => {
 };
 
 const ApiKeyModalView = ({ showModal, handleHide, submitForm, apiKey, handleShow }) => {
+  const uuid = uuidv4();
   return (
     <div>
       {renderButton(apiKey, handleShow)}
       <Modal show={showModal} onHide={() => handleHide()} centered>
-        <Formik initialValues={{ apiKey }} onSubmit={submitForm}>
+        <Formik
+          initialValues={{ [`apiKey${uuid}`]: apiKey }}
+          onSubmit={(values) => submitForm(values, uuid)}
+        >
           {() => (
             <Form>
               <Modal.Header closeButton>
@@ -34,7 +39,7 @@ const ApiKeyModalView = ({ showModal, handleHide, submitForm, apiKey, handleShow
                 <div className="input-group">
                   <Field
                     type="text"
-                    name="apiKey"
+                    name={`apiKey${uuid}`}
                     className="form-control"
                     placeholder="Enter API key"
                   />

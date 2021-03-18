@@ -142,7 +142,7 @@ const PaymentSendForm = ({
         <Form
           onSubmit={sendForm}
           validate={validateForm}
-          initialValues={{ fee: 0.001, amount: 0.001 }}
+          initialValues={{ fee: 0.001, amount: 0.01 }}
           render={({ handleSubmit, submitting, pristine, form, values, errors }) => {
             return (
               <>
