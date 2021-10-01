@@ -19,10 +19,12 @@ const PaymentSendForm = ({
   apiKey,
   walletBalanceData,
   getWalletBalance,
+  explorer,
 }: {
   apiKey: string;
   walletBalanceData: any;
   getWalletBalance: any;
+  explorer: string;
 }) => {
   const currentBalance = walletBalanceData?.balance;
 
@@ -310,7 +312,7 @@ const PaymentSendForm = ({
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={`https://explorer.ergoplatform.com/en/transactions/${transactionId}`}
+                          href={`https://${explorer}.ergoplatform.com/en/transactions/${transactionId}`}
                         >
                           Click Here To Go To The Explorer
                         </a>
