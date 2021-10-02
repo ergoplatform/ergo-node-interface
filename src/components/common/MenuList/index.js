@@ -2,9 +2,9 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faExchangeAlt, faGlobe, faBook } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
-import { faWpexplorer } from '@fortawesome/free-brands-svg-icons';
 import { withRouter, Link } from 'react-router-dom';
 import constants from '../../../utils/constants';
+import Explorer from './components/explorer';
 
 const localRouteList = {
   dashboard: {
@@ -25,11 +25,11 @@ const externalRouteList = {
     icon: <FontAwesomeIcon icon={faBook} />,
     title: 'Swagger',
   },
-  explorer: {
-    href: constants.explorer,
-    icon: <FontAwesomeIcon icon={faWpexplorer} />,
-    title: 'Explorer',
-  },
+  // explorer: {
+  //   href: explorerHref,
+  //   icon: explorerIcon,
+  //   title: explorerTitle,
+  // },
   website: {
     href: constants.website,
     icon: <FontAwesomeIcon icon={faGlobe} />,
@@ -73,6 +73,7 @@ const MenuList = ({ location: { pathname } }) => {
             {icon} {title}
           </a>
         ))}
+        <Explorer />
       </div>
     </div>
   );
