@@ -12,7 +12,6 @@ import {
 } from '../../../../../store/selectors/wallet';
 import { explorerSelector } from '../../../../../store/selectors/node';
 import walletActions from '../../../../../store/actions/walletActions';
-import nodeActions from '../../../../../store/actions/nodeActions';
 
 const WalletInformationTableItem = ({ name, value }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,23 +69,16 @@ const WalletInformationTable = (props: any) => {
     dispatchGetErgPrice,
     dispatchGetWalletAddresses,
     walletAddresses,
-    explorer,
-    dispatchGetNetwork,
+    explorerSubdomain,
   } = props;
 
   const getValues = useCallback(() => {
     dispatchGetWalletBalance();
     dispatchGetErgPrice();
     dispatchGetWalletAddresses();
-    dispatchGetNetwork();
-  }, [
-    dispatchGetWalletBalance,
-    dispatchGetErgPrice,
-    dispatchGetWalletAddresses,
-    dispatchGetNetwork,
-  ]);
+  }, [dispatchGetWalletBalance, dispatchGetErgPrice, dispatchGetWalletAddresses]);
 
-  const getAddreses = useCallback((addresses: String[], explorerNetwork: String) => {
+  const getAddreses = useCallback((addresses: String[], subdomain: String) => {
     if (addresses.length === 0) {
       return 0;
     }
@@ -96,7 +88,7 @@ const WalletInformationTable = (props: any) => {
         <a
           rel="noopener noreferrer"
           target="_blank"
-          href={`https://${explorerNetwork}.ergoplatform.com/en/addresses/${item}`}
+          href={`https://${subdomain}.ergoplatform.com/en/addresses/${item}`}
         >
           {item}
         </a>
@@ -139,10 +131,10 @@ const WalletInformationTable = (props: any) => {
       },
       {
         name: 'Addresses',
-        value: walletAddresses ? getAddreses(walletAddresses, explorer) : `Loading...`,
+        value: walletAddresses ? getAddreses(walletAddresses, explorerSubdomain) : `Loading...`,
       },
     ],
-    [walletBalance, getAssets, walletAddresses, getAddreses, explorer],
+    [walletBalance, getAssets, walletAddresses, getAddreses, explorerSubdomain],
   );
 
   const updateValues = useCallback(() => {
@@ -172,14 +164,13 @@ const mapStateToProps = (state: any) => ({
   walletBalance: walletBalanceDataSelector(state),
   ergPrice: ergPriceSelector(state),
   walletAddresses: walletAddressesSelector(state),
-  explorer: explorerSelector(state),
+  explorerSubdomain: explorerSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchGetWalletBalance: () => dispatch(walletActions.getWalletBalance()),
   dispatchGetErgPrice: () => dispatch(walletActions.getErgPrice()),
   dispatchGetWalletAddresses: () => dispatch(walletActions.getWalletAddresses()),
-  dispatchGetNetwork: () => dispatch(nodeActions.getNetwork()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletInformationTable);

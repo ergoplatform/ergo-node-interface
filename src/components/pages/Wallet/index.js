@@ -18,7 +18,7 @@ const mapStateToProps = (state) => ({
   isWalletInitialized: isWalletInitializedSelector(state),
   isWalletUnlocked: isWalletUnlockedSelector(state),
   walletBalanceData: walletBalanceDataSelector(state),
-  explorer: explorerSelector(state),
+  explorerSubdomain: explorerSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -28,8 +28,13 @@ const mapDispatchToProps = (dispatch) => ({
 class Wallet extends Component {
   renderState = (state) =>
     ({
-      unlocked: (apiKey, walletBalanceData, getWalletBalance, explorer) =>
-        this.renderWalletUnlockedState(apiKey, walletBalanceData, getWalletBalance, explorer),
+      unlocked: (apiKey, walletBalanceData, getWalletBalance, explorerSubdomain) =>
+        this.renderWalletUnlockedState(
+          apiKey,
+          walletBalanceData,
+          getWalletBalance,
+          explorerSubdomain,
+        ),
       locked: () => this.renderWalletLockedState(),
       initialized: (apiKey) => this.renderInitializedState(apiKey),
     }[state]);
@@ -46,7 +51,12 @@ class Wallet extends Component {
     </div>
   );
 
-  renderWalletUnlockedState = (apiKey, walletBalanceData, dispatchGetWalletBalance, explorer) => (
+  renderWalletUnlockedState = (
+    apiKey,
+    walletBalanceData,
+    dispatchGetWalletBalance,
+    explorerSubdomain,
+  ) => (
     <div className="wallet-container">
       <div>
         <WalletInformationTable />
@@ -56,14 +66,14 @@ class Wallet extends Component {
           apiKey={apiKey}
           walletBalanceData={walletBalanceData}
           getWalletBalance={dispatchGetWalletBalance}
-          explorer={explorer}
+          explorerSubdomain={explorerSubdomain}
         />
       </div>
       <div>
         <AssetIssueForm
           apiKey={apiKey}
           getWalletBalance={dispatchGetWalletBalance}
-          explorer={explorer}
+          explorerSubdomain={explorerSubdomain}
         />
       </div>
     </div>
@@ -76,7 +86,7 @@ class Wallet extends Component {
       isWalletInitialized,
       walletBalanceData,
       dispatchGetWalletBalance,
-      explorer,
+      explorerSubdomain,
     } = this.props;
 
     if (apiKey === '') {
@@ -96,7 +106,7 @@ class Wallet extends Component {
         apiKey,
         walletBalanceData,
         dispatchGetWalletBalance,
-        explorer,
+        explorerSubdomain,
       );
     }
 

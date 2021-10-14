@@ -25,11 +25,6 @@ const externalRouteList = {
     icon: <FontAwesomeIcon icon={faBook} />,
     title: 'Swagger',
   },
-  // explorer: {
-  //   href: explorerHref,
-  //   icon: explorerIcon,
-  //   title: explorerTitle,
-  // },
   website: {
     href: constants.website,
     icon: <FontAwesomeIcon icon={faGlobe} />,
