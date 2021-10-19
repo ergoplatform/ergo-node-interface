@@ -15,7 +15,7 @@ const Router = (props) => {
 
   useEffect(() => {
     dispatchGetNetwork();
-  });
+  }, []);
 
   return (
     <BrowserRouter basename="/panel">

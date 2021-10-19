@@ -4,7 +4,7 @@ import { faChartLine, faExchangeAlt, faGlobe, faBook } from '@fortawesome/free-s
 import clsx from 'clsx';
 import { withRouter, Link } from 'react-router-dom';
 import constants from '../../../utils/constants';
-import Explorer from './components/explorer';
+import Explorer from './components/Explorer';
 
 const localRouteList = {
   dashboard: {
