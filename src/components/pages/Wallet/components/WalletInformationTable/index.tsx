@@ -10,6 +10,7 @@ import {
   ergPriceSelector,
   walletAddressesSelector,
 } from '../../../../../store/selectors/wallet';
+import { explorerSelector } from '../../../../../store/selectors/node';
 import walletActions from '../../../../../store/actions/walletActions';
 
 const WalletInformationTableItem = ({ name, value }: any) => {
@@ -68,6 +69,7 @@ const WalletInformationTable = (props: any) => {
     dispatchGetErgPrice,
     dispatchGetWalletAddresses,
     walletAddresses,
+    explorerSubdomain,
   } = props;
 
   const getValues = useCallback(() => {
@@ -76,7 +78,7 @@ const WalletInformationTable = (props: any) => {
     dispatchGetWalletAddresses();
   }, [dispatchGetWalletBalance, dispatchGetErgPrice, dispatchGetWalletAddresses]);
 
-  const getAddreses = useCallback((addresses: String[]) => {
+  const getAddreses = useCallback((addresses: String[], subdomain: String) => {
     if (addresses.length === 0) {
       return 0;
     }
@@ -86,7 +88,7 @@ const WalletInformationTable = (props: any) => {
         <a
           rel="noopener noreferrer"
           target="_blank"
-          href={`https://explorer.ergoplatform.com/en/addresses/${item}`}
+          href={`https://${subdomain}.ergoplatform.com/en/addresses/${item}`}
         >
           {item}
         </a>
@@ -129,10 +131,10 @@ const WalletInformationTable = (props: any) => {
       },
       {
         name: 'Addresses',
-        value: walletAddresses ? getAddreses(walletAddresses) : `Loading...`,
+        value: walletAddresses ? getAddreses(walletAddresses, explorerSubdomain) : `Loading...`,
       },
     ],
-    [walletBalance, getAssets, walletAddresses, getAddreses],
+    [walletBalance, getAssets, walletAddresses, getAddreses, explorerSubdomain],
   );
 
   const updateValues = useCallback(() => {
@@ -162,6 +164,7 @@ const mapStateToProps = (state: any) => ({
   walletBalance: walletBalanceDataSelector(state),
   ergPrice: ergPriceSelector(state),
   walletAddresses: walletAddressesSelector(state),
+  explorerSubdomain: explorerSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

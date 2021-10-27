@@ -19,9 +19,11 @@ type AssetIssueFormData = {
 const AssetIssueForm = ({
   apiKey,
   getWalletBalance,
+  explorerSubdomain,
 }: {
   apiKey: string;
   getWalletBalance: any;
+  explorerSubdomain: string;
 }) => {
   const [transactionId, setTransactionId] = useState(null);
   const [isSentModalOpen, setIsSentModalOpen] = useState(false);
@@ -256,7 +258,7 @@ const AssetIssueForm = ({
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`https://explorer.ergoplatform.com/en/transactions/${transactionId}`}
+                        href={`https://${explorerSubdomain}.ergoplatform.com/en/transactions/${transactionId}`}
                       >
                         Click Here To View Transaction
                       </a>

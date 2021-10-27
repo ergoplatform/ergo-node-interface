@@ -4,6 +4,7 @@ import walletActions from 'store/actions/walletActions';
 import PaymentSendForm from './components/PaymentSendForm/index';
 import AssetIssueForm from './components/AssetIssueForm/index';
 import { apiKeySelector } from '../../../store/selectors/app';
+import { explorerSelector } from '../../../store/selectors/node';
 import {
   isWalletInitializedSelector,
   isWalletUnlockedSelector,
@@ -17,6 +18,7 @@ const mapStateToProps = (state) => ({
   isWalletInitialized: isWalletInitializedSelector(state),
   isWalletUnlocked: isWalletUnlockedSelector(state),
   walletBalanceData: walletBalanceDataSelector(state),
+  explorerSubdomain: explorerSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -26,8 +28,13 @@ const mapDispatchToProps = (dispatch) => ({
 class Wallet extends Component {
   renderState = (state) =>
     ({
-      unlocked: (apiKey, walletBalanceData, getWalletBalance) =>
-        this.renderWalletUnlockedState(apiKey, walletBalanceData, getWalletBalance),
+      unlocked: (apiKey, walletBalanceData, getWalletBalance, explorerSubdomain) =>
+        this.renderWalletUnlockedState(
+          apiKey,
+          walletBalanceData,
+          getWalletBalance,
+          explorerSubdomain,
+        ),
       locked: () => this.renderWalletLockedState(),
       initialized: (apiKey) => this.renderInitializedState(apiKey),
     }[state]);
@@ -44,7 +51,12 @@ class Wallet extends Component {
     </div>
   );
 
-  renderWalletUnlockedState = (apiKey, walletBalanceData, dispatchGetWalletBalance) => (
+  renderWalletUnlockedState = (
+    apiKey,
+    walletBalanceData,
+    dispatchGetWalletBalance,
+    explorerSubdomain,
+  ) => (
     <div className="wallet-container">
       <div>
         <WalletInformationTable />
@@ -54,10 +66,15 @@ class Wallet extends Component {
           apiKey={apiKey}
           walletBalanceData={walletBalanceData}
           getWalletBalance={dispatchGetWalletBalance}
+          explorerSubdomain={explorerSubdomain}
         />
       </div>
       <div>
-        <AssetIssueForm apiKey={apiKey} getWalletBalance={dispatchGetWalletBalance} />
+        <AssetIssueForm
+          apiKey={apiKey}
+          getWalletBalance={dispatchGetWalletBalance}
+          explorerSubdomain={explorerSubdomain}
+        />
       </div>
     </div>
   );
@@ -69,6 +86,7 @@ class Wallet extends Component {
       isWalletInitialized,
       walletBalanceData,
       dispatchGetWalletBalance,
+      explorerSubdomain,
     } = this.props;
 
     if (apiKey === '') {
@@ -84,7 +102,12 @@ class Wallet extends Component {
     }
 
     if (isWalletUnlocked) {
-      return this.renderState('unlocked')(apiKey, walletBalanceData, dispatchGetWalletBalance);
+      return this.renderState('unlocked')(
+        apiKey,
+        walletBalanceData,
+        dispatchGetWalletBalance,
+        explorerSubdomain,
+      );
     }
 
     return this.renderState('locked')();
