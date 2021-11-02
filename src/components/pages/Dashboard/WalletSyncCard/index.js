@@ -26,7 +26,7 @@ export default class WalletSyncCard extends Component {
     <>
       <p className="info-card__title">Synchronization state</p>
       <p className="info-card__label text-danger">
-        <FontAwesomeIcon icon={faTimes} /> Error - Something happend with the node.
+        <FontAwesomeIcon icon={faTimes} /> Error - {this.props.walletStatusData.error}
       </p>
     </>
   );
