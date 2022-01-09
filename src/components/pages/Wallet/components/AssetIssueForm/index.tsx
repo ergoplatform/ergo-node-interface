@@ -223,7 +223,7 @@ const AssetIssueForm = ({
                           className={cn('form-control', {
                             'is-invalid': meta.touched && meta.error,
                           })}
-                          type="number"
+                          type="float"
                           placeholder="Minimum 0.001 ERG"
                           {...input}
                         />
