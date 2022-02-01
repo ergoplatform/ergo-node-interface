@@ -24,7 +24,7 @@ class ShutdownModal extends Component {
     return (
       <div>
         <button type="button" className="btn btn-outline-danger ml-4" onClick={this.handleSubmit}>
-          Shutdown
+          Shutdown Node
         </button>
       </div>
     );
