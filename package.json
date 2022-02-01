@@ -33,7 +33,6 @@
     "husky": "^3.0.9",
     "js-yaml": "^3.13.1",
     "lint-staged": "^9.4.2",
-    "node-sass": "^4.14.1",
     "popper.js": "^1.16.0",
     "prettier": "2.0.5",
     "react": "^16.10.2",
@@ -76,6 +75,7 @@
   "proxy": "http://0.0.0.0:9053",
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/register": "^7.7.0"
+    "@babel/register": "^7.7.0",
+    "sass": "^1.49.0"
   }
 }
