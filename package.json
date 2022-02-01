@@ -76,6 +76,7 @@
   "proxy": "http://0.0.0.0:9053",
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/register": "^7.7.0"
+    "@babel/register": "^7.7.0",
+    "sass": "^1.49.0"
   }
 }

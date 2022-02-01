@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ApiKeyModal from './ApiKeyModal';
+import ShutdownModal from './ShutdownModal';
 import WalletStatusModal from './WalletStatusModal';
 import WalletInitModal from './WalletInitModal';
 import logo from '../../assets/images/logotype_white.svg';
@@ -41,6 +42,7 @@ const HeaderView = ({ isApiKeySetted, isWalletInitialized }) => {
         <ApiKeyModal />
       </div>
       {isApiKeySetted && renderWalletForms(isWalletInitialized, openedModal, setOpenedModal)}
+      <ShutdownModal />
     </Navbar>
   );
 };
