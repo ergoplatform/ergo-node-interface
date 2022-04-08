@@ -19,6 +19,7 @@ const getWalletStatus = (isWalletInitialized) => {
 const DashboardView = ({
   error,
   nodeInfo,
+  maxKnownHeight,
   isWalletInitialized,
   walletStatusData,
   walletBalanceData,
@@ -48,7 +49,9 @@ const DashboardView = ({
     );
   }
 
-  const { peersCount, bestHeaderId, launchTime, fullHeight, appVersion, isMining } = nodeInfo;
+  const { peersCount, bestHeaderId, launchTime, headersHeight, fullHeight, appVersion, isMining } = nodeInfo;
+
+  const progress = fullHeight === null ? 0 : (fullHeight / headersHeight * 100).toFixed(2);
 
   return (
     <>
@@ -100,6 +103,15 @@ const DashboardView = ({
               <p className="info-card__label">{peersCount}</p>
             </InfoCard>
           </div>
+          {fullHeight === null ? null : (
+            <div className="dashboard__item">
+              <InfoCard className="rounded-0 shadow-none">
+                <p className="info-card__title">Sync progress</p>
+                <p className="info-card__label">{progress + "%"}</p>
+                <span className="info-card__progress" style={{background: `linear-gradient(90deg, #28a745 ${progress}%, black 0%)`}}></span>
+              </InfoCard>
+            </div>
+          )}
         </div>
       </div>
       {ergPrice && (
