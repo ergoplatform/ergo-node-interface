@@ -49,11 +49,19 @@ const DashboardView = ({
     );
   }
 
-  const { peersCount, bestHeaderId, launchTime, headersHeight, fullHeight, appVersion, isMining } = nodeInfo;
+  const {
+    peersCount,
+    bestHeaderId,
+    launchTime,
+    headersHeight,
+    fullHeight,
+    appVersion,
+    isMining
+  } = nodeInfo;
 
   const snycStage = fullHeight === null ? "header" : "block";
 
-  const progress = fullHeight === null ? (maxKnownHeight === -Infinity ? 0 : (headersHeight / maxKnownHeight * 100).toFixed(2)) : (fullHeight / headersHeight * 100).toFixed(2);
+  const progress = fullHeight === null ? (maxKnownHeight === -Infinity ? NaN : (headersHeight / maxKnownHeight * 100).toFixed(2)) : (fullHeight / headersHeight * 100).toFixed(2);
 
   return (
     <>
@@ -105,12 +113,12 @@ const DashboardView = ({
               <p className="info-card__label">{peersCount}</p>
             </InfoCard>
           </div>
-          {fullHeight === null ? null : (
+          {isNaN(progress) || progress == 100 ? null : (
             <div className="dashboard__item">
               <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Sync progress</p>
-                <p className="info-card__label">Syncing {snycStage}s: {progress + "%"}</p>
-                <span className="info-card__progress" style={{background: `linear-gradient(90deg, var(--${snycStage}) ${progress}%, black 0%)`}}></span>
+                <p className="info-card__label">Syncing {snycStage}s: {(progress > 100 ? "--" : progress) + "%"}</p>
+                <span className="info-card__progress" style={{background: `linear-gradient(90deg, var(--${snycStage}) ${progress > 100 ? 0 : progress}%, black 0%)`}}></span>
               </InfoCard>
             </div>
           )}
