@@ -65,7 +65,9 @@ const DashboardContainer = (props) => {
     try {
       const { data } = await getSyncInfo();
 
-      setMaxKnownHeight(data);
+      const maxHeight = Math.max(...data.map(x => x.height));
+
+      setMaxKnownHeight(maxHeight);
       setError(null);
     } catch {
       setError('Node connection is lost.');
