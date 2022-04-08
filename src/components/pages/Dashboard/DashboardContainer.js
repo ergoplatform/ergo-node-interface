@@ -65,7 +65,7 @@ const DashboardContainer = (props) => {
     try {
       const { data } = await getSyncInfo();
 
-      const maxHeight = Math.max(...data.map(x => x.height));
+      const maxHeight = Math.max(...data.map((x) => x.height));
 
       setMaxKnownHeight(maxHeight);
       setError(null);
@@ -93,7 +93,7 @@ const DashboardContainer = (props) => {
     dispatchGetErgPrice,
     dispatchGetWalletBalance,
     setNodeCurrentState,
-    setSyncInfo
+    setSyncInfo,
   ]);
 
   const prevError = usePrevious(error);

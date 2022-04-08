@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.60b3a068.chunk.css",
+    "main.js": "/static/js/main.afd2f8fb.chunk.js",
+    "main.js.map": "/static/js/main.afd2f8fb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.219240e0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.219240e0.js.map",
+    "static/css/2.9338f6a1.chunk.css": "/static/css/2.9338f6a1.chunk.css",
+    "static/js/2.a05d5ffd.chunk.js": "/static/js/2.a05d5ffd.chunk.js",
+    "static/js/2.a05d5ffd.chunk.js.map": "/static/js/2.a05d5ffd.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.7f2b7f72522e6611c84e000f8b4e1aaf.js": "/precache-manifest.7f2b7f72522e6611c84e000f8b4e1aaf.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.9338f6a1.chunk.css.map": "/static/css/2.9338f6a1.chunk.css.map",
+    "static/css/main.60b3a068.chunk.css.map": "/static/css/main.60b3a068.chunk.css.map",
+    "static/media/index.scss": "/static/media/Roboto-Thin.89e2666c.ttf",
+    "static/media/close.53dc3076.svg": "/static/media/close.53dc3076.svg",
+    "static/media/copy.icon.d3e20194.svg": "/static/media/copy.icon.d3e20194.svg",
+    "static/media/logotype_white.svg": "/static/media/logotype_white.1e2400b0.svg",
+    "static/media/redo-arrow-symbol.89cf3270.svg": "/static/media/redo-arrow-symbol.89cf3270.svg",
+    "static/media/remove.d7419813.svg": "/static/media/remove.d7419813.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.219240e0.js",
+    "static/css/2.9338f6a1.chunk.css",
+    "static/js/2.a05d5ffd.chunk.js",
+    "static/css/main.60b3a068.chunk.css",
+    "static/js/main.afd2f8fb.chunk.js"
+  ]
+}
