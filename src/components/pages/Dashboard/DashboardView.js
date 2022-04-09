@@ -19,7 +19,6 @@ const getWalletStatus = (isWalletInitialized) => {
 const DashboardView = ({
   error,
   nodeInfo,
-  maxKnownHeight,
   isWalletInitialized,
   walletStatusData,
   walletBalanceData,
@@ -50,18 +49,28 @@ const DashboardView = ({
   }
 
   const {
+    network,
     peersCount,
     bestHeaderId,
     launchTime,
     headersHeight,
     fullHeight,
+    maxPeerHeight,
     appVersion,
-    isMining
+    isMining,
   } = nodeInfo;
 
-  const snycStage = fullHeight === null ? "header" : "block";
+  const snycStage = fullHeight === null ? 'header' : 'block';
 
-  const progress = fullHeight === null ? (maxKnownHeight === -Infinity ? NaN : (headersHeight / maxKnownHeight * 100).toFixed(2)) : (fullHeight / headersHeight * 100).toFixed(2);
+  const progress = fullHeight === null ? 
+    (
+      maxPeerHeight === null ? NaN
+      :
+      (headersHeight / maxPeerHeight * 100).toFixed(2))
+    :
+    (fullHeight / headersHeight * 100).toFixed(2);
+
+  const explorer = "https://" + (network == "mainnet" ? "explorer" : network) + ".ergoplatform.com/en/blocks/" + bestHeaderId;
 
   return (
     <>
@@ -97,7 +106,7 @@ const DashboardView = ({
             <div className="dashboard__item">
               <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Best block id</p>
-                <p className="info-card__label">{bestHeaderId}</p>
+                <p className="info-card__label"><a href={explorer} target="_blank">{bestHeaderId}</a></p>
               </InfoCard>
             </div>
           )}

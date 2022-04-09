@@ -42,13 +42,10 @@ const DashboardContainer = (props) => {
   } = props;
 
   const [nodeInfo, setNodeInfo] = useState(null);
-  const [maxKnownHeight, setMaxKnownHeight] = useState(null);
   const [error, setError] = useState(null);
   const [timerId, setTimerId] = useState(null);
 
   const getNodeCurrentState = () => nodeApi.get('/info');
-
-  const getSyncInfo = () => nodeApi.get('/peers/syncInfo');
 
   const setNodeCurrentState = useCallback(async () => {
     try {
@@ -61,23 +58,9 @@ const DashboardContainer = (props) => {
     }
   }, []);
 
-  const setSyncInfo = useCallback(async () => {
-    try {
-      const { data } = await getSyncInfo();
-
-      const maxHeight = Math.max(...data.map((x) => x.height));
-
-      setMaxKnownHeight(maxHeight);
-      setError(null);
-    } catch {
-      setError('Node connection is lost.');
-    }
-  }, []);
-
   const setTimer = useCallback(() => {
     const newTimerId = setInterval(() => {
       setNodeCurrentState();
-      setSyncInfo();
       dispatchGetErgPrice();
 
       if (apiKey) {
@@ -93,7 +76,6 @@ const DashboardContainer = (props) => {
     dispatchGetErgPrice,
     dispatchGetWalletBalance,
     setNodeCurrentState,
-    setSyncInfo,
   ]);
 
   const prevError = usePrevious(error);
@@ -107,7 +89,6 @@ const DashboardContainer = (props) => {
 
   useEffect(() => {
     setNodeCurrentState();
-    setSyncInfo();
     dispatchGetErgPrice();
 
     if (apiKey) {
@@ -130,7 +111,6 @@ const DashboardContainer = (props) => {
     <DashboardView
       error={error}
       nodeInfo={nodeInfo}
-      maxKnownHeight={maxKnownHeight}
       isWalletInitialized={isWalletInitialized}
       isWalletUnlocked={isWalletUnlocked}
       apiKey={apiKey}
