@@ -60,7 +60,7 @@ const DashboardView = ({
     isMining,
   } = nodeInfo;
 
-  const snycStage = fullHeight === null ? 'header' : 'block';
+  const sync = fullHeight === null ? 'header' : 'block';
 
   const progress = fullHeight === null ? 
     (
