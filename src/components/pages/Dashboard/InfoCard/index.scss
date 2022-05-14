@@ -9,6 +9,8 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
+  --header: #ffc107;
+  --block: #28a745;
 
   &--green {
     background: #fff;
@@ -33,5 +35,12 @@
     font-weight: 400;
     margin-top: 5px;
     margin-bottom: 0;
+  }
+
+  &__progress {
+    height: 10px;
+    width: 80%;
+    border-radius: 10px;
+    display: inline-block;
   }
 }
