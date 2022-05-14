@@ -60,17 +60,19 @@ const DashboardView = ({
     isMining,
   } = nodeInfo;
 
-  const sync = fullHeight === null ? 'header' : 'block';
+  const syncStage = fullHeight === null ? 'header' : 'block';
 
-  const progress = fullHeight === null ? 
-    (
-      maxPeerHeight === null ? NaN
-      :
-      (headersHeight / maxPeerHeight * 100).toFixed(2))
-    :
-    (fullHeight / headersHeight * 100).toFixed(2);
+  const progress =
+    // eslint-disable-next-line no-nested-ternary
+    fullHeight === null
+      ? maxPeerHeight === null
+        ? null
+        : ((headersHeight / maxPeerHeight) * 100).toFixed(2)
+      : ((fullHeight / headersHeight) * 100).toFixed(2);
 
-  const explorer = "https://" + (network == "mainnet" ? "explorer" : network) + ".ergoplatform.com/en/blocks/" + bestHeaderId;
+  const explorer = `https://${
+    network === 'mainnet' ? 'explorer' : network
+  }.ergoplatform.com/en/blocks/${bestHeaderId}`;
 
   return (
     <>
@@ -106,7 +108,11 @@ const DashboardView = ({
             <div className="dashboard__item">
               <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Best block id</p>
-                <p className="info-card__label"><a href={explorer} target="_blank">{bestHeaderId}</a></p>
+                <p className="info-card__label">
+                  <a href={explorer} target="_blank" rel="noopener noreferrer">
+                    {bestHeaderId}
+                  </a>
+                </p>
               </InfoCard>
             </div>
           )}
@@ -122,12 +128,21 @@ const DashboardView = ({
               <p className="info-card__label">{peersCount}</p>
             </InfoCard>
           </div>
-          {isNaN(progress) || progress == 100 ? null : (
+          {!progress || progress === 100 ? null : (
             <div className="dashboard__item">
               <InfoCard className="rounded-0 shadow-none">
                 <p className="info-card__title">Sync progress</p>
-                <p className="info-card__label">Syncing {snycStage}s: {(progress > 100 ? "--" : progress) + "%"}</p>
-                <span className="info-card__progress" style={{background: `linear-gradient(90deg, var(--${snycStage}) ${progress > 100 ? 0 : progress}%, black 0%)`}}></span>
+                <p className="info-card__label">
+                  Syncing {syncStage}s: {`${progress > 100 ? '--' : progress}%`}
+                </p>
+                <span
+                  className="info-card__progress"
+                  style={{
+                    background: `linear-gradient(90deg, var(--${syncStage}) ${
+                      progress > 100 ? 0 : progress
+                    }%, black 0%)`,
+                  }}
+                />
               </InfoCard>
             </div>
           )}
