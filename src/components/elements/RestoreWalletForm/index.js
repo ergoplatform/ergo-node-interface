@@ -1,6 +1,7 @@
 import React, { Component, memo } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import nodeApi from '../../../api/api';
 import customToast from '../../../utils/toast';
 
@@ -12,7 +13,11 @@ const initialFormValues = {
 
 class RestoreWalletForm extends Component {
   walletRestore = async (values, uuid) => {
-    const { walletPassword, mnemonicPass = '' } = values;
+    const {
+      walletPassword,
+      previousDerivationPath: usePre1627KeyDerivation,
+      mnemonicPass = '',
+    } = values;
     if (!values[`mnemonic${uuid}`] || !String(values[`mnemonic${uuid}`]).trim()) {
       throw Error('Need to set mnemonic');
     }
@@ -23,6 +28,7 @@ class RestoreWalletForm extends Component {
         pass: walletPassword || '',
         mnemonicPass: mnemonicPass || '',
         mnemonic: values[`mnemonic${uuid}`],
+        usePre1627KeyDerivation,
       },
       {
         headers: {
@@ -53,7 +59,12 @@ class RestoreWalletForm extends Component {
       <div className="card bg-white p-4 mb-4">
         <h2 className="h5 mb-3">Re-store wallet</h2>
         <Formik
-          initialValues={{ walletPassword: '', mnemonicPass: '', [`mnemonic${uuid}`]: '' }}
+          initialValues={{
+            walletPassword: '',
+            mnemonicPass: '',
+            [`mnemonic${uuid}`]: '',
+            previousDerivationPath: true,
+          }}
           onSubmit={(values, props) => this.handleSubmit(values, props, uuid)}
         >
           {({ status, isSubmitting }) => (
@@ -96,6 +107,35 @@ class RestoreWalletForm extends Component {
                   className="form-control"
                   placeholder="Enter mnemonic password"
                 />
+              </div>
+              <div className="form-check">
+                <label htmlFor="previous-derivation-path">
+                  <Field
+                    name="previousDerivationPath"
+                    type="checkbox"
+                    id="previous-derivation-path"
+                    className="form-check-input"
+                  />
+                  Use previous derivation path{' '}
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={(props) => (
+                      <Tooltip id="button-tooltip" {...props}>
+                        It&apos;s recommended to set it if the original wallet was created by ergo
+                        node before v4.0.24.
+                      </Tooltip>
+                    )}
+                  >
+                    <a
+                      href="https://github.com/ergoplatform/ergo/issues/1627"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      (?)
+                    </a>
+                  </OverlayTrigger>
+                </label>
               </div>
               <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                 Send
