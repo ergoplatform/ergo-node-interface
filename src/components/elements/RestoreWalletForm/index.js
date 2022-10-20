@@ -63,7 +63,7 @@ class RestoreWalletForm extends Component {
             walletPassword: '',
             mnemonicPass: '',
             [`mnemonic${uuid}`]: '',
-            previousDerivationPath: true,
+            previousDerivationPath: false,
           }}
           onSubmit={(values, props) => this.handleSubmit(values, props, uuid)}
         >
@@ -123,7 +123,7 @@ class RestoreWalletForm extends Component {
                     overlay={(props) => (
                       <Tooltip id="button-tooltip" {...props}>
                         It&apos;s recommended to set it if the original wallet was created by ergo
-                        node before v4.0.24.
+                        node before v4.0.105.
                       </Tooltip>
                     )}
                   >
