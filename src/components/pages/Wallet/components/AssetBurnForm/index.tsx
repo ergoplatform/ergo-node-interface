@@ -11,6 +11,7 @@ type Errors = {
   fee?: string;
   asset?: string;
   assetAmount?: string;
+  decimals?: string;
 };
 
 const AssetBurnForm = ({
@@ -30,11 +31,11 @@ const AssetBurnForm = ({
   const [isBurnModalOpen, setIsBurnModalOpen] = useState(false);
 
   const paymentBurn = useCallback(
-    ({ fee, asset, assetAmount }) => {
+    ({ fee, asset, decimals, assetAmount }) => {
       const request = {
         assetsToBurn:
           asset !== 'none' && assetAmount > 0
-            ? [{ tokenId: asset, amount: Number(assetAmount) }]
+            ? [{ tokenId: asset, amount: Number(assetAmount), decimals }]
             : [],
       };
       return nodeApi.post(
@@ -90,15 +91,27 @@ const AssetBurnForm = ({
         errors.assetAmount = "Asset amount can't be negative";
       }
 
+      if (!Number.isInteger(Number(values.assetAmount))) {
+        errors.assetAmount = 'Should be an integer';
+      }
+
       if (!values.fee || values.fee < 0.001) {
         errors.fee = 'Minimum 0.001 ERG';
+      }
+
+      if (!values.decimals) {
+        errors.decimals = 'The field cannot be empty';
+      }
+
+      if (!Number.isInteger(Number(values.decimals)) && values.decimals) {
+        errors.decimals = 'Should be an integer';
       }
 
       if (
         walletBalanceData &&
         values.assetAmount &&
         values.asset !== 'none' &&
-        values.assetAmount > walletBalanceData?.assets[values.asset]
+        Number(values.assetAmount) / 10 ** values.decimals > walletBalanceData?.assets[values.asset]
       ) {
         errors.assetAmount = `Maximum ${walletBalanceData?.assets[values.asset]}`;
       }
@@ -157,6 +170,26 @@ const AssetBurnForm = ({
                     </>
                   )}
                 />
+                <div className="mb-3">
+                  <label htmlFor="decimals">Decimal places</label>
+                  <Field
+                    name="decimals"
+                    render={({ input, meta }) => (
+                      <>
+                        <input
+                          id="decimals"
+                          type="text"
+                          placeholder="Enter decimals as integer"
+                          className={cn('form-control', {
+                            'is-invalid': meta.touched && meta.error,
+                          })}
+                          {...input}
+                        />
+                        <div className="invalid-feedback">{meta.error}</div>
+                      </>
+                    )}
+                  />
+                </div>
                 <div className="mb-3">
                   <label htmlFor="fee">Fee (in ERG)</label>
                   <Field
