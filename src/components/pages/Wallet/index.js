@@ -60,7 +60,7 @@ class Wallet extends Component {
   ) => (
     <div className="wallet-container">
       <div>
-        <WalletInformationTable />
+        <WalletInformationTable apiKey={apiKey} />
       </div>
       <div>
         <PaymentSendForm
