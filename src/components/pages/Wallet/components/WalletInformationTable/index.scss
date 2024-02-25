@@ -54,8 +54,21 @@
   font-size: 14px;
   line-height: 16px;
   color: black;
-  margin-top: 20px;
   word-break: break-all;
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0 20px;
+
+    th, td {
+      width: 20%;
+      vertical-align: top;
+    }
+
+    td:first-of-type, th:first-of-type {
+      width: 60%;
+    }
+  }
 }
 
 .wallet-table-item-header {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import walletActions from 'store/actions/walletActions';
 import PaymentSendForm from './components/PaymentSendForm/index';
 import AssetIssueForm from './components/AssetIssueForm/index';
+import AssetBurnForm from './components/AssetBurnForm';
 import { apiKeySelector } from '../../../store/selectors/app';
 import { explorerSelector } from '../../../store/selectors/node';
 import {
@@ -59,7 +60,7 @@ class Wallet extends Component {
   ) => (
     <div className="wallet-container">
       <div>
-        <WalletInformationTable />
+        <WalletInformationTable apiKey={apiKey} />
       </div>
       <div>
         <PaymentSendForm
@@ -72,6 +73,14 @@ class Wallet extends Component {
       <div>
         <AssetIssueForm
           apiKey={apiKey}
+          getWalletBalance={dispatchGetWalletBalance}
+          explorerSubdomain={explorerSubdomain}
+        />
+      </div>
+      <div>
+        <AssetBurnForm
+          apiKey={apiKey}
+          walletBalanceData={walletBalanceData}
           getWalletBalance={dispatchGetWalletBalance}
           explorerSubdomain={explorerSubdomain}
         />

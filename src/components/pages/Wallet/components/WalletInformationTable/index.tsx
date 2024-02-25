@@ -2,8 +2,11 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import './index.scss';
 import { connect } from 'react-redux';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import useAxios, { configure } from 'axios-hooks';
 import { RedoIcon } from 'components/common/icons/RedoIcon';
 import constants from 'utils/constants';
+import nodeApi from '../../../../../api/api';
 import { RemoveIcon } from '../../../../common/icons/icons';
 import {
   walletBalanceDataSelector,
@@ -13,7 +16,44 @@ import {
 import { explorerSelector } from '../../../../../store/selectors/node';
 import walletActions from '../../../../../store/actions/walletActions';
 
-const WalletInformationTableItem = ({ name, value }: any) => {
+enum WalletInformationHeadings {
+  Balance = 'Balance',
+  Assets = 'Assets',
+  Addresses = 'Addresses',
+}
+
+const RenderAssetDecimals = ({ name, apiKey }: any) => {
+  configure({ axios: nodeApi });
+
+  const [{ data, loading, error }] = useAxios({
+    url: `/blockchain/token/byId/${name?.props?.children}`,
+    headers: {
+      api_key: apiKey,
+    },
+  });
+
+  if (loading) return <td>...</td>;
+
+  if (data) return <td>{data.decimals}</td>;
+
+  if (error)
+    return (
+      <OverlayTrigger
+        placement="right"
+        overlay={
+          <Tooltip id="tooltip">
+            <strong>Please ensure you have Extra Indexing enabled</strong>
+          </Tooltip>
+        }
+      >
+        <td>N/A ⓘ</td>
+      </OverlayTrigger>
+    );
+
+  return <td>N/A</td>;
+};
+
+const WalletInformationTableItem = ({ name, value, apiKey }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   let resultTitle;
   let resultContent;
@@ -23,19 +63,36 @@ const WalletInformationTableItem = ({ name, value }: any) => {
 
     resultContent = (
       <div>
-        {value.map((item) => (
-          <div key={item.name}>
-            <div>
-              {item.value || ''} {item.name || ''}
-            </div>
-            <br />
+        {name === WalletInformationHeadings.Assets ? (
+          <table>
+            <tr>
+              <th>ID</th>
+              <th>Amount</th>
+              <th>Decimals</th>
+            </tr>
+            {value.map((item) => (
+              <tr key={item.name}>
+                <td>{item.name || ''}</td>
+                <td>{item.value || ''}</td>
+                <RenderAssetDecimals name={item.name} apiKey={apiKey} />
+              </tr>
+            ))}
+          </table>
+        ) : (
+          <div>
+            {value.map((item) => (
+              <div key={item.name} className="mt-20">
+                {item.value || ''} {item.name || ''}
+                <br />
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
     );
   } else {
     resultTitle = value;
-    resultContent = value;
+    resultContent = <div className="mt-20">{value}</div>;
   }
 
   return (
@@ -70,6 +127,7 @@ const WalletInformationTable = (props: any) => {
     dispatchGetWalletAddresses,
     walletAddresses,
     explorerSubdomain,
+    apiKey,
   } = props;
 
   const getValues = useCallback(() => {
@@ -114,7 +172,7 @@ const WalletInformationTable = (props: any) => {
   const data = useMemo(
     () => [
       {
-        name: 'Balance',
+        name: WalletInformationHeadings.Balance,
         value: walletBalance
           ? `${walletBalance.balance / constants.nanoErgInErg} ERG`
           : 'loading...',
@@ -126,11 +184,11 @@ const WalletInformationTable = (props: any) => {
       //     : 'Loading...',
       // },
       {
-        name: 'Assets',
+        name: WalletInformationHeadings.Assets,
         value: walletBalance ? getAssets(walletBalance.assets) : `Loading...`,
       },
       {
-        name: 'Addresses',
+        name: WalletInformationHeadings.Addresses,
         value: walletAddresses ? getAddreses(walletAddresses, explorerSubdomain) : `Loading...`,
       },
     ],
@@ -153,7 +211,7 @@ const WalletInformationTable = (props: any) => {
       </div>
       <div className="wallet-table__body">
         {data.map(({ value, name }) => (
-          <WalletInformationTableItem key={name} name={name} value={value} />
+          <WalletInformationTableItem key={name} name={name} value={value} apiKey={apiKey} />
         ))}
       </div>
     </div>
